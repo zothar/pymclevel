@@ -170,7 +170,8 @@ class TestNBT(unittest.TestCase):
         newlevel = nbt.load(buf=sio.getvalue())
 
         n = newlevel["Map"]["Spawn"][0].name
-        if n: print "Named list element failed: %s" % n;
+        if n:
+            print "Named list element failed: %s" % n;
 
         """
         attempt to delete non-existent TAG_Compound elements
@@ -268,7 +269,8 @@ class TestAlphaLevel(unittest.TestCase):
         indevlevel = self.indevlevel.level
         level = self.alphalevel.level
 
-        for ch in list(level.allChunks): level.deleteChunk(*ch)
+        for ch in list(level.allChunks):
+            level.deleteChunk(*ch)
         level.createChunksInBox(BoundingBox((0, 0, 0), (32, 0, 32)))
 
     def testCopyConvertBlocks(self):

@@ -101,7 +101,8 @@ class MCSchematic (EntityLevel):
 
     def decompress(self):
         """called when accessing attributes decorated with @decompress_first"""
-        if self.root_tag != None: return
+        if self.root_tag != None:
+            return
         if self.compressedTag is None:
             if self.root_tag is None:
                 self.load()
@@ -111,7 +112,8 @@ class MCSchematic (EntityLevel):
         with closing(gzip.GzipFile(fileobj=StringIO(self.compressedTag))) as gzipper:
             try:
                 data = gzipper.read()
-                if data == None: return;
+                if data == None:
+                    return;
             except Exception, e:
                 #error( u"Error reading compressed data, assuming uncompressed: {0}".format(e) )
                 data = self.compressedTag
@@ -135,15 +137,18 @@ class MCSchematic (EntityLevel):
     # this will have an impact later on when editing schematics instead of just importing/exporting
     @property
     @decompress_first
-    def Length(self):return self.Blocks.shape[1]
+    def Length(self):
+        return self.Blocks.shape[1]
 
     @property
     @decompress_first
-    def Width(self):return self.Blocks.shape[0]
+    def Width(self):
+        return self.Blocks.shape[0]
 
     @property
     @decompress_first
-    def Height(self):return self.Blocks.shape[2]
+    def Height(self):
+        return self.Blocks.shape[2]
 
     @property
     @decompress_first
@@ -256,7 +261,8 @@ class MCSchematic (EntityLevel):
                 entity["Dir"].value = (entity["Dir"].value + 1) % 4
 
         for tileEntity in self.TileEntities:
-            if not 'x' in tileEntity: continue
+            if not 'x' in tileEntity:
+                continue
 
             newX = tileEntity["z"].value
             newZ = self.Length - tileEntity["x"].value - 1
@@ -296,7 +302,8 @@ class MCSchematic (EntityLevel):
                 entity["Dir"].value = northSouthPaintingMap[entity["Dir"].value]
 
         for tileEntity in self.TileEntities:
-            if not 'x' in tileEntity: continue
+            if not 'x' in tileEntity:
+                continue
 
             tileEntity["x"].value = self.Width - tileEntity["x"].value - 1
 
@@ -337,7 +344,8 @@ class MCSchematic (EntityLevel):
 
     def saveToFile(self, filename=None):
         """ save to file named filename, or use self.filename.  XXX NOT THREAD SAFE AT ALL. """
-        if filename == None: filename = self.filename
+        if filename == None:
+            filename = self.filename
         if filename == None:
             warn(u"Attempted to save an unnamed schematic in place")
             return #you fool!
@@ -350,13 +358,17 @@ class MCSchematic (EntityLevel):
             chunkfh.write(self.compressedTag)
 
     def setBlockDataAt(self, x, y, z, newdata):
-        if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0;
+        if x < 0 or y < 0 or z < 0:
+            return 0
+        if x >= self.Width or y >= self.Height or z >= self.Length:
+            return 0;
         self.Data[x, z, y] = (newdata & 0xf)
 
     def blockDataAt(self, x, y, z):
-        if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0;
+        if x < 0 or y < 0 or z < 0:
+            return 0
+        if x >= self.Width or y >= self.Height or z >= self.Length:
+            return 0;
         return self.Data[x, z, y]
 
     @classmethod
@@ -439,37 +451,43 @@ def adjustExtractionParameters(self, box):
         h += y
         y = 0
 
-    if y >= self.Height: return;
+    if y >= self.Height:
+        return;
 
     if y + h >= self.Height:
         h -= y + h - self.Height
         y = self.Height - h
 
-    if h <= 0: return
+    if h <= 0:
+        return
 
     if self.Width:
         if x < 0:
             w += x
             destX -= x
             x = 0
-        if x >= self.Width: return;
+        if x >= self.Width:
+            return;
 
         if x + w >= self.Width:
             w = self.Width - x
 
-        if w <= 0: return
+        if w <= 0:
+            return
 
         if z < 0:
             l += z
             destZ -= z
             z = 0
 
-        if z >= self.Length: return;
+        if z >= self.Length:
+            return;
 
         if z + l >= self.Length:
             l = self.Length - z
 
-        if l <= 0: return
+        if l <= 0:
+            return
 
     box = BoundingBox ((x, y, z), (w, h, l))
 
@@ -512,7 +530,8 @@ def extractZipSchematicFromIter(sourceLevel, box, zipfilename=None, entities=Tru
         zipfilename = tempfile.mktemp("zipschematic")
 
     p = sourceLevel.adjustExtractionParameters(box)
-    if p is None: return
+    if p is None:
+        return
     sourceBox, destPoint = p
 
     destPoint = (0, 0, 0)
@@ -544,7 +563,8 @@ def extractZipSchematicFromIter(sourceLevel, box, zipfilename=None, entities=Tru
         yield mclevel.fromFile(zipfilename)
     finally:
         #We get here if the generator is GCed also
-        if os.path.exists(tempfolder): shutil.rmtree(tempfolder, False)
+        if os.path.exists(tempfolder):
+            shutil.rmtree(tempfolder, False)
 
 MCLevel.extractZipSchematic = extractZipSchematicFrom
 MCLevel.extractZipSchematicIter = extractZipSchematicFromIter
