@@ -3112,7 +3112,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         if p == 0:
             p = 0.000000001
         if p == 180.0:
-             p -= 0.000000001
+            p -= 0.000000001
         yp = y, p
         return array(yp)
 
