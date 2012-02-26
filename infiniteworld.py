@@ -2262,7 +2262,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     SizeOnDisk = TagProperty('SizeOnDisk', TAG_Long)
     RandomSeed = TagProperty('RandomSeed', TAG_Long)
-    Time = TagProperty('Time', TAG_Long); """ Age of the world in ticks. 20 ticks per second; 24000 ticks per day."""
+    Time = TagProperty('Time', TAG_Long)  # Age of the world in ticks. 20 ticks per second; 24000 ticks per day.
     LastPlayed = TagProperty('LastPlayed', TAG_Long, lambda self:long(time.time() * 1000))
 
     LevelName = TagProperty('LevelName', TAG_String, lambda self:self.displayName)
