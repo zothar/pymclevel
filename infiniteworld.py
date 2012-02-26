@@ -1788,7 +1788,7 @@ class ChunkedLevelMixin(object):
 
         sourceBox, destinationPoint = self.adjustCopyParameters(sourceLevel, sourceBox, destinationPoint)
         # needs work xxx
-        info(u"Copying {0} blocks from {1} to {2}" .format (ly * lz * lx, sourceBox, destinationPoint))
+        info(u"Copying {0} blocks from {1} to {2}" .format(ly * lz * lx, sourceBox, destinationPoint))
         startTime = datetime.now()
 
         if not sourceLevel.isInfinite:
@@ -2003,7 +2003,7 @@ class ChunkedLevelMixin(object):
             cx, cz = ch.chunkPosition
             for dx, dz in itertools.product((-1, 0, 1), (-1, 0, 1)):
                 try:
-                    ch = self.getChunk (cx + dx, cz + dz)
+                    ch = self.getChunk(cx + dx, cz + dz)
                 except (ChunkNotPresent, ChunkMalformed):
                     continue
                 dirtyChunks.add(ch)

@@ -520,7 +520,7 @@ class MCLevel(object):
         sourceBox = BoundingBox(sourceBox.origin, sourceBox.size)
 
         (lx, ly, lz) = sourceBox.size
-        debug(u"Asked to copy {0} blocks \n\tfrom {1} in {3}\n\tto {2} in {4}" .format (ly * lz * lx, sourceBox, destinationPoint, sourceLevel, self))
+        debug(u"Asked to copy {0} blocks \n\tfrom {1} in {3}\n\tto {2} in {4}" .format(ly * lz * lx, sourceBox, destinationPoint, sourceLevel, self))
 
         # clip the source ranges to this level's edges.  move the destination point as needed.
         # xxx abstract this
@@ -572,7 +572,7 @@ class MCLevel(object):
             print "Empty source box, aborting"
             return
 
-        info(u"Copying {0} blocks from {1} to {2}" .format (sourceBox.volume, sourceBox, destinationPoint))
+        info(u"Copying {0} blocks from {1} to {2}" .format(sourceBox.volume, sourceBox, destinationPoint))
 
         if not sourceLevel.isInfinite:
             self.copyBlocksFromFiniteToFinite(sourceLevel, sourceBox, destinationPoint, blocksToCopy)
