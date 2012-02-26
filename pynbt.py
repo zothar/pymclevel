@@ -106,7 +106,7 @@ class TAG_Value(object):
     def saveGzipped(self, filename, compresslevel=1):
         sio = StringIO()
         #atomic write
-        try: os.rename(filename, filename + ".old");
+        try: os.rename(filename, filename + ".old")
         except Exception, e:
             #print "Atomic Save: No existing file to rename"
             pass
@@ -115,7 +115,7 @@ class TAG_Value(object):
                 self.save(buf=outputGz)
                 outputGz.flush()
 
-        #print len(sio.getvalue());
+        #print len(sio.getvalue())
         try:
                 with open(filename, 'wb') as f:
                         f.write(sio.getvalue())
@@ -126,10 +126,10 @@ class TAG_Value(object):
                 print e
                 return
 
-        try: os.remove(filename + ".old");
+        try: os.remove(filename + ".old")
         except Exception, e:
             #print "Atomic Save: No old file to remove"
-            pass;
+            pass
 
 
 class TAG_Byte(TAG_Value):
@@ -350,15 +350,15 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
     "collection functions"
 
     def __getitem__(self, k):
-        #hits=filter(lambda x:x.name==k, self.value);
-        #if(len(hits)): return hits[0];
+        #hits=filter(lambda x:x.name==k, self.value)
+        #if(len(hits)): return hits[0]
         for key in self.value:
                 if key.name == k: return key
         raise KeyError("Key {0} not found in tag {1}".format(k, self))
 
-    def __iter__(self):             return itertools.imap(lambda x:x.name, self.value);
+    def __iter__(self):             return itertools.imap(lambda x:x.name, self.value)
 
-    def __contains__(self, k):return k in map(lambda x:x.name, self.value);
+    def __contains__(self, k):return k in map(lambda x:x.name, self.value)
 
     def __len__(self):                return self.value.__len__()
 
@@ -377,7 +377,7 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
         self.value.append(v)
         v.name = k
 
-    def __delitem__(self, k): self.value.__delitem__(self.value.index(self[k]));
+    def __delitem__(self, k): self.value.__delitem__(self.value.index(self[k]))
 
     def add(self, v):
         self[v.name] = v
@@ -450,9 +450,9 @@ class TAG_List(TAG_Value, collections.MutableSequence):
 
     def __iter__(self):             return iter(self.value)
 
-    def __contains__(self, k):return k in self.value;
+    def __contains__(self, k):return k in self.value
 
-    def __getitem__(self, i): return self.value[i];
+    def __getitem__(self, i): return self.value[i]
 
     def __len__(self):                return len(self.value)
 

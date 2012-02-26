@@ -767,14 +767,14 @@ class InfdevChunk(LightedChunk):
 
             except Exception, e:
                 error(u"Malformed NBT data in file: {0} ({1})".format(self.filename, e))
-                if self.world: self.world.malformedChunk(*self.chunkPosition);
+                if self.world: self.world.malformedChunk(*self.chunkPosition)
                 raise ChunkMalformed, (e,), sys.exc_info()[2]
 
             try:
                 self.shapeChunkData()
             except KeyError, e:
                 error(u"Incorrect chunk format in file: {0} ({1})".format(self.filename, e))
-                if self.world: self.world.malformedChunk(*self.chunkPosition);
+                if self.world: self.world.malformedChunk(*self.chunkPosition)
                 raise ChunkMalformed, (e,), sys.exc_info()[2]
 
             self.dataIsPacked = True
@@ -850,7 +850,7 @@ class InfdevChunk(LightedChunk):
 
             except Exception, e:
                 error(u"Incorrect chunk format in file: {0} ({1})".format(self.filename, e))
-                if self.world: self.world.malformedChunk(*self.chunkPosition);
+                if self.world: self.world.malformedChunk(*self.chunkPosition)
                 raise ChunkMalformed, (e,), sys.exc_info()[2]
 
             self.world.chunkDidLoad(self)
@@ -884,7 +884,7 @@ class InfdevChunk(LightedChunk):
         """ for internal use.  call getChunk and compressChunk to load, compress, and unpack chunks automatically """
         for key in (SkyLight, BlockLight, Data):
             dataArray = self.root_tag[Level][key].value
-            assert dataArray.shape[2] == self.world.Height / 2;
+            assert dataArray.shape[2] == self.world.Height / 2
 
             self.root_tag[Level][key].value = unpackNibbleArray(dataArray)
             self.dataIsPacked = False
@@ -897,7 +897,7 @@ class InfdevChunk(LightedChunk):
             return
         for key in (SkyLight, BlockLight, Data):
             dataArray = self.root_tag[Level][key].value
-            assert dataArray.shape[2] == self.world.Height;
+            assert dataArray.shape[2] == self.world.Height
 
             self.root_tag[Level][key].value = packNibbleArray(self.root_tag[Level][key].value)
 
@@ -1791,12 +1791,12 @@ class ChunkedLevelMixin(object):
             oldAbsorptions = [self.materials.lightAbsorption[b.ID] for b in blocksToReplace]
             changesLighting = False
             for a in oldAbsorptions:
-                if a != newAbsorption: changesLighting = True;
+                if a != newAbsorption: changesLighting = True
 
             newEmission = self.materials.lightEmission[blockInfo.ID]
             oldEmissions = [self.materials.lightEmission[b.ID] for b in blocksToReplace]
             for a in oldEmissions:
-                if a != newEmission: changesLighting = True;
+                if a != newEmission: changesLighting = True
 
         i = 0
         skipped = 0
@@ -2207,7 +2207,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     @property
     def displayName(self):
-        #shortname = os.path.basename(self.filename);
+        #shortname = os.path.basename(self.filename)
         #if shortname == "level.dat":
         shortname = os.path.basename(os.path.dirname(self.filename))
 
@@ -2280,7 +2280,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     @property
     def bounds(self):
-        if self._bounds is None: self._bounds = self.getWorldBounds();
+        if self._bounds is None: self._bounds = self.getWorldBounds()
         return self._bounds
 
     @property
@@ -2421,7 +2421,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             self.players.append("Player")
 
         self.preloadDimensions()
-        #self.preloadChunkPositions();
+        #self.preloadChunkPositions()
 
     def loadLevelDat(self, create=False, random_seed=None, last_played=None):
 
@@ -2557,9 +2557,9 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
                     if subdirname in self.dirhashes:
                         filenames = os.listdir(os.path.join(self.worldDir, dirname, subdirname))
                         #def fullname(filename):
-                            #return os.path.join(self.worldDir, dirname, subdirname, filename);
+                            #return os.path.join(self.worldDir, dirname, subdirname, filename)
 
-                        #fullpaths = map(fullname, filenames);
+                        #fullpaths = map(fullname, filenames)
                         bits = map(lambda x:x.split('.'), filenames)
 
                         chunkfilenames = filter(lambda x:(len(x) == 4 and x[0].lower() == 'c' and x[3].lower() == 'dat'), bits)
@@ -2883,12 +2883,12 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         return count
 
     def containsPoint(self, x, y, z):
-        if y < 0 or y > 127: return False;
+        if y < 0 or y > 127: return False
         return self.containsChunk(x >> 4, z >> 4)
 
     def containsChunk(self, cx, cz):
-        if self._allChunks is not None: return (cx, cz) in self._allChunks;
-        if (cx, cz) in self._loadedChunks: return True;
+        if self._allChunks is not None: return (cx, cz) in self._allChunks
+        if (cx, cz) in self._loadedChunks: return True
         if self.version:
             rx, rz = cx>>5, cz>>5
             if not os.path.exists(self.regionFilename(rx, rz)): return False
@@ -3021,12 +3021,12 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     def getPlayerDimension(self, player="Player"):
         playerTag = self.getPlayerTag(player)
-        if "Dimension" not in playerTag: return 0;
+        if "Dimension" not in playerTag: return 0
         return playerTag["Dimension"].value
 
     def setPlayerDimension(self, d, player="Player"):
         playerTag = self.getPlayerTag(player)
-        if "Dimension" not in playerTag: playerTag["Dimension"] = nbt.TAG_Int(0);
+        if "Dimension" not in playerTag: playerTag["Dimension"] = nbt.TAG_Int(0)
         playerTag["Dimension"].value = d
 
     def setPlayerPosition(self, pos, player="Player"):
@@ -3049,8 +3049,8 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         """ returns (yaw, pitch) """
         yp = map(lambda x:x.value, self.getPlayerTag(player)["Rotation"])
         y, p = yp
-        if p == 0: p = 0.000000001;
-        if p == 180.0:  p -= 0.000000001;
+        if p == 0: p = 0.000000001
+        if p == 180.0:  p -= 0.000000001
         yp = y, p
         return array(yp)
 
@@ -3105,13 +3105,13 @@ class MCAlphaDimension (MCInfdevOldLevel):
         self.playerTagCache = parentWorld.playerTagCache
 
     @property
-    def root_tag(self): return self.parentWorld.root_tag;
+    def root_tag(self): return self.parentWorld.root_tag
 
     def __str__(self):
         return "MCAlphaDimension({0}, {1})".format(self.parentWorld, self.dimNo)
 
     def loadLevelDat(self, create=False, random_seed=None, last_played=None):
-        pass;
+        pass
 
     def preloadDimensions(self):
         pass
@@ -3231,7 +3231,7 @@ class ZipSchematic (MCInfdevOldLevel):
                 except Exception, e:
                     info('Skipped file {0} ({1})'.format('.'.join(c), e))
                     continue
-                #self._loadedChunks[ (cx, cz) ] = InfdevChunk(self, (cx, cz));
+                #self._loadedChunks[ (cx, cz) ] = InfdevChunk(self, (cx, cz))
                 self._allChunks.add((cx, cz))
 
         info(u"Found {0} chunks.".format(len(self._allChunks)))

@@ -18,7 +18,7 @@ from level import MCLevel
 class MCJavaLevel(MCLevel):
     def setBlockDataAt(self, *args): pass
 
-    def blockDataAt(self, *args): return 0;
+    def blockDataAt(self, *args): return 0
 
     @property
     def Height(self):
@@ -121,63 +121,63 @@ class MCJavaLevel(MCLevel):
         try:
             os.rename(self.filename, self.filename + ".old")
         except Exception, e:
-            pass;
+            pass
 
         try:
             with open(self.filename, 'wb') as f:
                 f.write(s.getvalue())
         except Exception, e:
             info(u"Error while saving java level in place: {0}".format(e))
-            try:os.remove(self.filename);
+            try:os.remove(self.filename)
             except: pass
             os.rename(self.filename + ".old", self.filename)
 
         try:
             os.remove(self.filename + ".old")
         except Exception, e:
-            pass;
+            pass
 
 
 class MCSharpLevel(MCLevel):
-    """ int magic = convert(data.readShort());
-        logger.trace("Magic number: {}", magic);
+    """ int magic = convert(data.readShort())
+        logger.trace("Magic number: {}", magic)
         if (magic != 1874)
-            throw new IOException("Only version 1 MCSharp levels supported (magic number was "+magic+")");
+            throw new IOException("Only version 1 MCSharp levels supported (magic number was "+magic+")")
 
-        int width = convert(data.readShort());
-        int height = convert(data.readShort());
-        int depth = convert(data.readShort());
-        logger.trace("Width: {}", width);
-        logger.trace("Depth: {}", depth);
-        logger.trace("Height: {}", height);
+        int width = convert(data.readShort())
+        int height = convert(data.readShort())
+        int depth = convert(data.readShort())
+        logger.trace("Width: {}", width)
+        logger.trace("Depth: {}", depth)
+        logger.trace("Height: {}", height)
 
-        int spawnX = convert(data.readShort());
-        int spawnY = convert(data.readShort());
-        int spawnZ = convert(data.readShort());
+        int spawnX = convert(data.readShort())
+        int spawnY = convert(data.readShort())
+        int spawnZ = convert(data.readShort())
 
-        int spawnRotation = data.readUnsignedByte();
-        int spawnPitch = data.readUnsignedByte();
+        int spawnRotation = data.readUnsignedByte()
+        int spawnPitch = data.readUnsignedByte()
 
-        int visitRanks = data.readUnsignedByte();
-        int buildRanks = data.readUnsignedByte();
+        int visitRanks = data.readUnsignedByte()
+        int buildRanks = data.readUnsignedByte()
 
-        byte[][][] blocks = new byte[width][height][depth];
-        int i = 0;
-        BlockManager manager = BlockManager.getBlockManager();
+        byte[][][] blocks = new byte[width][height][depth]
+        int i = 0
+        BlockManager manager = BlockManager.getBlockManager()
         for(int z = 0;z<depth;z++) {
             for(int y = 0;y<height;y++) {
-                byte[] row = new byte[height];
-                data.readFully(row);
+                byte[] row = new byte[height]
+                data.readFully(row)
                 for(int x = 0;x<width;x++) {
-                    blocks[x][y][z] = translateBlock(row[x]);
+                    blocks[x][y][z] = translateBlock(row[x])
                 }
             }
         }
 
-        lvl.setBlocks(blocks, new byte[width][height][depth], width, height, depth);
-        lvl.setSpawnPosition(new Position(spawnX, spawnY, spawnZ));
-        lvl.setSpawnRotation(new Rotation(spawnRotation, spawnPitch));
-        lvl.setEnvironment(new Environment());
+        lvl.setBlocks(blocks, new byte[width][height][depth], width, height, depth)
+        lvl.setSpawnPosition(new Position(spawnX, spawnY, spawnZ))
+        lvl.setSpawnRotation(new Rotation(spawnRotation, spawnPitch))
+        lvl.setEnvironment(new Environment())
 
-        return lvl;
+        return lvl
     }"""

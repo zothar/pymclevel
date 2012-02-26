@@ -204,7 +204,7 @@ class MCLevel(object):
 
     def getTileEntitiesInBox(self, box): return []
 
-    def copyEntitiesFromIter(self, *args, **kw): yield;
+    def copyEntitiesFromIter(self, *args, **kw): yield
 
     def removeEntitiesInBox(self, box): pass
 
@@ -231,7 +231,7 @@ class MCLevel(object):
         """ pass a list of chunk coordinate tuples to get an iterator yielding
         InfdevChunks. pass nothing for an iterator of every chunk in the level.
         the chunks are automatically loaded."""
-        if chunks is None: chunks = self.allChunks;
+        if chunks is None: chunks = self.allChunks
         return (self.getChunk(cx, cz) for (cx, cz) in chunks if self.containsChunk(cx, cz))
 
     def _getFakeChunkEntities(self, cx, cz):
@@ -351,18 +351,18 @@ class MCLevel(object):
 
     def setBlockDataAt(self, x, y, z, newdata): pass
 
-    def blockDataAt(self, x, y, z): return 0;
+    def blockDataAt(self, x, y, z): return 0
 
-    def blockLightAt(self, x, y, z): return 15;
+    def blockLightAt(self, x, y, z): return 15
 
     def blockAt(self, x, y, z):
         if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0;
+        if x >= self.Width or y >= self.Height or z >= self.Length: return 0
         return self.Blocks[x, z, y]
 
     def setBlockAt(self, x, y, z, blockID):
         if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0;
+        if x >= self.Width or y >= self.Height or z >= self.Length: return 0
         self.Blocks[x, z, y] = blockID
 
     # --- Fill and Replace ---
@@ -414,7 +414,7 @@ class MCLevel(object):
     # --- Transformations ---
     def rotateLeft(self):
         self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :] #x=z; z=-x
-        pass;
+        pass
 
     def roll(self):
         self.Blocks = swapaxes(self.Blocks, 2, 0)[:, :, ::-1] #x=y; y=-x
@@ -568,17 +568,17 @@ class MCLevel(object):
 
     # --- Player Methods ---
     def setPlayerPosition(self, pos, player="Player"):
-        pass;
+        pass
 
     def getPlayerPosition(self, player="Player"):
         return 8, self.Height * 0.75, 8
 
-    def getPlayerDimension(self, player="Player"): return 0;
+    def getPlayerDimension(self, player="Player"): return 0
 
-    def setPlayerDimension(self, d, player="Player"): return;
+    def setPlayerDimension(self, d, player="Player"): return
 
     def setPlayerSpawnPosition(self, pos, player=None):
-        pass;
+        pass
 
     def playerSpawnPosition(self, player=None):
         return self.getPlayerPosition()
@@ -591,7 +591,7 @@ class MCLevel(object):
 
     # --- Dummy Lighting Methods ---
     def generateLights(self, dirtyChunks=None):
-        pass;
+        pass
 
     def generateLightsIter(self, dirtyChunks=None):
         yield 0
@@ -633,7 +633,7 @@ class EntityLevel(MCLevel):
 
     def copyEntitiesFromIter(self, sourceLevel, sourceBox, destinationPoint, entities=True):
         #assume coords have already been adjusted by copyBlocks
-        #if not self.hasEntities or not sourceLevel.hasEntities: return;
+        #if not self.hasEntities or not sourceLevel.hasEntities: return
         sourcePoint0 = sourceBox.origin
         sourcePoint1 = sourceBox.maximum
 
@@ -694,7 +694,7 @@ class EntityLevel(MCLevel):
 
     def removeTileEntitiesInBox(self, box):
 
-        if not hasattr(self, "TileEntities"): return;
+        if not hasattr(self, "TileEntities"): return
         newEnts = []
         for ent in self.TileEntities:
             if TileEntity.pos(ent) in box:
@@ -797,7 +797,7 @@ class LightedChunk(ChunkBase):
         the chunk. Pass False for calcLighting if you know your changes will
         not change any lights."""
 
-        if not self.isLoaded(): return;
+        if not self.isLoaded(): return
 
         self.dirty = True
         self.needsLighting = calcLighting or self.needsLighting

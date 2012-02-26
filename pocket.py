@@ -389,7 +389,7 @@ class PocketChunk(LightedChunk):
             dataArray = getattr(self, key)
             dataArray.shape = (16, 16, 64)
             s = dataArray.shape
-            #assert s[2] == self.world.Height / 2;
+            #assert s[2] == self.world.Height / 2
             #unpackedData = insert(dataArray[...,newaxis], 0, 0, 3)
 
             unpackedData = zeros((s[0], s[1], s[2] * 2), dtype='uint8')
@@ -410,7 +410,7 @@ class PocketChunk(LightedChunk):
 
     def _savedData(self):
         def packData(dataArray):
-            assert dataArray.shape[2] == self.world.Height;
+            assert dataArray.shape[2] == self.world.Height
 
             data = array(dataArray).reshape(16, 16, self.world.Height / 2, 2)
             data[..., 1] <<= 4
