@@ -188,7 +188,7 @@ this way.
             import hashlib
             return hashlib.md5(f.read()).hexdigest()
 
-    broken_versions = ["Beta 1.9 Prerelease {0}".format(i) for i in (1,2,3)]
+    broken_versions = ["Beta 1.9 Prerelease {0}".format(i) for i in (1, 2, 3)]
 
     @property
     def latestVersion(self):
@@ -465,8 +465,8 @@ class MCServerChunkGenerator(object):
                        xrange(box.mincx, box.maxcx, minRadius * 2),
                        xrange(box.mincz, box.maxcz, minRadius * 2)))
 
-        for i, (cx,cz) in enumerate(genPositions):
-            info("Generating at %s" % ((cx,cz),))
+        for i, (cx, cz) in enumerate(genPositions):
+            info("Generating at %s" % ((cx, cz),))
             parentDir = dirname(level.worldDir)
             propsFile = join(parentDir, "server.properties")
             props = readProperties(join(dirname(self.serverJarFile), "server.properties"))
@@ -513,15 +513,15 @@ class MCServerChunkGenerator(object):
             for cx, cz in itertools.product(
                             xrange(centercx-maxRadius, centercx+maxRadius),
                             xrange(centercz-maxRadius, centercz+maxRadius)):
-                if level.containsChunk(cx,cz):
-                    chunks.discard((cx,cz))
-                elif ((cx,cz) in chunks
+                if level.containsChunk(cx, cz):
+                    chunks.discard((cx, cz))
+                elif ((cx, cz) in chunks
                     and tempWorld.containsChunk(cx, cz)
-                    and tempWorld.getChunk(cx,cz).TerrainPopulated
+                    and tempWorld.getChunk(cx, cz).TerrainPopulated
                     ):
                     self.copyChunkAtPosition(tempWorld, level, cx, cz)
                     i+= 1
-                    chunks.discard((cx,cz))
+                    chunks.discard((cx, cz))
                     yield startLength - len(chunks), startLength
 
             if length == len(chunks):
@@ -1144,7 +1144,7 @@ class AnvilChunk(InfdevChunk):
 
     def shapeChunkData(self):
         if self.root_tag:
-            self.root_tag[Level][HeightMap].value.shape = (16,16)
+            self.root_tag[Level][HeightMap].value.shape = (16, 16)
 
     def packChunkData(self):
         pass
@@ -1452,8 +1452,8 @@ class MCRegionFile(object):
             f.write(data)  # // chunk data
             # f.flush()
 
-    def containsChunk(self, cx,cz):
-        return self.getOffset(cx,cz) != 0
+    def containsChunk(self, cx, cz):
+        return self.getOffset(cx, cz) != 0
 
     def getOffset(self, cx, cz):
         cx &= 0x1f
@@ -1893,7 +1893,7 @@ class ChunkedLevelMixin(object):
         return exhaust(self.generateLightsIter(dirtyChunks))
 
     def _getChunkUnloaded(self, cx, cz):
-        return self.getChunk(cx,cz)
+        return self.getChunk(cx, cz)
 
     def generateLightsIter(self, dirtyChunks=None):
         """ dirtyChunks may be an iterable yielding (xPos,zPos) tuples
@@ -1957,9 +1957,9 @@ class ChunkedLevelMixin(object):
             dc = sorted(dc, key=lambda x: x.chunkPosition)
             workTotal = sum(estimatedTotals)
             t = 0
-            for c,t,p in self._generateLightsIter(dc):
+            for c, t, p in self._generateLightsIter(dc):
 
-                yield c+workDone,t + workTotal - estimatedTotals[i], p
+                yield c+workDone, t + workTotal - estimatedTotals[i], p
 
             estimatedTotals[i] = t
             workDone += t
@@ -2435,7 +2435,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         if not os.path.exists(self.regionDir):
             os.mkdir(self.regionDir)
 
-        # maps (cx,cz) pairs to InfdevChunks
+        # maps (cx, cz) pairs to InfdevChunks
         self._loadedChunks = {}
         self._allChunks = None
         self.dimensions = {}
@@ -2949,7 +2949,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             if not os.path.exists(self.regionFilename(rx, rz)):
                 return False
 
-            return self.getRegionFile(rx,rz).containsChunk(cx, cz)
+            return self.getRegionFile(rx, rz).containsChunk(cx, cz)
         else:
             return os.path.exists(self.chunkFilename(cx, cz))
 

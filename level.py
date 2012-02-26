@@ -61,7 +61,7 @@ def getSlices(box, height):
         visiting each chunk and indexing its data with a subslice.
 
     this returns an iterator, which yields 3-tuples containing:
-    +  a pair of chunk coordinates (cx,cz),
+    +  a pair of chunk coordinates (cx, cz),
     +  a x,z,y triplet of slices that can be used to index the InfdevChunk's data arrays,
     +  a x,y,z triplet representing the relative location of this subslice within the requested world slice.
 
@@ -107,7 +107,7 @@ def getSlices(box, height):
                 (newMinX, newMinY, newMinZ)
             )
 
-            yield (cx,cz), slices, point
+            yield (cx, cz), slices, point
 
 
 class MCLevel(object):
@@ -775,7 +775,7 @@ class EntityLevel(MCLevel):
 
     def _getFakeChunkEntities(self, cx, cz):
         """distribute entities into sublists based on fake chunk position
-        _fakeEntities keys are (cx,cz) and values are (Entities, TileEntities)"""
+        _fakeEntities keys are (cx, cz) and values are (Entities, TileEntities)"""
         if self._fakeEntities is None:
             self._fakeEntities = defaultdict(lambda: ([], []))
             for i, e in enumerate((self.Entities, self.TileEntities)):

@@ -280,8 +280,8 @@ class PocketChunksFile(object):
             f.write(data)  # // chunk data
             # f.flush()
 
-    def containsChunk(self, cx,cz):
-        return self.getOffset(cx,cz) != 0
+    def containsChunk(self, cx, cz):
+        return self.getOffset(cx, cz) != 0
 
     def getOffset(self, cx, cz):
         cx &= 0x1f
@@ -328,14 +328,14 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
         self._loadedChunks = {}
 
     def getChunk(self, cx, cz):
-        for p in cx,cz:
+        for p in cx, cz:
             if not 0 <= p <= 31:
-                raise ChunkNotPresent((cx,cz, self))
+                raise ChunkNotPresent((cx, cz, self))
 
-        c = self._loadedChunks.get( (cx,cz) )
+        c = self._loadedChunks.get( (cx, cz) )
         if c is None:
             c = self.chunkFile.loadChunk(cx, cz, self)
-            self._loadedChunks[cx,cz] = c
+            self._loadedChunks[cx, cz] = c
         return c
 
     @classmethod
@@ -359,7 +359,7 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
     def containsChunk(self, cx, cz):
         if cx>31 or cz>31 or cx < 0 or cz < 0:
             return False
-        return self.chunkFile.getOffset(cx,cz) != 0
+        return self.chunkFile.getOffset(cx, cz) != 0
 
 
 class PocketChunk(LightedChunk):
@@ -373,7 +373,7 @@ class PocketChunk(LightedChunk):
     filename = "chunks.dat"
 
     def __init__(self, cx, cz, data, world):
-        self.chunkPosition = (cx,cz)
+        self.chunkPosition = (cx, cz)
         self.world = world
         data = fromstring(data, dtype='uint8')
 

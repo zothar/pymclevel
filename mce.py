@@ -674,9 +674,9 @@ class mce(object):
 
         if len(command):
             if len(command) > 1:
-                rx,rz = map(int, command[:2])
+                rx, rz = map(int, command[:2])
                 level.allChunks
-                rf = level.regionFiles.get((rx,rz))
+                rf = level.regionFiles.get((rx, rz))
                 if rf is None:
                     print "Region {rx},{rz} not found.".format(**locals())
                     return
@@ -689,8 +689,8 @@ class mce(object):
                     for cz in range(32):
                         if cz % 4 == 0:
                             print ""
-                            print "{0:3}, {1:3}: ".format(cx,cz),
-                        off = rf.getOffset(cx,cz)
+                            print "{0:3}, {1:3}: ".format(cx, cz),
+                        off = rf.getOffset(cx, cz)
                         sector, length = off>>8, off&0xff
                         print "{sector:>6}+{length:<2} ".format(**locals()),
                     print ""
@@ -704,18 +704,18 @@ class mce(object):
             else:
                 if command[0] == "free":
                     level.allChunks
-                    for (rx,rz), rf in level.regionFiles.iteritems():
+                    for (rx, rz), rf in level.regionFiles.iteritems():
 
                         runs = getFreeSectors(rf)
                         if len(runs):
-                            print "R {0:3}, {1:3}:".format(rx,rz),
+                            print "R {0:3}, {1:3}:".format(rx, rz),
                             printFreeSectors(runs)
 
         else:
             level.allChunks
             coords = (r for r in level.regionFiles)
             for i, (rx, rz) in enumerate(coords):
-                count = level.regionFiles[rx,rz].chunkCount
+                count = level.regionFiles[rx, rz].chunkCount
                 print "({rx:6}, {rz:6}): {count}, ".format(**locals()),
                 if i % 5 == 4:
                     print ""

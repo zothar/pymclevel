@@ -332,9 +332,9 @@ class TestAlphaLevel(unittest.TestCase):
 
     def testRecompress(self):
         level = self.alphalevel.level
-        cx,cz = level.allChunks.next()
+        cx, cz = level.allChunks.next()
 
-        ch = level.getChunk(cx,cz)
+        ch = level.getChunk(cx, cz)
         ch.dirty = True
         ch.Blocks[:] = 6
         ch.Data[:] = 13
@@ -345,7 +345,7 @@ class TestAlphaLevel(unittest.TestCase):
 
         for i in range(5):
             level.saveInPlace()
-            ch = level.getChunk(cx,cz)
+            ch = level.getChunk(cx, cz)
             ch.dirty = True
             assert (ch.Data == 13).all()
             for key in keys:
@@ -438,7 +438,7 @@ class TestPocket(unittest.TestCase):
         level = self.level.level
 #        alphalevel = self.alphalevel.level
         print "Chunk count", len(level.allChunks)
-        chunk = level.getChunk(1,5)
+        chunk = level.getChunk(1, 5)
         a = array(chunk.SkyLight)
         level.saveInPlace()
         assert (a == chunk.SkyLight).all()
