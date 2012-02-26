@@ -73,7 +73,7 @@ class TestNBT(unittest.TestCase):
         """Use the [] operator to look up subtags of a TAG_Compound."""
         print level["Environment"]["SurroundingGroundHeight"].value
 
-        """Numeric, string, and bytearray types have a value 
+        """Numeric, string, and bytearray types have a value
   that can be accessed and changed. """
         print level["Map"]["Blocks"].value
 
@@ -157,7 +157,7 @@ class TestNBT(unittest.TestCase):
     def testErrors(self):
         """
         attempt to name elements of a TAG_List
-        named list elements are not allowed by the NBT spec, 
+        named list elements are not allowed by the NBT spec,
         so we must discard any names when writing a list.
         """
 
@@ -206,7 +206,7 @@ class TestIndevLevel(unittest.TestCase):
         schem = level.extractSchematic(level.bounds)
         level.copyBlocksFrom(schem, schem.bounds, (0, 0, 0))
 
-        #raise Failure 
+        #raise Failure
 
     def testCopy(self):
         info("Indev level")

@@ -93,7 +93,7 @@ class MCMaterials(object):
             name="Air",
             texture=(0x80, 0xB0),
             opacity=0,
-        )  
+        )
     def __repr__(self):
         return "<MCMaterials ({0})>".format(self.name)
 
@@ -111,10 +111,10 @@ class MCMaterials(object):
         return len(self.allBlocks)
 
     def __iter__(self):
-        return iter(self.allBlocks) 
+        return iter(self.allBlocks)
 
     def __getitem__(self, key):
-        """ Let's be magic. If we get a string, return the first block whose 
+        """ Let's be magic. If we get a string, return the first block whose
             name matches exactly. If we get a (id, data) pair or an id, return
             that block. for example:
 
@@ -532,22 +532,22 @@ classicMaterials.Leaves = classicMaterials[18]
 classicMaterials.Sponge = classicMaterials[19]
 classicMaterials.Glass = classicMaterials[20]
 
-classicMaterials.RedWool = classicMaterials[21] 
-classicMaterials.OrangeWool = classicMaterials[22] 
-classicMaterials.YellowWool = classicMaterials[23] 
-classicMaterials.LimeWool = classicMaterials[24] 
-classicMaterials.GreenWool = classicMaterials[25] 
-classicMaterials.AquaWool = classicMaterials[26] 
-classicMaterials.CyanWool = classicMaterials[27] 
-classicMaterials.BlueWool = classicMaterials[28] 
-classicMaterials.PurpleWool = classicMaterials[29] 
+classicMaterials.RedWool = classicMaterials[21]
+classicMaterials.OrangeWool = classicMaterials[22]
+classicMaterials.YellowWool = classicMaterials[23]
+classicMaterials.LimeWool = classicMaterials[24]
+classicMaterials.GreenWool = classicMaterials[25]
+classicMaterials.AquaWool = classicMaterials[26]
+classicMaterials.CyanWool = classicMaterials[27]
+classicMaterials.BlueWool = classicMaterials[28]
+classicMaterials.PurpleWool = classicMaterials[29]
 classicMaterials.IndigoWool = classicMaterials[30]
-classicMaterials.VioletWool = classicMaterials[31] 
-classicMaterials.MagentaWool = classicMaterials[32] 
-classicMaterials.PinkWool = classicMaterials[33] 
-classicMaterials.BlackWool = classicMaterials[34] 
-classicMaterials.GrayWool = classicMaterials[35] 
-classicMaterials.WhiteWool = classicMaterials[36] 
+classicMaterials.VioletWool = classicMaterials[31]
+classicMaterials.MagentaWool = classicMaterials[32]
+classicMaterials.PinkWool = classicMaterials[33]
+classicMaterials.BlackWool = classicMaterials[34]
+classicMaterials.GrayWool = classicMaterials[35]
+classicMaterials.WhiteWool = classicMaterials[36]
 
 classicMaterials.Flower = classicMaterials[37]
 classicMaterials.Rose = classicMaterials[38]
@@ -585,22 +585,22 @@ indevMaterials.Leaves = indevMaterials[18]
 indevMaterials.Sponge = indevMaterials[19]
 indevMaterials.Glass = indevMaterials[20]
 
-indevMaterials.RedWool = indevMaterials[21] 
-indevMaterials.OrangeWool = indevMaterials[22] 
-indevMaterials.YellowWool = indevMaterials[23] 
-indevMaterials.LimeWool = indevMaterials[24] 
-indevMaterials.GreenWool = indevMaterials[25] 
-indevMaterials.AquaWool = indevMaterials[26] 
-indevMaterials.CyanWool = indevMaterials[27] 
-indevMaterials.BlueWool = indevMaterials[28] 
-indevMaterials.PurpleWool = indevMaterials[29] 
+indevMaterials.RedWool = indevMaterials[21]
+indevMaterials.OrangeWool = indevMaterials[22]
+indevMaterials.YellowWool = indevMaterials[23]
+indevMaterials.LimeWool = indevMaterials[24]
+indevMaterials.GreenWool = indevMaterials[25]
+indevMaterials.AquaWool = indevMaterials[26]
+indevMaterials.CyanWool = indevMaterials[27]
+indevMaterials.BlueWool = indevMaterials[28]
+indevMaterials.PurpleWool = indevMaterials[29]
 indevMaterials.IndigoWool = indevMaterials[30]
-indevMaterials.VioletWool = indevMaterials[31] 
-indevMaterials.MagentaWool = indevMaterials[32] 
-indevMaterials.PinkWool = indevMaterials[33] 
-indevMaterials.BlackWool = indevMaterials[34] 
-indevMaterials.GrayWool = indevMaterials[35] 
-indevMaterials.WhiteWool = indevMaterials[36] 
+indevMaterials.VioletWool = indevMaterials[31]
+indevMaterials.MagentaWool = indevMaterials[32]
+indevMaterials.PinkWool = indevMaterials[33]
+indevMaterials.BlackWool = indevMaterials[34]
+indevMaterials.GrayWool = indevMaterials[35]
+indevMaterials.WhiteWool = indevMaterials[36]
 
 indevMaterials.Flower = indevMaterials[37]
 indevMaterials.Rose = indevMaterials[38]
@@ -703,8 +703,8 @@ pocketMaterials.MagentaWool = pocketMaterials[114,0]
 pocketMaterials.OrangeWool = pocketMaterials[115,0]
 
 # print "\n".join(["pocketMaterials.{0} = pocketMaterials[{1},{2}]".format(
-#                      b.name.replace(" ", "").replace("(","").replace(")",""), 
-#                      b.ID, b.blockData) 
+#                      b.name.replace(" ", "").replace("(","").replace(")",""),
+#                      b.ID, b.blockData)
 #                  for b in sorted(mats.pocketMaterials.allBlocks)])
 
 _indices = rollaxis(indices( (256, 16) ), 0, 3)
@@ -727,7 +727,7 @@ def _filterTable(filters, unavailable, default = (0, 0) ):
         except TypeError:
             pass
         table[f] = t
-    return table    
+    return table
 
 nullConversion = lambda b, d: (b, d)
 

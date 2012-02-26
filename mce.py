@@ -52,26 +52,26 @@ class mce(object):
 
     World commands:
        {commandPrefix}create <filename>
-       {commandPrefix}degrief 
+       {commandPrefix}degrief
        {commandPrefix}time [ <time> ]
-       {commandPrefix}worldsize       
+       {commandPrefix}worldsize
        {commandPrefix}heightmap <filename>
        {commandPrefix}randomseed [ <seed> ]
        {commandPrefix}gametype [ <player> [ <gametype> ] ]
 
     Editor commands:
-       {commandPrefix}save 
-       {commandPrefix}reload 
+       {commandPrefix}save
+       {commandPrefix}reload
        {commandPrefix}load <filename> | <world number>
        {commandPrefix}execute <filename>
-       {commandPrefix}quit 
+       {commandPrefix}quit
 
-    Informational: 
+    Informational:
        {commandPrefix}blocks [ <block name> | <block ID> ]
        {commandPrefix}help [ <command> ]
 
     **IMPORTANT**
-       {commandPrefix}box 
+       {commandPrefix}box
 
        Type 'box' to learn how to specify points and areas.
 
@@ -281,28 +281,28 @@ class mce(object):
     or with two points, making sure to put the keyword "to" between them:
         (12, 5, 15) to (17, 10, 20)
 
-    The commas and parentheses are not important. 
+    The commas and parentheses are not important.
     You may add them for improved readability.
 
 
         Points:
 
     Points and sizes are triplets of numbers ordered X Y Z.
-    X is position north-south, increasing southward. 
-    Y is position up-down, increasing upward. 
+    X is position north-south, increasing southward.
+    Y is position up-down, increasing upward.
     Z is position east-west, increasing westward.
 
 
         Players:
 
     A player's name can be used as a point - it will use the
-    position of the player's head. Use the keyword 'delta' after 
-    the name to specify a point near the player. 
+    position of the player's head. Use the keyword 'delta' after
+    the name to specify a point near the player.
 
     Example:
        codewarrior delta 0 5 0
 
-    This refers to a point 5 blocks above codewarrior's head. 
+    This refers to a point 5 blocks above codewarrior's head.
 
     """
         raise UsageError
@@ -330,8 +330,8 @@ class mce(object):
         """
     clone <sourceBox> <destPoint> [noair] [nowater]
 
-    Clone blocks in a cuboid starting at sourcePoint and extending for 
-    sourceSize blocks in each direction. Blocks and entities in the area 
+    Clone blocks in a cuboid starting at sourcePoint and extending for
+    sourceSize blocks in each direction. Blocks and entities in the area
     are cloned at destPoint.
     """
         if len(command) == 0:
@@ -355,8 +355,8 @@ class mce(object):
         """
     fill <blockType> [ <box> ]
 
-    Fill blocks with blockType in a cuboid starting at point and 
-    extending for size blocks in each direction. Without a 
+    Fill blocks with blockType in a cuboid starting at point and
+    extending for size blocks in each direction. Without a
     destination, fills the whole world. blockType and may be a
     number from 0-255 or a name listed by the 'blocks' command.
     """
@@ -383,10 +383,10 @@ class mce(object):
         """
     replace <blockType> [with] <newBlockType> [ <box> ]
 
-    Replace all blockType blocks with newBlockType in a cuboid 
-    starting at point and extending for size blocks in 
+    Replace all blockType blocks with newBlockType in a cuboid
+    starting at point and extending for size blocks in
     each direction. Without a destination, replaces blocks over
-    the whole world. blockType and newBlockType may be numbers 
+    the whole world. blockType and newBlockType may be numbers
     from 0-255 or names listed by the 'blocks' command.
     """
         if len(command) == 0:
@@ -416,7 +416,7 @@ class mce(object):
         """
     createChest <point> <item> [ <count> ]
 
-    Create a chest filled with the specified item. 
+    Create a chest filled with the specified item.
     Stacks are 64 if count is not given.
     """
         point = map(lambda x: int(floor(float(x))), self.readPoint(command))
@@ -435,13 +435,13 @@ class mce(object):
 
     Counts all of the block types in every chunk of the world.
     Also updates the level's 'SizeOnDisk' field, correcting its size in the
-    world select menu.  
+    world select menu.
     """
         blockCounts = zeros((4096,), 'uint64')
         sizeOnDisk = 0
 
         print "Analyzing {0} chunks...".format(self.level.chunkCount)
-        #for input to bincount, create an array of uint16s by 
+        #for input to bincount, create an array of uint16s by
         #shifting the data left and adding the blocks
 
 
@@ -505,10 +505,10 @@ class mce(object):
     import <filename> <destPoint> [noair] [nowater]
 
     Imports a level or schematic into this world, beginning at destPoint.
-    Supported formats include 
+    Supported formats include
     - Alpha single or multiplayer world folder containing level.dat,
     - Zipfile containing Alpha world folder,
-    - Classic single-player .mine, 
+    - Classic single-player .mine,
     - Classic multiplayer server_level.dat,
     - Indev .mclevel
     - Schematic from RedstoneSim, MCEdit, mce
@@ -580,10 +580,10 @@ class mce(object):
         """
     dumpSigns [ <filename> ]
 
-    Saves the text and location of every sign in the world to a text file. 
+    Saves the text and location of every sign in the world to a text file.
     With no filename, saves signs to <worldname>.signs
 
-    Output is newline-delimited. 5 lines per sign. Coordinates are 
+    Output is newline-delimited. 5 lines per sign. Coordinates are
     on the first line, followed by four lines of sign text. For example:
 
         [229, 118, -15]
@@ -592,7 +592,7 @@ class mce(object):
         has gone
         before."
 
-    Coordinates are ordered the same as point inputs: 
+    Coordinates are ordered the same as point inputs:
         [North/South, Down/Up, East/West]
 
     """
@@ -663,7 +663,7 @@ class mce(object):
 
             for i, (start, count) in enumerate(runs):
                 if i % 4 == 3: print ""
-                print "{start:>6}+{count:<4}".format(**locals()), 
+                print "{start:>6}+{count:<4}".format(**locals()),
 
 
             print ""
@@ -704,7 +704,7 @@ class mce(object):
 
                         runs = getFreeSectors(rf)
                         if len(runs):
-                            print "R {0:3}, {1:3}:".format(rx,rz), 
+                            print "R {0:3}, {1:3}:".format(rx,rz),
                             printFreeSectors(runs)
 
 
@@ -713,7 +713,7 @@ class mce(object):
             coords = (r for r in level.regionFiles)
             for i, (rx, rz) in enumerate(coords):
                 count = level.regionFiles[rx,rz].chunkCount
-                print "({rx:6}, {rz:6}): {count}, ".format(**locals()), 
+                print "({rx:6}, {rz:6}): {count}, ".format(**locals()),
                 if i % 5 == 4: print ""
 
 
@@ -722,7 +722,7 @@ class mce(object):
         """
     repair
 
-    Attempt to repair inconsistent region files. 
+    Attempt to repair inconsistent region files.
     MAKE A BACKUP. WILL DELETE YOUR DATA.
 
     Scans for and repairs errors in region files:
@@ -742,11 +742,11 @@ class mce(object):
         """
     dumpChests [ <filename> ]
 
-    Saves the content and location of every chest in the world to a text file. 
+    Saves the content and location of every chest in the world to a text file.
     With no filename, saves signs to <worldname>.chests
 
-    Output is delimited by brackets and newlines. A set of coordinates in 
-    brackets begins a chest, followed by a line for each inventory slot. 
+    Output is delimited by brackets and newlines. A set of coordinates in
+    brackets begins a chest, followed by a line for each inventory slot.
     For example:
 
         [222, 51, 22]
@@ -754,7 +754,7 @@ class mce(object):
         3 String
         3 Iron bar
 
-    Coordinates are ordered the same as point inputs: 
+    Coordinates are ordered the same as point inputs:
         [North/South, Down/Up, East/West]
 
     """
@@ -810,14 +810,14 @@ class mce(object):
     removeEntities [ [except] [ <EntityID> [ <EntityID> ... ] ] ]
 
     Remove all entities matching one or more entity IDs.
-    With the except keyword, removes all entities not 
+    With the except keyword, removes all entities not
     matching one or more entity IDs.
 
     Without any IDs, removes all entities in the world,
     except for Paintings.
 
-    Known Mob Entity IDs: 
-        Mob Monster Creeper Skeleton Spider Giant 
+    Known Mob Entity IDs:
+        Mob Monster Creeper Skeleton Spider Giant
         Zombie Slime Pig Sheep Cow Chicken
 
     Known Item Entity IDs: Item Arrow Snowball Painting
@@ -879,7 +879,7 @@ class mce(object):
         """
     createChunks <box>
 
-    Creates any chunks not present in the specified region. 
+    Creates any chunks not present in the specified region.
     New chunks are filled with only air. New chunks are written
     to disk immediately.
     """
@@ -899,7 +899,7 @@ class mce(object):
         """
     deleteChunks <box>
 
-    Removes all chunks contained in the specified region. 
+    Removes all chunks contained in the specified region.
     Chunks are deleted from disk immediately.
     """
         if len(command) == 0:
@@ -937,7 +937,7 @@ class mce(object):
         """
     relight [ <box> ]
 
-    Recalculates lights in the region specified. If omitted, 
+    Recalculates lights in the region specified. If omitted,
     recalculates the entire world.
     """
         if len(command):
@@ -956,10 +956,10 @@ class mce(object):
         """
     create [ <filename> ]
 
-    Create and load a new Minecraft Alpha world. This world will have no 
+    Create and load a new Minecraft Alpha world. This world will have no
     chunks and a random terrain seed. If run from the shell, filename is not
     needed because you already specified a filename earlier in the command.
-    For example: 
+    For example:
 
         mce.py MyWorld create
 
@@ -986,8 +986,8 @@ class mce(object):
         """
     degrief [ <height> ]
 
-    Reverse a few forms of griefing by removing 
-    Adminium, Obsidian, Fire, and Lava wherever 
+    Reverse a few forms of griefing by removing
+    Adminium, Obsidian, Fire, and Lava wherever
     they occur above the specified height.
     Without a height, uses height level 32.
 
@@ -1020,7 +1020,7 @@ class mce(object):
         """
     time [time of day]
 
-    Set or display the time of day. Acceptable values are "morning", "noon", 
+    Set or display the time of day. Acceptable values are "morning", "noon",
     "evening", "midnight", or a time of day such as 8:02, 12:30 PM, or 16:45.
     """
         ticks = self.level.Time
@@ -1116,7 +1116,7 @@ class mce(object):
         """
     worldsize
 
-    Computes and prints the dimensions of the world.  For infinite worlds, 
+    Computes and prints the dimensions of the world.  For infinite worlds,
     also prints the most negative corner.
     """
         bounds = self.level.bounds
@@ -1237,8 +1237,8 @@ class mce(object):
         """
     quit [ yes | no ]
 
-    Quits the program. 
-    Without 'yes' or 'no', prompts to save before quitting. 
+    Quits the program.
+    Without 'yes' or 'no', prompts to save before quitting.
 
     In batch mode, an end of file automatically saves the level.
     """
@@ -1278,8 +1278,8 @@ class mce(object):
     dimension [ <dim> ]
 
     Load another dimension, a sub-world of this level. Without options, lists
-    all of the dimensions found in this world. <dim> can be a number or one of 
-    these keywords: 
+    all of the dimensions found in this world. <dim> can be a number or one of
+    these keywords:
         nether, hell, slip: DIM-1
         earth, overworld, parent: parent world
     """

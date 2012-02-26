@@ -54,7 +54,7 @@ import re
 convert = lambda text: int(text) if text.isdigit() else text
 alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
 def sort_nicely(l):
-    """ Sort the given list in the way that humans expect. 
+    """ Sort the given list in the way that humans expect.
     """
     l.sort(key=alphanum_key)
 
@@ -83,7 +83,7 @@ def which(program):
 
     return None
 
-if sys.platform == "win32": 
+if sys.platform == "win32":
     appSupportDir = os.path.join(appDataDir, u"pymclevel")
 elif sys.platform == "darwin":
     appSupportDir = os.path.expanduser(u"~/Library/Application Support/pymclevel/")
@@ -107,19 +107,19 @@ class ServerJarStorage(object):
                 f.write("""
 About this folder:
 
-This folder is used by MCEdit and pymclevel to store different versions of the 
-Minecraft Server to use for terrain generation. It should have one or more 
+This folder is used by MCEdit and pymclevel to store different versions of the
+Minecraft Server to use for terrain generation. It should have one or more
 subfolders, one for each version of the server. Each subfolder must hold at
-least one file named minecraft_server.jar, and the subfolder's name should 
+least one file named minecraft_server.jar, and the subfolder's name should
 have the server's version plus the names of any installed mods.
 
-There may already be a subfolder here (for example, "Beta 1.7.3") if you have 
-used the Chunk Create feature in MCEdit to create chunks using the server. 
+There may already be a subfolder here (for example, "Beta 1.7.3") if you have
+used the Chunk Create feature in MCEdit to create chunks using the server.
 
 Version numbers can be automatically detected. If you place one or more
-minecraft_server.jar files in this folder, they will be placed automatically 
-into well-named subfolders the next time you run MCEdit. If a file's name 
-begins with "minecraft_server" and ends with ".jar", it will be detected in 
+minecraft_server.jar files in this folder, they will be placed automatically
+into well-named subfolders the next time you run MCEdit. If a file's name
+begins with "minecraft_server" and ends with ".jar", it will be detected in
 this way.
 """)
 
@@ -252,9 +252,9 @@ def findJava():
     return javaExe
 
 class MCServerChunkGenerator(object):
-    """Generates chunks using minecraft_server.jar. Uses a ServerJarStorage to 
+    """Generates chunks using minecraft_server.jar. Uses a ServerJarStorage to
     store different versions of minecraft_server.jar in an application support
-    folder. 
+    folder.
 
 
 
@@ -262,7 +262,7 @@ class MCServerChunkGenerator(object):
 
     Example usage:
 
-        gen = MCServerChunkGenerator() # with no arguments, use the newest 
+        gen = MCServerChunkGenerator() # with no arguments, use the newest
                                        # server version in the cache, or download
                                        # the newest one automatically
         level = loadWorldNamed("MyWorld")
@@ -319,7 +319,7 @@ class MCServerChunkGenerator(object):
                 f.write("""
     About this folder:
 
-    This folder is used by MCEdit and pymclevel to cache levels during terrain 
+    This folder is used by MCEdit and pymclevel to cache levels during terrain
     generation. Feel free to delete it for any reason.
     """)
 
@@ -506,7 +506,7 @@ class MCServerChunkGenerator(object):
                 if level.containsChunk(cx,cz):
                     chunks.discard((cx,cz))
                 elif ((cx,cz) in chunks
-                    and tempWorld.containsChunk(cx, cz) 
+                    and tempWorld.containsChunk(cx, cz)
                     and tempWorld.getChunk(cx,cz).TerrainPopulated
                     ):
                     self.copyChunkAtPosition(tempWorld, level, cx, cz)
@@ -620,10 +620,10 @@ def packNibbleArray(unpackedData):
 
 class InfdevChunk(LightedChunk):
     """ This is a 16x16xH chunk in an (infinite) world.
-    The properties Blocks, Data, SkyLight, BlockLight, and Heightmap 
+    The properties Blocks, Data, SkyLight, BlockLight, and Heightmap
     are ndarrays containing the respective blocks in the chunk file.
-    Each array is indexed [x,z,y].  The Data, Skylight, and BlockLight 
-    arrays are automatically unpacked from nibble arrays into byte arrays 
+    Each array is indexed [x,z,y].  The Data, Skylight, and BlockLight
+    arrays are automatically unpacked from nibble arrays into byte arrays
     for better handling.
     """
     @property
@@ -733,7 +733,7 @@ class InfdevChunk(LightedChunk):
 
 
         if not self.dirty:
-            #if we are not dirty, just throw the 
+            #if we are not dirty, just throw the
             #uncompressed tag structure away. rely on the OS disk cache.
             self.root_tag = None
         else:
@@ -835,7 +835,7 @@ class InfdevChunk(LightedChunk):
             self.dirty = False
 
     def load(self):
-        """ If the chunk is unloaded, calls world._loadChunk to set root_tag and 
+        """ If the chunk is unloaded, calls world._loadChunk to set root_tag and
         compressedTag, then unpacks the chunk fully"""
 
         if self.root_tag is None and self.compressedTag is None:
@@ -862,7 +862,7 @@ class InfdevChunk(LightedChunk):
             self.world.chunkDidUnload(self)
 
     def isLoaded(self):
-        #we're loaded if we have our tag data in ram 
+        #we're loaded if we have our tag data in ram
         #and we don't have to go back to the disk for it.
         return not (self.compressedTag is None and self.root_tag is None)
 
@@ -900,7 +900,7 @@ class InfdevChunk(LightedChunk):
             self.dataIsPacked = True
 
     def shapeChunkData(self):
-        """Applies the chunk shape to all of the data arrays 
+        """Applies the chunk shape to all of the data arrays
         in the chunk tag.  used by chunk creation and loading"""
         chunkTag = self.root_tag
 
@@ -990,7 +990,7 @@ class InfdevChunk(LightedChunk):
     @TerrainPopulated.setter
     @decompress_first
     def TerrainPopulated(self, val):
-        """True or False. If False, the game will populate the chunk with 
+        """True or False. If False, the game will populate the chunk with
         ores and vegetation on next load"""
         self.root_tag[Level]["TerrainPopulated"].value = val
         self.dirty = True
@@ -1357,7 +1357,7 @@ class MCRegionFile(object):
         else:
             # we need to allocate new sectors
 
-            # mark the sectors previously used for this chunk as free 
+            # mark the sectors previously used for this chunk as free
             for i in xrange(sectorNumber, sectorNumber + sectorsAllocated):
                 self.freeSectors[i] = True
 
@@ -1691,7 +1691,7 @@ class ChunkedLevelMixin(object):
             #chunk.compress(); #xxx find out why this trashes changes to tile entities
 
     def copyBlocksFromInfiniteIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy, create = False):
-        """ copy blocks between two infinite levels by looping through the 
+        """ copy blocks between two infinite levels by looping through the
         destination's chunks. make a sub-box of the source level for each chunk
         and copy block and entities in the sub box to the dest chunk."""
 
@@ -1881,7 +1881,7 @@ class ChunkedLevelMixin(object):
         dirtyChunks = sorted(dirtyChunks, key=lambda x:x.chunkPosition)
 
 
-        #at 150k per loaded chunk, 
+        #at 150k per loaded chunk,
         maxLightingChunks = 4000
 
         info(u"Asked to light {0} chunks".format(len(dirtyChunks)))
@@ -2018,7 +2018,7 @@ class ChunkedLevelMixin(object):
             work = 0
 
             for i in range(14):
-                if len(newDirtyChunks) == 0: 
+                if len(newDirtyChunks) == 0:
                     workTotal -= len(startingDirtyChunks) * (14 - i)
                     break
 
@@ -2027,16 +2027,16 @@ class ChunkedLevelMixin(object):
 
                 """
                 propagate light!
-                for each of the six cardinal directions, figure a new light value for 
-                adjoining blocks by reducing this chunk's light by light absorption and fall off. 
+                for each of the six cardinal directions, figure a new light value for
+                adjoining blocks by reducing this chunk's light by light absorption and fall off.
                 compare this new light value against the old light value and update with the maximum.
 
-                we calculate all chunks one step before moving to the next step, to ensure all gaps at chunk edges are filled.  
+                we calculate all chunks one step before moving to the next step, to ensure all gaps at chunk edges are filled.
                 we do an extra cycle because lights sent across edges may lag by one cycle.
 
-                xxx this can be optimized by finding the highest and lowest blocks 
+                xxx this can be optimized by finding the highest and lowest blocks
                 that changed after one pass, and only calculating changes for that
-                vertical slice on the next pass. newDirtyChunks would have to be a 
+                vertical slice on the next pass. newDirtyChunks would have to be a
                 list of (cPos, miny, maxy) tuples or a cPos : (miny, maxy) dict
                 """
                 newDirtyChunks = set(newDirtyChunks)
@@ -2072,7 +2072,7 @@ class ChunkedLevelMixin(object):
 
                     nc = neighboringChunks[FaceXDecreasing]
                     ncLight = getattr(nc, light)
-                    oldLeftEdge[:] = ncLight[15:16, :, 0:self.Height] #save the old left edge 
+                    oldLeftEdge[:] = ncLight[15:16, :, 0:self.Height] #save the old left edge
 
                     #left edge
                     newlight = (chunkLight[0:1, :, :self.Height] - la[nc.Blocks[15:16, :, 0:self.Height]])
@@ -2158,7 +2158,7 @@ class ChunkedLevelMixin(object):
 
                     ### Spread light toward +Z
 
-                    #top edge  
+                    #top edge
                     nc = neighboringChunks[FaceZIncreasing]
 
                     ncLight = getattr(nc, light)
@@ -2409,7 +2409,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         if not os.path.exists(self.regionDir):
             os.mkdir(self.regionDir)
 
-        #maps (cx,cz) pairs to InfdevChunks    
+        #maps (cx,cz) pairs to InfdevChunks
         self._loadedChunks = {}
         self._allChunks = None
         self.dimensions = {}
@@ -2436,7 +2436,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
         if os.path.isdir(self.playersDir):
             self.players = [x[:-4] for x in os.listdir(self.playersDir) if x.endswith(".dat")]
-        if "Player" in self.root_tag["Data"]: 
+        if "Player" in self.root_tag["Data"]:
             self.players.append("Player")
 
         self.preloadDimensions()
@@ -2793,7 +2793,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     def _getChunkUnloaded(self, cx, cz):
         """return the InfdevChunk object at the given position. because loading
-        the chunk is done later, accesses to chunk attributes may 
+        the chunk is done later, accesses to chunk attributes may
         raise ChunkMalformed"""
 
         if not self.containsChunk(cx, cz) :
@@ -2823,7 +2823,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         return False
 
     def getChunk(self, cx, cz):
-        """ read the chunk from disk, load it, and return it. 
+        """ read the chunk from disk, load it, and return it.
         decompression and unpacking is done lazily."""
 
 
@@ -3008,9 +3008,9 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
     spawnxyz = ["SpawnX", "SpawnY", "SpawnZ"]
 
     def playerSpawnPosition(self, player=None):
-        """ 
+        """
         xxx if player is None then it gets the default spawn position for the world
-        if player hasn't used a bed then it gets the default spawn position 
+        if player hasn't used a bed then it gets the default spawn position
         """
         dataTag = self.root_tag["Data"]
         if player is None:
@@ -3157,7 +3157,7 @@ class MCAlphaDimension (MCInfdevOldLevel):
 
     @property
     def displayName(self):
-        return u"{0} ({1})".format(self.parentWorld.displayName, 
+        return u"{0} ({1})".format(self.parentWorld.displayName,
                                    self.dimensionNames.get(self.dimNo, "Dimension %d" % self.dimNo))
 
     def saveInPlace(self, saveSelf=False):

@@ -213,7 +213,7 @@ class PocketChunksFile(object):
         else:
             # we need to allocate new sectors
 
-            # mark the sectors previously used for this chunk as free 
+            # mark the sectors previously used for this chunk as free
             for i in xrange(sectorNumber, sectorNumber + sectorsAllocated):
                 self.freeSectors[i] = True
 
@@ -336,12 +336,12 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
     def _isLevel(cls, filename):
         clp = ("chunks.dat", "level.dat", "player.dat")
 
-        if not os.path.isdir(filename): 
+        if not os.path.isdir(filename):
             f = os.path.basename(filename)
             if f not in clp: return False
             filename = os.path.dirname(filename)
 
-        return all([os.path.exists(os.path.join(filename, f)) for f in clp])    
+        return all([os.path.exists(os.path.join(filename, f)) for f in clp])
 
     def saveInPlace(self):
         for chunk in self._loadedChunks.itervalues():
@@ -389,7 +389,7 @@ class PocketChunk(LightedChunk):
             dataArray.shape = (16, 16, 64)
             s = dataArray.shape
             #assert s[2] == self.world.Height / 2;
-            #unpackedData = insert(dataArray[...,newaxis], 0, 0, 3)  
+            #unpackedData = insert(dataArray[...,newaxis], 0, 0, 3)
 
             unpackedData = zeros((s[0], s[1], s[2] * 2), dtype='uint8')
 
@@ -422,7 +422,7 @@ class PocketChunk(LightedChunk):
             #we only track modifications at the chunk level.
             self.DirtyColumns[:] = 255
 
-        return "".join([self.Blocks.tostring(), 
+        return "".join([self.Blocks.tostring(),
                        packData(self.Data).tostring(),
                        packData(self.SkyLight).tostring(),
                        packData(self.BlockLight).tostring(),

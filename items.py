@@ -380,7 +380,7 @@ class Items (object):
                 line = line.strip()
                 if len(line) == 0: continue
                 if line[0] == "#": continue;
-                if line[0] == "~": 
+                if line[0] == "~":
                     fields = line.split()
                     name, icon, items = fields[1:4]
                     items = items.split(",")

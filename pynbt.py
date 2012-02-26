@@ -4,7 +4,7 @@
 """
 Named Binary Tag library. Serializes and deserializes TAG_* objects
 to and from binary data. Load a Minecraft level by calling nbt.load().
-Create your own TAG_* objects and set their values.    
+Create your own TAG_* objects and set their values.
 Save a TAG_* object to a file or StringIO object.
 
 Read the test functions at the end of the file to get started.
@@ -31,7 +31,7 @@ TAGfmt = ">b"
 class NBTFormatError(RuntimeError): pass
 
 class TAG_Value(object):
-    """Simple values. Subclasses override fmt to change the type and size. 
+    """Simple values. Subclasses override fmt to change the type and size.
     Subclasses may set dataType instead of overriding setValue for automatic data type coercion"""
 
     fmt = ">b"
@@ -374,8 +374,8 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
 
 class TAG_List(TAG_Value, collections.MutableSequence):
 
-    """A homogenous list of unnamed data of a single TAG_* type. 
-    Once created, the type can only be changed by emptying the list 
+    """A homogenous list of unnamed data of a single TAG_* type.
+    Once created, the type can only be changed by emptying the list
     and adding an element of the new type. If created with no arguments,
     returns a list of TAG_Compound
 
@@ -512,8 +512,8 @@ def load_named(data, data_cursor, tag_type):
     return tag, data_cursor
 
 def load(filename="", buf=None):
-    """Unserialize data from an entire NBT file and return the 
-    root TAG_Compound object. Argument can be a string containing a 
+    """Unserialize data from an entire NBT file and return the
+    root TAG_Compound object. Argument can be a string containing a
     filename or an array of integers containing TAG_Compound data. """
 
     if filename and isinstance(filename, (str, unicode)):

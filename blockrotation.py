@@ -149,8 +149,8 @@ Rail.rotateLeft[Rail.EastWest] = Rail.NorthSouth
 def applyBit(apply):
     def _applyBit(class_or_array):
         if hasattr(class_or_array, "rotateLeft"):
-            for a in (class_or_array.flipEastWest, 
-                      class_or_array.flipNorthSouth, 
+            for a in (class_or_array.flipEastWest,
+                      class_or_array.flipNorthSouth,
                       class_or_array.rotateLeft):
                 apply(a)
         else:
@@ -370,7 +370,7 @@ class HugeMushroom:
     East = 2
     Southeast = 3
     South = 6
-    Southwest = 9 
+    Southwest = 9
     West = 8
     Northwest = 7
     North = 4
@@ -390,7 +390,7 @@ Vines.flipNorthSouth[(Vines.flipNorthSouth & NorthSouthBits) > 0] ^= NorthSouthB
 rotationClasses.append(Vines)
 
 def masterRotationTable(attrname):
-    # compute a 256x16 table mapping each possible blocktype/data combination to 
+    # compute a 256x16 table mapping each possible blocktype/data combination to
     # the resulting data when the block is rotated
     table = zeros((256, 16), dtype='uint8')
     table[:] = arange(16, dtype='uint8')

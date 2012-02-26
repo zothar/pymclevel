@@ -10,7 +10,7 @@ Indev levels:
 
 TAG_Compound "MinecraftLevel"
 {
-   TAG_Compound "Environment" 
+   TAG_Compound "Environment"
    {
       TAG_Short "SurroundingGroundHeight"// Height of surrounding ground (in blocks)
       TAG_Byte "SurroundingGroundType"   // Block ID of surrounding ground
@@ -39,9 +39,9 @@ TAG_Compound "MinecraftLevel"
       // To access a specific block from either byte array, use the following algorithm:
       // Index = x + (y * Depth + z) * Width
 
-      TAG_Short "Width"                  // Width of the level (along X) 
-      TAG_Short "Height"                 // Height of the level (along Y) 
-      TAG_Short "Length"                 // Length of the level (along Z) 
+      TAG_Short "Width"                  // Width of the level (along X)
+      TAG_Short "Height"                 // Height of the level (along Y)
+      TAG_Short "Length"                 // Length of the level (along Z)
       TAG_Byte_Array "Blocks"             // An array of Length*Height*Width bytes specifying the block types
       TAG_Byte_Array "Data"              // An array of Length*Height*Width bytes with data for each blocks
 
@@ -90,7 +90,7 @@ __all__ = ["MCIndevLevel"]
 from level import EntityLevel, computeChunkHeightMap
 
 class MCIndevLevel(EntityLevel):
-    """ IMPORTANT: self.Blocks and self.Data are indexed with [x,z,y] via axis 
+    """ IMPORTANT: self.Blocks and self.Data are indexed with [x,z,y] via axis
     swapping to be consistent with infinite levels."""
 
     materials = indevMaterials
@@ -224,7 +224,7 @@ class MCIndevLevel(EntityLevel):
 #            self.SkyBrightness = root_tag[Environment][SkyBrightness].value
 #            self.TimeOfDay = root_tag[Environment]["TimeOfDay"].value
 #
-#              
+#
 #            self.Name = self.root_tag[About][Name].value
 #            self.Author = self.root_tag[About][Author].value
 #            self.CreatedOn = self.root_tag[About][CreatedOn].value

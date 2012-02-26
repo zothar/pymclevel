@@ -127,11 +127,11 @@ class Entity(object):
                  "Villager",
                  "LavaSlime",
                  ]
-    projectiles = ["Arrow", 
-                   "Snowball", 
-                   "Egg", 
-                   "Fireball", 
-                   "SmallFireball", 
+    projectiles = ["Arrow",
+                   "Snowball",
+                   "Egg",
+                   "Fireball",
+                   "SmallFireball",
                    "ThrownEnderpearl",
                    ]
 

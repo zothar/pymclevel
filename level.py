@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
 def computeChunkHeightMap(materials, blocks, HeightMap = None):
-    """Computes the HeightMap array for a chunk, which stores the lowest 
+    """Computes the HeightMap array for a chunk, which stores the lowest
     y-coordinate of each column where the sunlight is still at full strength.
     The HeightMap array is indexed z,x contrary to the blocks array which is x,z,y.
 
@@ -56,21 +56,21 @@ def extractHeights(array):
     return heightMap
 
 def getSlices(box, height):
-    """ call this method to iterate through a large slice of the world by 
+    """ call this method to iterate through a large slice of the world by
         visiting each chunk and indexing its data with a subslice.
 
     this returns an iterator, which yields 3-tuples containing:
-    +  a pair of chunk coordinates (cx,cz), 
-    +  a x,z,y triplet of slices that can be used to index the InfdevChunk's data arrays, 
+    +  a pair of chunk coordinates (cx,cz),
+    +  a x,z,y triplet of slices that can be used to index the InfdevChunk's data arrays,
     +  a x,y,z triplet representing the relative location of this subslice within the requested world slice.
 
     Note the different order of the coordinates between the 'slices' triplet
     and the 'offset' triplet. x,z,y ordering is used only
     to index arrays, since it reflects the order of the blocks in memory.
-    In all other places, including an entity's 'Pos', the order is x,y,z. 
+    In all other places, including an entity's 'Pos', the order is x,y,z.
     """
 
-    #when yielding slices of chunks on the edge of the box, adjust the 
+    #when yielding slices of chunks on the edge of the box, adjust the
     #slices by an offset
     minxoff, minzoff = box.minx - (box.mincx << 4), box.minz - (box.mincz << 4)
     maxxoff, maxzoff = box.maxx - (box.maxcx << 4) + 16, box.maxz - (box.maxcz << 4) + 16
@@ -111,13 +111,13 @@ def getSlices(box, height):
 
 
 class MCLevel(object):
-    """ MCLevel is an abstract class providing many routines to the different level types, 
+    """ MCLevel is an abstract class providing many routines to the different level types,
     including a common copyEntitiesFrom built on class-specific routines, and
     a dummy getChunk/allChunks for the finite levels.
 
     MCLevel also provides compress and decompress methods that are used to load
-    NBT format levels, and expects subclasses to override shapeChunkData to 
-    assign a shape to the Blocks and other arrays. The resulting arrays after 
+    NBT format levels, and expects subclasses to override shapeChunkData to
+    assign a shape to the Blocks and other arrays. The resulting arrays after
     reshape must be indexed [x,z,y]
 
     MCLevel subclasses must have Width, Length, and Height attributes.  The first two are always zero for infinite levels.
@@ -215,14 +215,14 @@ class MCLevel(object):
 
     @property
     def allChunks(self):
-        """Returns a synthetic list of chunk positions (xPos, zPos), to fake 
+        """Returns a synthetic list of chunk positions (xPos, zPos), to fake
         being a chunked level format."""
         return self.loadedChunks
 
 
     def getChunks(self, chunks=None):
         """ pass a list of chunk coordinate tuples to get an iterator yielding
-        InfdevChunks. pass nothing for an iterator of every chunk in the level. 
+        InfdevChunks. pass nothing for an iterator of every chunk in the level.
         the chunks are automatically loaded."""
         if chunks is None: chunks = self.allChunks;
         return (self.getChunk(cx, cz) for (cx, cz) in chunks if self.containsChunk(cx, cz))
@@ -519,7 +519,7 @@ class MCLevel(object):
             sourceBox.size[1] -= y + sourceBox.size[1] - self.Height
             y = self.Height - sourceBox.size[1]
 
-        #for infinite levels, don't clip along those dimensions because the 
+        #for infinite levels, don't clip along those dimensions because the
         #infinite copy func will just skip missing chunks
         if self.Width != 0:
             if x < 0:
