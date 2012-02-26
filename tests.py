@@ -40,7 +40,7 @@ def mktemp(suffix):
 
 
 class TempLevel(object):
-    def __init__(self, filename, createFunc = None):
+    def __init__(self, filename, createFunc=None):
         if not os.path.exists(filename):
             filename = join("testfiles", filename)
         tmpname = mktemp(os.path.basename(filename))
@@ -154,7 +154,7 @@ class TestNBT(unittest.TestCase):
         level["Environment"]["SurroundingWaterHeight"].value += 6
 
         "Save the entire TAG structure to a different file."
-        atlantis = TempLevel("atlantis.mclevel", createFunc = level.save)
+        atlantis = TempLevel("atlantis.mclevel", createFunc=level.save)
 
     def testErrors(self):
         """

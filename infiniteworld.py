@@ -373,7 +373,7 @@ class MCServerChunkGenerator(object):
     def generateAtPosition(self, tempWorld, tempDir, cx, cz):
         return exhaust(self.generateAtPositionIter(tempWorld, tempDir, cx, cz))
 
-    def generateAtPositionIter(self, tempWorld, tempDir, cx, cz, simulate = False):
+    def generateAtPositionIter(self, tempWorld, tempDir, cx, cz, simulate=False):
         tempWorld.setPlayerSpawnPosition((cx * 16, 64, cz * 16))
         tempWorld.saveInPlace()
         tempWorld.unloadRegions()
@@ -450,10 +450,10 @@ class MCServerChunkGenerator(object):
     minRadius = 5
     maxRadius = 20
 
-    def createLevel(self, level, box, simulate = False, **kw):
+    def createLevel(self, level, box, simulate=False, **kw):
         return exhaust(self.createLevelIter(level, box, simulate, **kw))
 
-    def createLevelIter(self, level, box, simulate = False, **kw):
+    def createLevelIter(self, level, box, simulate=False, **kw):
         if isinstance(level, basestring):
             filename = level
             level = MCInfdevOldLevel(filename, create=True, **kw)
@@ -482,7 +482,7 @@ class MCServerChunkGenerator(object):
     def generateChunksInLevel(self, level, chunks):
         return exhaust(self.generateChunksInLevelIter(level, chunks))
 
-    def generateChunksInLevelIter(self, level, chunks, simulate = False):
+    def generateChunksInLevelIter(self, level, chunks, simulate=False):
         assert isinstance(level, MCInfdevOldLevel)
         tempWorld, tempDir = self.tempWorldForLevel(level)
 
@@ -658,7 +658,7 @@ class InfdevChunk(LightedChunk):
             return u"{region} index {index} sector {sector} length {length} format {format}".format(
                 region=os.path.basename(self.world.regionFilename(rx, rz)),
                 sector=offset >> 8,
-                length = offset & 0xff,
+                length=offset & 0xff,
                 index=4 * ((cx & 0x1f) + ((cz & 0x1f) * 32)),
                 format=["???", "gzip", "deflate"][self.compressMode])
         else:
@@ -1656,7 +1656,7 @@ class ChunkedLevelMixin(object):
                 return slice(None, None)
         return sourceMask
 
-    def copyBlocksFromFiniteIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy, create = False):
+    def copyBlocksFromFiniteIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy, create=False):
         # assumes destination point and bounds have already been checked.
         (sx, sy, sz) = sourceBox.origin
 
@@ -1725,7 +1725,7 @@ class ChunkedLevelMixin(object):
 
             # chunk.compress();  # xxx find out why this trashes changes to tile entities
 
-    def copyBlocksFromInfiniteIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy, create = False):
+    def copyBlocksFromInfiniteIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy, create=False):
         """ copy blocks between two infinite levels by looping through the
         destination's chunks. make a sub-box of the source level for each chunk
         and copy block and entities in the sub box to the dest chunk."""

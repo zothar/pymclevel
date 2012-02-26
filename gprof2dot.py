@@ -93,7 +93,7 @@ class UndefinedEvent(Exception):
 class Event(object):
     """Describe a kind of event, and its basic operations."""
 
-    def __init__(self, name, null, aggregator, formatter = str):
+    def __init__(self, name, null, aggregator, formatter=str):
         self.name = name
         self._null = null
         self._aggregator = aggregator
@@ -545,7 +545,7 @@ class Profile(Object):
 class Struct:
     """Masquerade a dictionary with a structure-like behavior."""
 
-    def __init__(self, attrs = None):
+    def __init__(self, attrs=None):
         if attrs is None:
             attrs = {}
         self.__dict__['_attrs'] = attrs
@@ -623,7 +623,7 @@ XML_ELEMENT_START, XML_ELEMENT_END, XML_CHARACTER_DATA, XML_EOF = range(4)
 
 class XmlToken:
 
-    def __init__(self, type, name_or_data, attrs = None, line = None, column = None):
+    def __init__(self, type, name_or_data, attrs=None, line=None, column=None):
         assert type in (XML_ELEMENT_START, XML_ELEMENT_END, XML_CHARACTER_DATA, XML_EOF)
         self.type = type
         self.name_or_data = name_or_data
@@ -646,7 +646,7 @@ class XmlToken:
 class XmlTokenizer:
     """Expat based XML tokenizer."""
 
-    def __init__(self, fp, skip_ws = True):
+    def __init__(self, fp, skip_ws=True):
         self.fp = fp
         self.tokens = []
         self.index = 0
@@ -760,7 +760,7 @@ class XmlParser(Parser):
             raise XmlTokenMismatch(XmlToken(XML_ELEMENT_END, name), self.token)
         self.consume()
 
-    def character_data(self, strip = True):
+    def character_data(self, strip=True):
         data = ''
         while self.token.type == XML_CHARACTER_DATA:
             data += self.token.name_or_data
@@ -1701,13 +1701,13 @@ class XPerfParser(Parser):
         import csv
         reader = csv.reader(
             self.stream,
-            delimiter = ',',
-            quotechar = None,
-            escapechar = None,
-            doublequote = False,
-            skipinitialspace = True,
-            lineterminator = '\r\n',
-            quoting = csv.QUOTE_NONE)
+            delimiter=',',
+            quotechar=None,
+            escapechar=None,
+            doublequote=False,
+            skipinitialspace=True,
+            lineterminator='\r\n',
+            quoting=csv.QUOTE_NONE)
         it = iter(reader)
         row = reader.next()
         self.parse_header(row)
@@ -2122,16 +2122,16 @@ class PstatsParser:
 class Theme:
 
     def __init__(self,
-            bgcolor = (0.0, 0.0, 1.0),
-            mincolor = (0.0, 0.0, 0.0),
-            maxcolor = (0.0, 0.0, 1.0),
-            fontname = "Arial",
-            minfontsize = 10.0,
-            maxfontsize = 10.0,
-            minpenwidth = 0.5,
-            maxpenwidth = 4.0,
-            gamma = 2.2,
-            skew = 1.0):
+            bgcolor=(0.0, 0.0, 1.0),
+            mincolor=(0.0, 0.0, 0.0),
+            maxcolor=(0.0, 0.0, 1.0),
+            fontname="Arial",
+            minfontsize=10.0,
+            maxfontsize=10.0,
+            minpenwidth=0.5,
+            maxpenwidth=4.0,
+            gamma=2.2,
+            skew=1.0):
         self.bgcolor = bgcolor
         self.mincolor = mincolor
         self.maxcolor = maxcolor
@@ -2238,28 +2238,28 @@ class Theme:
             return m1
 
 TEMPERATURE_COLORMAP = Theme(
-    mincolor = (2.0 / 3.0, 0.80, 0.25),  # dark blue
-    maxcolor = (0.0, 1.0, 0.5),  # satured red
-    gamma = 1.0
+    mincolor=(2.0 / 3.0, 0.80, 0.25),  # dark blue
+    maxcolor=(0.0, 1.0, 0.5),  # satured red
+    gamma=1.0
 )
 
-PINK_COLORMAP = Theme(
-    mincolor = (0.0, 1.0, 0.90),  # pink
-    maxcolor = (0.0, 1.0, 0.5),  # satured red
+PINK_COLORMAP=Theme(
+    mincolor=(0.0, 1.0, 0.90),  # pink
+    maxcolor=(0.0, 1.0, 0.5),  # satured red
 )
 
-GRAY_COLORMAP = Theme(
-    mincolor = (0.0, 0.0, 0.85),  # light gray
-    maxcolor = (0.0, 0.0, 0.0),  # black
+GRAY_COLORMAP=Theme(
+    mincolor=(0.0, 0.0, 0.85),  # light gray
+    maxcolor=(0.0, 0.0, 0.0),  # black
 )
 
-BW_COLORMAP = Theme(
-    minfontsize = 8.0,
-    maxfontsize = 24.0,
-    mincolor = (0.0, 0.0, 0.0),  # black
-    maxcolor = (0.0, 0.0, 0.0),  # black
-    minpenwidth = 0.1,
-    maxpenwidth = 8.0,
+BW_COLORMAP=Theme(
+    minfontsize=8.0,
+    maxfontsize=24.0,
+    mincolor=(0.0, 0.0, 0.0),  # black
+    maxcolor=(0.0, 0.0, 0.0),  # black
+    minpenwidth=0.1,
+    maxpenwidth=8.0,
 )
 
 
@@ -2304,10 +2304,10 @@ class DotWriter:
 
             label = '\n'.join(labels)
             self.node(function.id,
-                label = label,
-                color = self.color(theme.node_bgcolor(weight)),
-                fontcolor = self.color(theme.node_fgcolor(weight)),
-                fontsize = "%.2f" % theme.node_fontsize(weight),
+                label=label,
+                color=self.color(theme.node_bgcolor(weight)),
+                fontcolor=self.color(theme.node_fgcolor(weight)),
+                fontsize="%.2f" % theme.node_fontsize(weight),
             )
 
             for call in function.calls.itervalues():
@@ -2329,13 +2329,13 @@ class DotWriter:
                 label = '\n'.join(labels)
 
                 self.edge(function.id, call.callee_id,
-                    label = label,
-                    color = self.color(theme.edge_color(weight)),
-                    fontcolor = self.color(theme.edge_color(weight)),
-                    fontsize = "%.2f" % theme.edge_fontsize(weight),
-                    penwidth = "%.2f" % theme.edge_penwidth(weight),
-                    labeldistance = "%.2f" % theme.edge_penwidth(weight),
-                    arrowsize = "%.2f" % theme.edge_arrowsize(weight),
+                    label=label,
+                    color=self.color(theme.edge_color(weight)),
+                    fontcolor=self.color(theme.edge_color(weight)),
+                    fontsize="%.2f" % theme.edge_fontsize(weight),
+                    penwidth="%.2f" % theme.edge_penwidth(weight),
+                    labeldistance="%.2f" % theme.edge_penwidth(weight),
+                    arrowsize="%.2f" % theme.edge_arrowsize(weight),
                 )
 
         self.end_graph()

@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
 
-def computeChunkHeightMap(materials, blocks, HeightMap = None):
+def computeChunkHeightMap(materials, blocks, HeightMap=None):
     """Computes the HeightMap array for a chunk, which stores the lowest
     y-coordinate of each column where the sunlight is still at full strength.
     The HeightMap array is indexed z,x contrary to the blocks array which is x,z,y.
@@ -799,7 +799,7 @@ class ChunkBase(EntityLevel):
     def compress(self):
         pass
 
-    def chunkChanged(self, needsLighting = True):
+    def chunkChanged(self, needsLighting=True):
         self.dirty = True
         self.needsLighting = needsLighting or self.needsLighting
 

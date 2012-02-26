@@ -105,7 +105,7 @@ class MCMaterials(object):
     def AllStairs(self):
         return [b for b in self.allBlocks if b.name.endswith("Stairs")]
 
-    def get(self, key, default = None):
+    def get(self, key, default=None):
         try:
             return self[key]
         except KeyError:
@@ -322,7 +322,7 @@ def defineShroomFaces(Shroom, id, name):
             if "east" in loway:
                 tex[FaceXIncreasing] = Shroom
 
-        alphaMaterials.addBlock(id, blockData = data,
+        alphaMaterials.addBlock(id, blockData=data,
             name="Huge " + name + " Mushroom (" + way + ")",
             texture=tex,
             )
@@ -330,11 +330,11 @@ def defineShroomFaces(Shroom, id, name):
 defineShroomFaces(Brown, 99, "Brown")
 defineShroomFaces(Red, 100, "Red")
 
-classicMaterials = MCMaterials(defaultName = "Not present in Classic")
+classicMaterials = MCMaterials(defaultName="Not present in Classic")
 classicMaterials.name = "Classic"
 classicMaterials.addYamlBlocksFromFile("classic.yaml")
 
-indevMaterials = MCMaterials(defaultName = "Not present in Indev")
+indevMaterials = MCMaterials(defaultName="Not present in Indev")
 indevMaterials.name = "Indev"
 indevMaterials.addYamlBlocksFromFile("classic.yaml")
 indevMaterials.addYamlBlocksFromFile("indev.yaml")
@@ -705,7 +705,7 @@ pocketMaterials.OrangeWool = pocketMaterials[115, 0]
 _indices = rollaxis(indices((256, 16) ), 0, 3)
 
 
-def _filterTable(filters, unavailable, default = (0, 0) ):
+def _filterTable(filters, unavailable, default=(0, 0)):
     # a filter table is a 256x16 table of (ID, data) pairs.
     table = zeros((256, 16, 2), dtype='uint8')
     table[:] = _indices
