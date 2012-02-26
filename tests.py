@@ -171,7 +171,7 @@ class TestNBT(unittest.TestCase):
 
         n = newlevel["Map"]["Spawn"][0].name
         if n:
-            print "Named list element failed: %s" % n;
+            print "Named list element failed: %s" % n
 
         """
         attempt to delete non-existent TAG_Compound elements
@@ -425,7 +425,7 @@ class TestSchematics(unittest.TestCase):
         info("Data: %s", invFile.Data)
         info("Entities: %s", invFile.Entities)
         info("TileEntities: %s", invFile.TileEntities)
-        #raise SystemExit;
+        #raise SystemExit
 
 
 class TestPocket(unittest.TestCase):

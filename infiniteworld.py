@@ -2635,7 +2635,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     def compressChunk(self, cx, cz):
         if not (cx, cz) in self._loadedChunks:
-            return; #not an error
+            return  #not an error
         self._loadedChunks[cx, cz].compress()
 
     decompressedChunkLimit = 2048 # about 320 megabytes

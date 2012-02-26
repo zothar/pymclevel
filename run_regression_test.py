@@ -203,7 +203,7 @@ def main(argv):
 
         print "{0} tests passed.".format(len(passes))
         for line in fails:
-            print line;
+            print line
 
 
 if __name__ == '__main__':

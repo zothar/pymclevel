@@ -17,22 +17,22 @@ class BoundingBox (object):
         return BoundingBox((box.mincx << 4, 0, box.mincz << 4), (box.maxcx - box.mincx << 4, level.Height, box.maxcz - box.mincz << 4))
 
     def getMinx(self):
-        return self.origin[0];
+        return self.origin[0]
 
     def getMiny(self):
-        return self.origin[1];
+        return self.origin[1]
 
     def getMinz(self):
-        return self.origin[2];
+        return self.origin[2]
 
     def getMaxx(self):
-        return self.origin[0] + self.size[0];
+        return self.origin[0] + self.size[0]
 
     def getMaxy(self):
-        return self.origin[1] + self.size[1];
+        return self.origin[1] + self.size[1]
 
     def getMaxz(self):
-        return self.origin[2] + self.size[2];
+        return self.origin[2] + self.size[2]
 
     def setMinx(self, x):
         self.size[0] -= x - self.origin[0]
@@ -73,16 +73,16 @@ class BoundingBox (object):
     maxz = property(getMaxz, setMaxz)
 
     def getMincx(self):
-        return self.origin[0] >> 4;
+        return self.origin[0] >> 4
 
     def getMincz(self):
-        return self.origin[2] >> 4;
+        return self.origin[2] >> 4
 
     def getMaxcx(self):
-        return ((self.origin[0] + self.size[0] - 1) >> 4) + 1;
+        return ((self.origin[0] + self.size[0] - 1) >> 4) + 1
 
     def getMaxcz(self):
-        return ((self.origin[2] + self.size[2] - 1) >> 4) + 1;
+        return ((self.origin[2] + self.size[2] - 1) >> 4) + 1
 
     mincx = property(getMincx, None, None, "The smallest chunk position contained in this box")
     mincz = property(getMincz, None, None, "The smallest chunk position contained in this box")
@@ -91,28 +91,28 @@ class BoundingBox (object):
     maxcz = property(getMaxcz, None, None, "The largest chunk position contained in this box")
 
     def getOrigin(self):
-        return self._origin;
+        return self._origin
 
     def setOrigin(self, o):
-        self._origin = list(o);
+        self._origin = list(o)
 
     def getSize(self):
-        return self._size;
+        return self._size
 
     def setSize(self, s):
-        self._size = list(s);
+        self._size = list(s)
 
     origin = property(getOrigin, setOrigin)
     size = property(getSize, setSize)
 
     def getWidth(self):
-        return self._size[0];
+        return self._size[0]
 
     def getHeight(self):
-        return self._size[1];
+        return self._size[1]
 
     def getLength(self):
-        return self._size[2];
+        return self._size[2]
 
     def setWidth(self, w):
         self.size[0] = max(0, self.type(w))

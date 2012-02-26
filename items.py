@@ -387,7 +387,7 @@ class Items (object):
                 if len(line) == 0:
                     continue
                 if line[0] == "#":
-                    continue;
+                    continue
                 if line[0] == "~":
                     fields = line.split()
                     name, icon, items = fields[1:4]

@@ -848,7 +848,7 @@ class mce(object):
             print "Removing all entities except Painting..."
 
             def match(entityID):
-                return entityID != "Painting";
+                return entityID != "Painting"
 
         for cx, cz in self.level.allChunks:
             chunk = self.level.getChunk(cx, cz)
@@ -1436,7 +1436,7 @@ class mce(object):
                     print 'Exception during command: {0!r}'.format(e)
                     print "Use 'debug' to enable tracebacks."
 
-                    #self.printUsage();
+                    #self.printUsage()
 
     def processCommand(self, command):
         command = command.strip()

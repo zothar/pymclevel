@@ -113,7 +113,7 @@ class MCSchematic (EntityLevel):
             try:
                 data = gzipper.read()
                 if data == None:
-                    return;
+                    return
             except Exception, e:
                 #error( u"Error reading compressed data, assuming uncompressed: {0}".format(e) )
                 data = self.compressedTag
@@ -361,14 +361,14 @@ class MCSchematic (EntityLevel):
         if x < 0 or y < 0 or z < 0:
             return 0
         if x >= self.Width or y >= self.Height or z >= self.Length:
-            return 0;
+            return 0
         self.Data[x, z, y] = (newdata & 0xf)
 
     def blockDataAt(self, x, y, z):
         if x < 0 or y < 0 or z < 0:
             return 0
         if x >= self.Width or y >= self.Height or z >= self.Length:
-            return 0;
+            return 0
         return self.Data[x, z, y]
 
     @classmethod
@@ -452,7 +452,7 @@ def adjustExtractionParameters(self, box):
         y = 0
 
     if y >= self.Height:
-        return;
+        return
 
     if y + h >= self.Height:
         h -= y + h - self.Height
@@ -467,7 +467,7 @@ def adjustExtractionParameters(self, box):
             destX -= x
             x = 0
         if x >= self.Width:
-            return;
+            return
 
         if x + w >= self.Width:
             w = self.Width - x
@@ -481,7 +481,7 @@ def adjustExtractionParameters(self, box):
             z = 0
 
         if z >= self.Length:
-            return;
+            return
 
         if z + l >= self.Length:
             l = self.Length - z
