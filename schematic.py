@@ -209,10 +209,10 @@ class MCSchematic (EntityLevel):
         self.root_tag[Data].value.shape = (h, l, w)
 
     def packUnpack(self):
-        self.root_tag[Blocks].value = swapaxes(self.root_tag[Blocks].value, 0, 2)#yzx to xzy
-        self.root_tag[Data].value = swapaxes(self.root_tag[Data].value, 0, 2)#yzx to xzy
+        self.root_tag[Blocks].value = swapaxes(self.root_tag[Blocks].value, 0, 2)  #yzx to xzy
+        self.root_tag[Data].value = swapaxes(self.root_tag[Data].value, 0, 2)  #yzx to xzy
         if self.dataIsPacked:
-            self.root_tag[Data].value &= 0xF #discard high bits
+            self.root_tag[Data].value &= 0xF  #discard high bits
 
     def packChunkData(self):
         if not self.dataIsPacked:
@@ -233,8 +233,8 @@ class MCSchematic (EntityLevel):
 
     def rotateLeft(self):
 
-        self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :] #x=z; z=-x
-        self.Data = swapaxes(self.Data, 1, 0)[:, ::-1, :] #x=z; z=-x
+        self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :]  #x=z; z=-x
+        self.Data = swapaxes(self.Data, 1, 0)[:, ::-1, :]  #x=z; z=-x
         self._update_shape()
 
         blockrotation.RotateLeft(self.Blocks, self.Data)
@@ -272,19 +272,19 @@ class MCSchematic (EntityLevel):
 
     def roll(self):
         " xxx rotate stuff "
-        self.Blocks = swapaxes(self.Blocks, 2, 0)[:, :, ::-1] #x=z; z=-x
+        self.Blocks = swapaxes(self.Blocks, 2, 0)[:, :, ::-1]  #x=z; z=-x
         self.Data = swapaxes(self.Data, 2, 0)[:, :, ::-1]
         self._update_shape()
 
     def flipVertical(self):
         " xxx delete stuff "
         blockrotation.FlipVertical(self.Blocks, self.Data)
-        self.Blocks = self.Blocks[:, :, ::-1] #y=-y
+        self.Blocks = self.Blocks[:, :, ::-1]  #y=-y
         self.Data = self.Data[:, :, ::-1]
 
     def flipNorthSouth(self):
         blockrotation.FlipNorthSouth(self.Blocks, self.Data)
-        self.Blocks = self.Blocks[::-1, :, :] #x=-x
+        self.Blocks = self.Blocks[::-1, :, :]  #x=-x
         self.Data = self.Data[::-1, :, :]
 
         northSouthPaintingMap = [0, 3, 2, 1]
@@ -310,7 +310,7 @@ class MCSchematic (EntityLevel):
     def flipEastWest(self):
         " xxx flip entities "
         blockrotation.FlipEastWest(self.Blocks, self.Data)
-        self.Blocks = self.Blocks[:, ::-1, :] #z=-z
+        self.Blocks = self.Blocks[:, ::-1, :]  #z=-z
         self.Data = self.Data[:, ::-1, :]
 
         eastWestPaintingMap = [2, 1, 0, 3]
@@ -348,7 +348,7 @@ class MCSchematic (EntityLevel):
             filename = self.filename
         if filename == None:
             warn(u"Attempted to save an unnamed schematic in place")
-            return #you fool!
+            return  #you fool!
 
         self.Materials = self.materials.name
 
@@ -424,7 +424,7 @@ class INVEditChest(MCSchematic):
             if slot < 9 or slot >= 36:
                 root_tag["Inventory"].remove(item)
             else:
-                item["Slot"].value -= 9 # adjust for different chest slot indexes
+                item["Slot"].value -= 9  # adjust for different chest slot indexes
 
         self.root_tag = root_tag
 
@@ -546,7 +546,7 @@ def extractZipSchematicFromIter(sourceLevel, box, zipfilename=None, entities=Tru
 
         for i in tempSchematic.copyBlocksFromIter(sourceLevel, sourceBox, destPoint, entities=entities, create=True):
             yield i
-        tempSchematic.saveInPlace() #lights not needed for this format - crashes minecraft though
+        tempSchematic.saveInPlace()  #lights not needed for this format - crashes minecraft though
 
         schematicDat = TAG_Compound()
         schematicDat.name = "Mega Schematic"
@@ -598,7 +598,7 @@ def zipdir(basedir, archivename):
             #NOTE: ignore empty directories
             for fn in files:
                 absfn = os.path.join(root, fn)
-                zfn = absfn[len(basedir) + len(os.sep):] #XXX: relative path
+                zfn = absfn[len(basedir) + len(os.sep):]  #XXX: relative path
                 z.write(absfn, zfn)
 
 from infiniteworld import MCInfdevOldLevel

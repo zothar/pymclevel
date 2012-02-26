@@ -37,7 +37,7 @@ SpawnY = 'SpawnY'
 SpawnZ = 'SpawnZ'
 LastPlayed = 'LastPlayed'
 RandomSeed = 'RandomSeed'
-SizeOnDisk = 'SizeOnDisk' #maybe update this?
+SizeOnDisk = 'SizeOnDisk'  #maybe update this?
 Time = 'Time'
 Player = 'Player'
 
@@ -274,9 +274,9 @@ class MCServerChunkGenerator(object):
 
     Example usage:
 
-        gen = MCServerChunkGenerator() # with no arguments, use the newest
-                                       # server version in the cache, or download
-                                       # the newest one automatically
+        gen = MCServerChunkGenerator()  # with no arguments, use the newest
+                                        # server version in the cache, or download
+                                        # the newest one automatically
         level = loadWorldNamed("MyWorld")
 
         gen.generateChunkInLevel(level, 12, 24)
@@ -354,7 +354,7 @@ class MCServerChunkGenerator(object):
 
             tempWorldDir = os.path.join(tempDir, worldName)
             tempWorld = MCInfdevOldLevel(tempWorldDir, create=True, random_seed=level.RandomSeed)
-            del tempWorld.version # for compatibility with older servers. newer ones will set it again without issue.
+            del tempWorld.version  # for compatibility with older servers. newer ones will set it again without issue.
 
             self.tempWorldCache[self.serverVersion, level.RandomSeed] = tempWorld
 
@@ -411,7 +411,7 @@ class MCServerChunkGenerator(object):
             for i in self.generateAtPositionIter(tempWorld, tempDir, cx, cz):
                 yield i
 
-        (tempWorld.parentWorld or tempWorld).loadLevelDat() #reload version number
+        (tempWorld.parentWorld or tempWorld).loadLevelDat()  #reload version number
 
     def copyChunkAtPosition(self, tempWorld, level, cx, cz):
         if level.containsChunk(cx, cz):
@@ -431,7 +431,7 @@ class MCServerChunkGenerator(object):
         chunk = level.getChunk(cx, cz)
         chunk.decompress()
         chunk.unpackChunkData()
-        chunk.root_tag = root_tag #xxx tag swap, could copy blocks and entities and chunk attrs instead?
+        chunk.root_tag = root_tag  #xxx tag swap, could copy blocks and entities and chunk attrs instead?
         chunk.dirty = True
 
         chunk.compress()
@@ -580,12 +580,12 @@ class MCServerChunkGenerator(object):
             try:
                 proc.kill()
             except WindowsError:
-                pass #access denied, process already terminated
+                pass  #access denied, process already terminated
 
         proc.wait()
         shutil.rmtree(tempdir)
         if ";)" in version:
-            version = version.replace(";)", "") #Damnit, Jeb!
+            version = version.replace(";)", "")  #Damnit, Jeb!
         # Versions like "0.2.1" are alphas, and versions like "1.0.0" without "Beta" are releases
         if version[0] == "0":
             version = "Alpha " + version
@@ -758,7 +758,7 @@ class InfdevChunk(LightedChunk):
             self.root_tag = None
         else:
             if self.root_tag is not None:
-                self.sanitizeBlocks() #xxx
+                self.sanitizeBlocks()  #xxx
 
                 self.packChunkData()
                 self._compressChunk()
@@ -1071,7 +1071,7 @@ class AnvilChunk(InfdevChunk):
     def _decompressChunk(self):
         super(AnvilChunk, self)._decompressChunk()
 
-        self._Blocks = zeros((16, 16, self.Height), 'uint8') #xxx uint16?
+        self._Blocks = zeros((16, 16, self.Height), 'uint8')  #xxx uint16?
         self._Data = zeros((16, 16, self.Height), 'uint8')
         self._BlockLight = zeros((16, 16, self.Height), 'uint8')
         self._SkyLight = zeros((16, 16, self.Height), 'uint8')
@@ -1101,7 +1101,7 @@ class AnvilChunk(InfdevChunk):
                 secarray = arr[..., y:y+16].swapaxes(0, 2)
                 if name is Blocks:
                     if not secarray.any():
-                        break #detect empty sections here
+                        break  #detect empty sections here
                 else:
                     secarray = packNibbleArray(secarray)
 
@@ -1154,7 +1154,7 @@ class AnvilChunk(InfdevChunk):
 
 
 class MCRegionFile(object):
-    holdFileOpen = False #if False, reopens and recloses the file on each access
+    holdFileOpen = False  #if False, reopens and recloses the file on each access
 
     @property
     def file(self):
@@ -1447,9 +1447,9 @@ class MCRegionFile(object):
             debug("REGION: Writing sector {0}".format(sectorNumber))
 
             f.seek(sectorNumber * self.SECTOR_BYTES)
-            f.write(struct.pack(">I", len(data) + 1))# // chunk length
-            f.write(struct.pack("B", format))# // chunk version number
-            f.write(data)# // chunk data
+            f.write(struct.pack(">I", len(data) + 1))  # // chunk length
+            f.write(struct.pack("B", format))  # // chunk version number
+            f.write(data)  # // chunk data
             #f.flush()
 
     def containsChunk(self, cx,cz):
@@ -1723,7 +1723,7 @@ class ChunkedLevelMixin(object):
         if i:
             info("Finished {2} chunks in {0} ({1} per chunk)".format(d, d / i, i))
 
-            #chunk.compress(); #xxx find out why this trashes changes to tile entities
+            #chunk.compress();  #xxx find out why this trashes changes to tile entities
 
     def copyBlocksFromInfiniteIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy, create = False):
         """ copy blocks between two infinite levels by looping through the
@@ -1743,7 +1743,7 @@ class ChunkedLevelMixin(object):
 
         def shouldCreateFunc(slices, point):
             box = subbox(slices, point)
-            b = any(list(sourceLevel.containsChunk(*c) for c in box.chunkPositions)) #any() won't take a generator-expression :(
+            b = any(list(sourceLevel.containsChunk(*c) for c in box.chunkPositions))  #any() won't take a generator-expression :(
             #if b == False:
             #    print 'Skipped ', list(box.chunkPositions)
             return b
@@ -1817,7 +1817,7 @@ class ChunkedLevelMixin(object):
         #shouldRetainData = (not blockInfo.hasVariants and not any([b.hasVariants for b in blocksToReplace]))
         #if shouldRetainData:
         #    info( "Preserving data bytes" )
-        shouldRetainData = False #xxx old behavior overwrote blockdata with 0 when e.g. replacing water with lava
+        shouldRetainData = False  #xxx old behavior overwrote blockdata with 0 when e.g. replacing water with lava
 
         info("Replacing {0} with {1}".format(blocksToReplace, blockInfo))
 
@@ -2099,7 +2099,7 @@ class ChunkedLevelMixin(object):
 
                     nc = neighboringChunks[FaceXDecreasing]
                     ncLight = getattr(nc, light)
-                    oldLeftEdge[:] = ncLight[15:16, :, 0:self.Height] #save the old left edge
+                    oldLeftEdge[:] = ncLight[15:16, :, 0:self.Height]  #save the old left edge
 
                     #left edge
                     newlight = (chunkLight[0:1, :, :self.Height] - la[nc.Blocks[15:16, :, 0:self.Height]])
@@ -2148,7 +2148,7 @@ class ChunkedLevelMixin(object):
 
                     maximum(chunkLight[0:1, :, 0:self.Height], newlight, chunkLight[0:1, :, 0:self.Height])
 
-                    zerochunkLight[:] = 0 #zero the zero chunk after each direction
+                    zerochunkLight[:] = 0  #zero the zero chunk after each direction
                     # so the lights it absorbed don't affect the next pass
 
                     #check if the left edge changed and dirty or compress the chunk appropriately
@@ -2161,7 +2161,7 @@ class ChunkedLevelMixin(object):
                     #bottom edge
                     nc = neighboringChunks[FaceZDecreasing]
                     ncLight = getattr(nc, light)
-                    oldBottomEdge[:] = ncLight[:, 15:16, :self.Height] # save the old bottom edge
+                    oldBottomEdge[:] = ncLight[:, 15:16, :self.Height]  # save the old bottom edge
 
                     newlight = (chunkLight[:, 0:1, :self.Height] - la[nc.Blocks[:, 15:16, :self.Height]])
                     clipLight(newlight)
@@ -2261,7 +2261,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         exists = os.path.exists
 
         if exists(join(filename, "chunks.dat")):
-            return False # exclude Pocket Edition folders
+            return False  # exclude Pocket Edition folders
 
         if not os.path.isdir(filename):
             f = os.path.basename(filename)
@@ -2313,7 +2313,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     MapFeatures = TagProperty('MapFeatures', TAG_Byte, lambda self: 1)
 
-    GameType = TagProperty('GameType', TAG_Int, lambda self: 0) #0 for survival, 1 for creative
+    GameType = TagProperty('GameType', TAG_Int, lambda self: 0)  #0 for survival, 1 for creative
     GAMETYPE_SURVIVAL = 0
     GAMETYPE_CREATIVE = 1
 
@@ -2411,7 +2411,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
         self.Length = 0
         self.Width = 0
-        self.Height = 128 #subject to change?
+        self.Height = 128  #subject to change?
         self.playerTagCache = {}
         self.players = []
         if not os.path.exists(filename):
@@ -2638,8 +2638,8 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             return  #not an error
         self._loadedChunks[cx, cz].compress()
 
-    decompressedChunkLimit = 2048 # about 320 megabytes
-    loadedChunkLimit = 8192 # from 8mb to 800mb depending on chunk contents
+    decompressedChunkLimit = 2048  # about 320 megabytes
+    loadedChunkLimit = 8192  # from 8mb to 800mb depending on chunk contents
 
     def chunkDidCompress(self, chunk):
         self.decompressedChunkQueue.discard(chunk)
@@ -2649,7 +2649,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             self.decompressedChunkQueue.append(chunk)
             if self.decompressedChunkLimit and (len(self.decompressedChunkQueue) > self.decompressedChunkLimit):
                 oldestChunk = self.decompressedChunkQueue[0]
-                oldestChunk.compress() #calls chunkDidCompress
+                oldestChunk.compress()  #calls chunkDidCompress
 
     def chunkDidUnload(self, chunk):
         self.loadedChunkQueue.discard(chunk)
@@ -2659,7 +2659,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             self.loadedChunkQueue.append(chunk)
             if self.loadedChunkLimit and (len(self.loadedChunkQueue) > self.loadedChunkLimit):
                 oldestChunk = self.loadedChunkQueue[0]
-                oldestChunk.unload() #calls chunkDidUnload
+                oldestChunk.unload()  #calls chunkDidUnload
 
     @property
     @decompress_first

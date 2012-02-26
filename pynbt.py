@@ -38,7 +38,7 @@ class TAG_Value(object):
     Subclasses may set dataType instead of overriding setValue for automatic data type coercion"""
 
     fmt = ">b"
-    tag = -1 #error!
+    tag = -1  #error!
 
     _value = None
 
@@ -100,7 +100,7 @@ class TAG_Value(object):
             return
         "Save the tagged element to a file."
         if self.name == None:
-            self.name = "" #root tag must have name
+            self.name = ""  #root tag must have name
         self.write_tag(buf)
         self.write_name(buf)
         self.write_value(buf)

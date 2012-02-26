@@ -205,7 +205,7 @@ class MCIndevLevel(EntityLevel):
 
                 TileEntity.setpos(te, (x, y, z))
 
-            if len(filter(lambda x: x['id'].value == 'LocalPlayer', root_tag[Entities])) == 0: #omen doesn't make a player entity
+            if len(filter(lambda x: x['id'].value == 'LocalPlayer', root_tag[Entities])) == 0:  #omen doesn't make a player entity
                 p = TAG_Compound()
                 p['id'] = TAG_String('LocalPlayer')
                 p['Pos'] = TAG_List([TAG_Float(0.), TAG_Float(64.), TAG_Float(0.)])
@@ -236,7 +236,7 @@ class MCIndevLevel(EntityLevel):
     def rotateLeft(self):
         MCLevel.rotateLeft(self)
 
-        self.Data = swapaxes(self.Data, 1, 0)[:, ::-1, :] #x=y; y=-x
+        self.Data = swapaxes(self.Data, 1, 0)[:, ::-1, :]  #x=y; y=-x
 
         torchRotation = array([0, 4, 3, 1, 2, 5,
                                6, 7,
@@ -261,7 +261,7 @@ class MCIndevLevel(EntityLevel):
             filename = self.filename
         if filename == None:
             warn(u"Attempted to save an unnamed file in place")
-            return #you fool!
+            return  #you fool!
 
         self.Data <<= 4
         self.Data |= (self.BlockLight & 0xf)

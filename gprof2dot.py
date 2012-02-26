@@ -957,7 +957,7 @@ class GprofParser(Parser):
 
         # process call graph entries
         entry_lines = []
-        while line != '\014': # form feed
+        while line != '\014':  # form feed
             if line and not line.isspace():
                 if self._cg_sep_re.match(line):
                     self.parse_cg_entry(entry_lines)
@@ -2238,26 +2238,26 @@ class Theme:
             return m1
 
 TEMPERATURE_COLORMAP = Theme(
-    mincolor = (2.0/3.0, 0.80, 0.25), # dark blue
-    maxcolor = (0.0, 1.0, 0.5), # satured red
+    mincolor = (2.0/3.0, 0.80, 0.25),  # dark blue
+    maxcolor = (0.0, 1.0, 0.5),  # satured red
     gamma = 1.0
 )
 
 PINK_COLORMAP = Theme(
-    mincolor = (0.0, 1.0, 0.90), # pink
-    maxcolor = (0.0, 1.0, 0.5), # satured red
+    mincolor = (0.0, 1.0, 0.90),  # pink
+    maxcolor = (0.0, 1.0, 0.5),  # satured red
 )
 
 GRAY_COLORMAP = Theme(
-    mincolor = (0.0, 0.0, 0.85), # light gray
-    maxcolor = (0.0, 0.0, 0.0), # black
+    mincolor = (0.0, 0.0, 0.85),  # light gray
+    maxcolor = (0.0, 0.0, 0.0),  # black
 )
 
 BW_COLORMAP = Theme(
     minfontsize = 8.0,
     maxfontsize = 24.0,
-    mincolor = (0.0, 0.0, 0.0), # black
-    maxcolor = (0.0, 0.0, 0.0), # black
+    mincolor = (0.0, 0.0, 0.0),  # black
+    maxcolor = (0.0, 0.0, 0.0),  # black
     minpenwidth = 0.1,
     maxpenwidth = 8.0,
 )
@@ -2582,7 +2582,7 @@ class Main:
         # Take away spaces
         name = name.replace(", ", ",")
         name = name.replace("> >", ">>")
-        name = name.replace("> >", ">>") # catch consecutive
+        name = name.replace("> >", ">>")  # catch consecutive
 
         return name
 

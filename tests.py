@@ -6,7 +6,7 @@ Created on Jul 23, 2011
 #from mclevel import fromFile, loadWorldNumber, BoundingBox
 #from infiniteworld import MCInfdevOldLevel
 #from schematic import MCSchematic
-#import errorreporting # annotate tracebacks with call arguments
+#import errorreporting  # annotate tracebacks with call arguments
 try:
     from pymclevel import *
 except ImportError:
@@ -109,14 +109,14 @@ class TestNBT(unittest.TestCase):
         "I think it looks more familiar with [] syntax."
 
         l, w, h = 128, 128, 128
-        mapTag["Height"] = TAG_Short(h) # y dimension
-        mapTag["Length"] = TAG_Short(l) # z dimension
-        mapTag["Width"] = TAG_Short(w) # x dimension
+        mapTag["Height"] = TAG_Short(h)  # y dimension
+        mapTag["Length"] = TAG_Short(l)  # z dimension
+        mapTag["Width"] = TAG_Short(w)  # x dimension
 
         "Byte arrays are stored as numpy.uint8 arrays. "
 
         mapTag["Blocks"] = TAG_Byte_Array()
-        mapTag["Blocks"].value = zeros(l * w * h, dtype=uint8) #create lots of air!
+        mapTag["Blocks"].value = zeros(l * w * h, dtype=uint8)  #create lots of air!
 
         "The blocks array is indexed (y,z,x) for indev levels, so reshape the blocks"
         mapTag["Blocks"].value.shape = (h, l, w)

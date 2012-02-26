@@ -435,23 +435,23 @@ class MCLevel(object):
 
     # --- Transformations ---
     def rotateLeft(self):
-        self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :] #x=z; z=-x
+        self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :]  #x=z; z=-x
         pass
 
     def roll(self):
-        self.Blocks = swapaxes(self.Blocks, 2, 0)[:, :, ::-1] #x=y; y=-x
+        self.Blocks = swapaxes(self.Blocks, 2, 0)[:, :, ::-1]  #x=y; y=-x
         pass
 
     def flipVertical(self):
-        self.Blocks = self.Blocks[:, :, ::-1] #y=-y
+        self.Blocks = self.Blocks[:, :, ::-1]  #y=-y
         pass
 
     def flipNorthSouth(self):
-        self.Blocks = self.Blocks[::-1, :, :] #x=-x
+        self.Blocks = self.Blocks[::-1, :, :]  #x=-x
         pass
 
     def flipEastWest(self):
-        self.Blocks = self.Blocks[:, ::-1, :] #z=-z
+        self.Blocks = self.Blocks[:, ::-1, :]  #z=-z
         pass
 
     # --- Copying ---
@@ -791,7 +791,7 @@ class EntityLevel(MCLevel):
 class ChunkBase(EntityLevel):
     dirty = False
     needsLighting = False
-    Blocks = Data = SkyLight = BlockLight = HeightMap = NotImplemented #override these!
+    Blocks = Data = SkyLight = BlockLight = HeightMap = NotImplemented  #override these!
 
     def load(self):
         pass
@@ -842,7 +842,7 @@ class LightedChunk(ChunkBase):
     def genFastLights(self):
         self.SkyLight[:] = 0
         if self.world.dimNo in (-1, 1):
-            return #no light in nether or the end
+            return  #no light in nether or the end
 
         blocks = self.Blocks
         la = self.world.materials.lightAbsorption

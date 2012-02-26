@@ -26,11 +26,11 @@ def lru_cache(maxsize=100):
 
     def decorating_function(user_function,
             len=len, iter=iter, tuple=tuple, sorted=sorted, KeyError=KeyError):
-        cache = {}                  # mapping of args to results
-        queue = collections.deque() # order that keys have been used
-        refcount = Counter()        # times each key is in the queue
-        sentinel = object()         # marker for looping around the queue
-        kwd_mark = object()         # separate positional and keyword args
+        cache = {}                   # mapping of args to results
+        queue = collections.deque()  # order that keys have been used
+        refcount = Counter()         # times each key is in the queue
+        sentinel = object()          # marker for looping around the queue
+        kwd_mark = object()          # separate positional and keyword args
 
         # lookup optimizations (ugly but fast)
         queue_append, queue_popleft = queue.append, queue.popleft

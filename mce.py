@@ -1162,7 +1162,7 @@ class mce(object):
 
             imgobj = Image.open(filename)
 
-            greyimg = imgobj.convert("L") #luminance
+            greyimg = imgobj.convert("L")  #luminance
             del imgobj
 
             width, height = greyimg.size
@@ -1182,7 +1182,7 @@ class mce(object):
                     c = self.level.getChunk(cx, cz)
 
                     imgarray = numpy.asarray(greyimg.crop((cz * 16, cx * 16, cz * 16 + 16, cx * 16 + 16)))
-                    imgarray = imgarray / 2 #scale to 0-127
+                    imgarray = imgarray / 2  #scale to 0-127
 
                     for x in range(16):
                         for z in range(16):
@@ -1192,17 +1192,17 @@ class mce(object):
 
                                 h = imgarray[x, z]
 
-                                c.Blocks[x, z, h + 1:] = 0 #air
-                                c.Blocks[x, z, h:h + 1] = 2 #grass
-                                c.Blocks[x, z, h - 4:h] = 3 #dirt
-                                c.Blocks[x, z, :h - 4] = 1 #rock
+                                c.Blocks[x, z, h + 1:] = 0  #air
+                                c.Blocks[x, z, h:h + 1] = 2  #grass
+                                c.Blocks[x, z, h - 4:h] = 3  #dirt
+                                c.Blocks[x, z, :h - 4] = 1  #rock
 
                                 if h < water_level:
-                                    c.Blocks[x, z, h + 1:water_level] = 9 #water
+                                    c.Blocks[x, z, h + 1:water_level] = 9  #water
                                 if h < water_level + 2:
-                                    c.Blocks[x, z, h - 2:h + 1] = 12 #sand if it's near water level
+                                    c.Blocks[x, z, h - 2:h + 1] = 12  #sand if it's near water level
 
-                                c.Blocks[x, z, 0] = 7 #bedrock
+                                c.Blocks[x, z, 0] = 7  #bedrock
 
                     c.chunkChanged()
                     c.TerrainPopulated = False

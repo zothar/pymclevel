@@ -6,7 +6,7 @@ import struct
 
 
 class PocketChunksFile(object):
-    holdFileOpen = False #if False, reopens and recloses the file on each access
+    holdFileOpen = False  #if False, reopens and recloses the file on each access
     SECTOR_BYTES = 4096
     CHUNK_HEADER_SIZE = 4
 
@@ -276,8 +276,8 @@ class PocketChunksFile(object):
             debug("REGION: Writing sector {0}".format(sectorNumber))
 
             f.seek(sectorNumber * self.SECTOR_BYTES)
-            f.write(struct.pack("<I", len(data) + self.CHUNK_HEADER_SIZE))# // chunk length
-            f.write(data)# // chunk data
+            f.write(struct.pack("<I", len(data) + self.CHUNK_HEADER_SIZE))  # // chunk length
+            f.write(data)  # // chunk data
             #f.flush()
 
     def containsChunk(self, cx,cz):
@@ -310,7 +310,7 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
     Length = 512
     Width = 512
 
-    isInfinite = True # Wrong. isInfinite actually means 'isChunked' and should be changed
+    isInfinite = True  # Wrong. isInfinite actually means 'isChunked' and should be changed
     loadedChunks = None
     materials = pocketMaterials
 

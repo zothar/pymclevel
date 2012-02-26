@@ -37,7 +37,7 @@ class Block(object):
         key = lambda a: a and (a.ID, a.blockData)
         return cmp( key(self), key(other))
 
-    hasVariants = False #True if blockData defines additional blocktypes
+    hasVariants = False  #True if blockData defines additional blocktypes
 
     def __init__(self, materials, blockID, blockData=0):
         self.materials = materials
@@ -122,10 +122,10 @@ class MCMaterials(object):
             name matches exactly. If we get a (id, data) pair or an id, return
             that block. for example:
 
-                level.materials[0] #returns Air
-                level.materials["Air"] #also returns Air
-                level.materials["Powered Rail"] #returns Powered Rail
-                level.materials["Lapis Lazuli Block"] #in Classic
+                level.materials[0]  #returns Air
+                level.materials["Air"]  #also returns Air
+                level.materials["Powered Rail"]  #returns Powered Rail
+                level.materials["Lapis Lazuli Block"]  #in Classic
 
            """
         if isinstance(key, basestring):
@@ -156,7 +156,7 @@ class MCMaterials(object):
 
             f = pkg_resources.resource_stream(__name__, filename)
         except (ImportError, IOError):
-            root = os.environ.get("PYMCLEVEL_YAML_ROOT", "pymclevel") #fall back to cwd as last resort
+            root = os.environ.get("PYMCLEVEL_YAML_ROOT", "pymclevel")  #fall back to cwd as last resort
             f = file(join(root, filename))
         try:
             info(u"Loading block info from %s", f)
