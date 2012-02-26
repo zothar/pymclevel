@@ -137,11 +137,11 @@ class Entity(object):
                    "ThrownEnderpearl",
                    ]
 
-    items =    [ "Item",
-                 "XPOrb",
-                 "Painting",
-                 "EnderCrystal",
-                 ]
+    items = [ "Item",
+              "XPOrb",
+              "Painting",
+              "EnderCrystal",
+              ]
     vehicles = [ "Minecart", "Boat" ]
     tiles = ["PrimedTnt", "FallingSand"]
 
