@@ -433,5 +433,3 @@ def FlipEastWest(blocks, data):
 
 def RotateLeft(blocks, data):
     data[:] = BlockRotation.rotateLeft[blocks, data]
-
-

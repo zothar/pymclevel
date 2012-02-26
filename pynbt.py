@@ -536,5 +536,3 @@ def load(filename="", buf=None):
 
 
 __all__ = [a.__name__ for a in tag_classes.itervalues()] + ["load", "loadFile", "gunzip"]
-
-

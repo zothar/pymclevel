@@ -309,4 +309,3 @@ class MCIndevLevel(EntityLevel):
         self.BlockLight = self.Data & 0xf
 
         self.Data >>= 4
-

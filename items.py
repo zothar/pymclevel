@@ -433,4 +433,3 @@ class Items (object):
 class ItemNotFound(KeyError): pass
 
 items = Items()
-

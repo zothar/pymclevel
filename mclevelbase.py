@@ -112,4 +112,3 @@ else:
     
 
 saveFileDir = os.path.join(minecraftDir, u"saves")
-

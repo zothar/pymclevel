@@ -832,4 +832,3 @@ class LightedChunk(ChunkBase):
                 if lv <= 0:
                     break
                 skylight[x, z, y] = lv
-

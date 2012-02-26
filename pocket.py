@@ -428,4 +428,3 @@ class PocketChunk(LightedChunk):
                        packData(self.BlockLight).tostring(),
                        self.DirtyColumns.tostring(),
                        ])
-
