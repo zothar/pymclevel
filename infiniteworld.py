@@ -648,7 +648,6 @@ class InfdevChunk(LightedChunk):
     for better handling.
     """
     @property
-
     def filename(self):
         if self.world.version:
             cx, cz = self.chunkPosition
