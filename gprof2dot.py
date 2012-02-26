@@ -657,8 +657,8 @@ class XmlTokenizer:
         self.character_data = ''
 
         self.parser = xml.parsers.expat.ParserCreate()
-        self.parser.StartElementHandler  = self.handle_element_start
-        self.parser.EndElementHandler    = self.handle_element_end
+        self.parser.StartElementHandler = self.handle_element_start
+        self.parser.EndElementHandler = self.handle_element_end
         self.parser.CharacterDataHandler = self.handle_character_data
 
     def handle_element_start(self, name, attributes):
@@ -2243,17 +2243,17 @@ TEMPERATURE_COLORMAP = Theme(
     gamma=1.0
 )
 
-PINK_COLORMAP=Theme(
+PINK_COLORMAP = Theme(
     mincolor=(0.0, 1.0, 0.90),  # pink
     maxcolor=(0.0, 1.0, 0.5),  # satured red
 )
 
-GRAY_COLORMAP=Theme(
+GRAY_COLORMAP = Theme(
     mincolor=(0.0, 0.0, 0.85),  # light gray
     maxcolor=(0.0, 0.0, 0.0),  # black
 )
 
-BW_COLORMAP=Theme(
+BW_COLORMAP = Theme(
     minfontsize=8.0,
     maxfontsize=24.0,
     mincolor=(0.0, 0.0, 0.0),  # black
