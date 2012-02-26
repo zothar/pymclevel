@@ -1268,7 +1268,7 @@ class CallgrindParser(LineParser):
             return None
         key, value = pair
         return value
-        
+
 
     def parse_keys(self, keys):
         line = self.lookahead()

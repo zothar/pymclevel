@@ -82,7 +82,7 @@ import sys
 
 if sys.platform == "win32":
     #not sure why win32com is needed if the %APPDATA% var is available
-    
+
     try:
         import win32com.client
         objShell = win32com.client.Dispatch("WScript.Shell")
@@ -96,19 +96,19 @@ if sys.platform == "win32":
             )
         except Exception, e:
             print "Error while getting AppData folder using SHGetSpecialFolderLocation: {0!r}".format(e)
-            
+
             appDataDir = os.environ['APPDATA'].decode(sys.getfilesystemencoding())
 
     minecraftDir = os.path.join(appDataDir, u".minecraft")
 
 elif sys.platform == "darwin":
     appDataDir = os.path.expanduser(u"~/Library/Application Support")
-    
+
     minecraftDir = os.path.join(appDataDir, u"minecraft")
     minecraftDir.decode(sys.getfilesystemencoding())
 else:
     appDataDir = os.path.expanduser(u"~")
     minecraftDir = os.path.expanduser(u"~/.minecraft")
-    
+
 
 saveFileDir = os.path.join(minecraftDir, u"saves")

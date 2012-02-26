@@ -26,10 +26,10 @@ class MCSchematic (EntityLevel):
 
         block coordinate order in the file is y,z,x to use the same code as classic/indev levels.  
         in hindsight, this was a completely arbitrary decision.
-        
+
         the Entities and TileEntities are nbt.TAG_List objects containing TAG_Compounds.
         this makes it easy to copy entities without knowing about their insides.
-        
+
         rotateLeft swaps the axes of the different arrays.  because of this, the Width, Height, and Length
         reflect the current dimensions of the schematic rather than the ones specified in the NBT structure.
         I'm not sure what happens when I try to re-save a rotated schematic.
@@ -235,7 +235,7 @@ class MCSchematic (EntityLevel):
         self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :] #x=z; z=-x
         self.Data = swapaxes(self.Data, 1, 0)[:, ::-1, :] #x=z; z=-x
         self._update_shape()
-        
+
         blockrotation.RotateLeft(self.Blocks, self.Data)
 
         info(u"Relocating entities...")
@@ -273,7 +273,7 @@ class MCSchematic (EntityLevel):
         self.Blocks = swapaxes(self.Blocks, 2, 0)[:, :, ::-1] #x=z; z=-x
         self.Data = swapaxes(self.Data, 2, 0)[:, :, ::-1]
         self._update_shape()
-        
+
 
     def flipVertical(self):
         " xxx delete stuff "
@@ -527,48 +527,48 @@ def extractZipSchematicFromIter(sourceLevel, box, zipfilename=None, entities=Tru
         done = False
         tempSchematic = MCInfdevOldLevel(tempfolder, create=True)
         tempSchematic.materials = sourceLevel.materials
-    
+
         destBox = BoundingBox(destPoint, sourceBox.size)
 
         for i in tempSchematic.copyBlocksFromIter(sourceLevel, sourceBox, destPoint, entities=entities, create=True):
             yield i
         tempSchematic.saveInPlace() #lights not needed for this format - crashes minecraft though
-        
+
         schematicDat = TAG_Compound()
         schematicDat.name = "Mega Schematic"
-    
+
         schematicDat["Width"] = TAG_Int(sourceBox.size[0])
         schematicDat["Height"] = TAG_Int(sourceBox.size[1])
         schematicDat["Length"] = TAG_Int(sourceBox.size[2])
         schematicDat["Materials"] = TAG_String(tempSchematic.materials.name)
         schematicDat.save(os.path.join(tempfolder, "schematic.dat"))
-    
+
         zipdir(tempfolder, zipfilename)
-    
+
         import mclevel
         yield mclevel.fromFile(zipfilename)
     finally:
         #We get here if the generator is GCed also
         if os.path.exists(tempfolder): shutil.rmtree(tempfolder, False)
-            
-            
+
+
 MCLevel.extractZipSchematic = extractZipSchematicFrom
 MCLevel.extractZipSchematicIter = extractZipSchematicFromIter
 
 def extractAnySchematic(level, box):
     return exhaust(level.extractAnySchematicIter(box))
-    
+
 def extractAnySchematicIter(level, box):
     try:
         if box.chunkCount > MCInfdevOldLevel.decompressedChunkLimit:
             raise MemoryError
-            
+
         for i in level.extractSchematicIter(box):
             yield i
     except MemoryError:
         for i in level.extractZipSchematicIter(box):
             yield i
-            
+
 MCLevel.extractAnySchematic = extractAnySchematic
 MCLevel.extractAnySchematicIter = extractAnySchematicIter
 

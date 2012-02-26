@@ -8,7 +8,7 @@ class PocketChunksFile(object):
     holdFileOpen = False #if False, reopens and recloses the file on each access
     SECTOR_BYTES = 4096
     CHUNK_HEADER_SIZE = 4
-    
+
     @property
     def file(self):
         openfile = lambda:file(self.path, "rb+")
@@ -44,12 +44,12 @@ class PocketChunksFile(object):
 
             f.seek(0)
             offsetsData = f.read(self.SECTOR_BYTES)
-           
+
             self.freeSectors = [True] * (filesize / self.SECTOR_BYTES)
             self.freeSectors[0] = False
 
             self.offsets = fromstring(offsetsData, dtype='<u4')
-            
+
 
         needsRepair = False
 
@@ -73,16 +73,16 @@ class PocketChunksFile(object):
 
         info("Found region file {file} with {used}/{total} sectors used and {chunks} chunks present".format(
              file=os.path.basename(path), used=self.usedSectors, total=self.sectorCount, chunks=self.chunkCount))
-    
+
     @property
     def usedSectors(self): return len(self.freeSectors) - sum(self.freeSectors)
-    
+
     @property
     def sectorCount(self): return len(self.freeSectors)
-    
+
     @property
     def chunkCount(self): return sum(self.offsets > 0)
-    
+
     def repair(self):
         pass
 #        lostAndFound = {}
@@ -188,14 +188,14 @@ class PocketChunksFile(object):
     def loadChunk(self, cx, cz, world):
         data = self._readChunk(cx, cz)
         if data is None: raise ChunkNotPresent, (cx, cz, self)
-        
+
         chunk = PocketChunk(cx, cz, data[4:], world)
         return chunk
 
 
     def saveChunk(self, chunk):
         cx, cz = chunk.chunkPosition
-        
+
         cx &= 0x1f
         cz &= 0x1f
         offset = self.getOffset(cx, cz)
@@ -203,7 +203,7 @@ class PocketChunksFile(object):
         sectorsAllocated = offset & 0xff
 
         data = chunk._savedData()
-        
+
         sectorsNeeded = (len(data) + self.CHUNK_HEADER_SIZE) / self.SECTOR_BYTES + 1
         if sectorsNeeded >= 256: return
 
@@ -278,7 +278,7 @@ class PocketChunksFile(object):
 
     def containsChunk(self, cx,cz):
         return self.getOffset(cx,cz) != 0
-        
+
     def getOffset(self, cx, cz):
         cx &= 0x1f
         cz &= 0x1f
@@ -291,12 +291,12 @@ class PocketChunksFile(object):
         with self.file as f:
             f.seek(0)
             f.write(self.offsets.tostring())
-    
+
     def chunkCoords(self):
         indexes = (i for (i, offset) in enumerate(self.offsets) if offset)
         coords = ((i % 32, i // 32) for i in indexes)
         return coords
-        
+
 from infiniteworld import ChunkedLevelMixin
 from level import MCLevel, LightedChunk
 
@@ -304,24 +304,24 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
     Height = 128
     Length = 512
     Width = 512
-    
+
     isInfinite = True # Wrong. isInfinite actually means 'isChunked' and should be changed
     loadedChunks = None
     materials = pocketMaterials
-    
+
     @property
     def allChunks(self):
         return list(self.chunkFile.chunkCoords())
-        
+
     def __init__(self, filename):
         if not os.path.isdir(filename):
             filename = os.path.dirname(filename)
         self.filename = filename
         self.dimensions = {}
-        
+
         self.chunkFile = PocketChunksFile(os.path.join(filename, "chunks.dat"))
         self._loadedChunks = {}
-        
+
     def getChunk(self, cx, cz):
         for p in cx,cz:
             if not 0 <= p <= 31: raise ChunkNotPresent, (cx,cz, self)
@@ -331,58 +331,58 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
             c = self.chunkFile.loadChunk(cx, cz, self)
             self._loadedChunks[cx,cz] = c
         return c
-    
+
     @classmethod
     def _isLevel(cls, filename):
         clp = ("chunks.dat", "level.dat", "player.dat")
-        
+
         if not os.path.isdir(filename): 
             f = os.path.basename(filename)
             if f not in clp: return False
             filename = os.path.dirname(filename)
-        
+
         return all([os.path.exists(os.path.join(filename, f)) for f in clp])    
-        
+
     def saveInPlace(self):
         for chunk in self._loadedChunks.itervalues():
             if chunk.dirty:
                 self.chunkFile.saveChunk(chunk)
                 chunk.dirty = False
-            
+
     def containsChunk(self, cx, cz):
         if cx>31 or cz>31 or cx < 0 or cz < 0: return False
         return self.chunkFile.getOffset(cx,cz) != 0
-        
+
 class PocketChunk(LightedChunk):
     Blocks = Data = SkyLight = BlockLight = None
-    
+
     HeightMap = FakeChunk.HeightMap
-    
+
     Entities = TileEntities = property(lambda self: TAG_List())
-    
+
     dirty = False
     filename = "chunks.dat"
-    
+
     def __init__(self, cx, cz, data, world):
         self.chunkPosition = (cx,cz)
         self.world = world
         data = fromstring(data, dtype='uint8')
-        
+
         self.Blocks, data = data[:32768], data[32768:]
         self.Data, data = data[:16384], data[16384:]
         self.SkyLight, data = data[:16384], data[16384:]
         self.BlockLight, data = data[:16384], data[16384:]
         self.DirtyColumns = data[:256]
-        
+
         self.unpackChunkData()
         self.shapeChunkData()
-    
+
     def isLoaded(self): return True
-    
+
     def load(self): pass
     def decompress(self): pass
     def compress(self): pass
-    
+
     def unpackChunkData(self):
         for key in ('SkyLight', 'BlockLight', 'Data'):
             dataArray = getattr(self, key)
@@ -398,7 +398,7 @@ class PocketChunk(LightedChunk):
             unpackedData[:, :, 1::2] = dataArray
             unpackedData[:, :, 1::2] >>= 4
             setattr(self, key, unpackedData)
-            
+
     def shapeChunkData(self):
         chunkSize = 16
         self.Blocks.shape = (chunkSize, chunkSize, self.world.Height)
@@ -421,7 +421,7 @@ class PocketChunk(LightedChunk):
             #16-block segment of the column. We set all of the bits because
             #we only track modifications at the chunk level.
             self.DirtyColumns[:] = 255
-                
+
         return "".join([self.Blocks.tostring(), 
                        packData(self.Data).tostring(),
                        packData(self.SkyLight).tostring(),

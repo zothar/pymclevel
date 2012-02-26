@@ -176,6 +176,6 @@ class BoundingBox (object):
 
     def __repr__(self):
         return "BoundingBox({0}, {1})".format(self.origin, self.size)
-        
+
 class FloatBox (BoundingBox):
     type = float

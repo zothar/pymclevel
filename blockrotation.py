@@ -121,20 +121,20 @@ class Rail:
     Northwest = 9
 
 def generic8wayRotation(cls):
-        
+
     cls.rotateLeft = genericRotation(cls)
     cls.rotateLeft[cls.Northeast] = cls.Northwest
     cls.rotateLeft[cls.Southeast] = cls.Northeast
     cls.rotateLeft[cls.Southwest] = cls.Southeast
     cls.rotateLeft[cls.Northwest] = cls.Southwest
-    
-    
+
+
     cls.flipEastWest = genericEastWestFlip(cls)
     cls.flipEastWest[cls.Northeast] = cls.Northwest
     cls.flipEastWest[cls.Northwest] = cls.Northeast
     cls.flipEastWest[cls.Southwest] = cls.Southeast
     cls.flipEastWest[cls.Southeast] = cls.Southwest
-    
+
     cls.flipNorthSouth = genericNorthSouthFlip(cls)
     cls.flipNorthSouth[cls.Northeast] = cls.Southeast
     cls.flipNorthSouth[cls.Southeast] = cls.Northeast
@@ -145,7 +145,7 @@ def generic8wayRotation(cls):
 generic8wayRotation(Rail)
 Rail.rotateLeft[Rail.NorthSouth] = Rail.EastWest
 Rail.rotateLeft[Rail.EastWest] = Rail.NorthSouth
-    
+
 def applyBit(apply):
     def _applyBit(class_or_array):
         if hasattr(class_or_array, "rotateLeft"):
@@ -156,13 +156,13 @@ def applyBit(apply):
         else:
             array = class_or_array
             apply(array)
-            
+
     return _applyBit
-    
+
 @applyBit
 def applyBit8(array):
     array[8:16] = array[0:8] | 0x8
-    
+
 @applyBit
 def applyBit4(array):
     array[4:8] = array[0:4] | 0x4
@@ -172,7 +172,7 @@ def applyBit4(array):
 def applyBits48(array):
     array[4:8] = array[0:4] | 0x4
     array[8:16] = array[0:8] | 0x8
-    
+
 applyThrownBit = applyBit8
 
 class PoweredDetectorRail(Rail):
@@ -239,7 +239,7 @@ class Bed:
     North = 1
     East = 2
     South = 3
-    
+
 genericFlipRotation(Bed)
 applyBit8(Bed)
 applyBit4(Bed)
@@ -329,7 +329,7 @@ class PistonBody:
     West = 3
     North = 4
     South = 5
-    
+
 genericFlipRotation(PistonBody)
 applyPistonBit = applyBit8
 applyPistonBit(PistonBody)
@@ -340,16 +340,16 @@ rotationClasses.append(PistonHead)
 
 class Vines:
     blocktypes = [alphaMaterials.Vines.ID]
-    
+
     WestBit = 1
     NorthBit = 2
     EastBit = 4
     SouthBit = 8
-    
+
     rotateLeft = arange(16, dtype='uint8')
     flipEastWest = arange(16, dtype='uint8')
     flipNorthSouth = arange(16, dtype='uint8')
-    
+
 """
 Value     Description     Textures
 0     Fleshy piece     Pores on all sides
@@ -374,10 +374,10 @@ class HugeMushroom:
     West = 8
     Northwest = 7
     North = 4
-    
+
 
 generic8wayRotation(HugeMushroom)
-        
+
 #Hmm... Since each bit is a direction, we can rotate by shifting!
 Vines.rotateLeft = 0xf & ((Vines.rotateLeft >> 1) | (Vines.rotateLeft << 3))
 # Wherever each bit is set, clear it and set the opposite bit
@@ -407,20 +407,20 @@ def rotationTypeTable():
     for cls in rotationClasses:
         for b in cls.blocktypes:
             table[b] = cls
-    
+
     return table
-    
+
 class BlockRotation:
     rotateLeft = masterRotationTable("rotateLeft")
     flipEastWest = masterRotationTable("flipEastWest")
     flipNorthSouth = masterRotationTable("flipNorthSouth")
     flipVertical = masterRotationTable("flipVertical")
     typeTable = rotationTypeTable()
-    
+
 def SameRotationType(blocktype1, blocktype2):
     #use different default values for typeTable.get() to make it return false when neither blocktype is present
     return BlockRotation.typeTable.get(blocktype1.ID) == BlockRotation.typeTable.get(blocktype2.ID, BlockRotation)
-    
+
 def FlipVertical(blocks, data):
     data[:] = BlockRotation.flipVertical[blocks, data]
 

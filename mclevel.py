@@ -92,12 +92,12 @@ midBlocks = chunk.Blocks[:,:,32:64]
 # the 'midBlocks' reference itself instead of accessing the array. Instead, do
 # this to access and overwrite the array using []= syntax.
 midBlocks[:] = 0
- 
+
 
 # The second is masking.  Using a comparison operator ( <, >, ==, etc ) 
 # against the Blocks array will return a 'mask' that we can use to specify
 # positions in the array.
- 
+
 # Create the mask from the result of the equality test.
 fireBlocks = ( chunk.Blocks==world.materials.Fire.ID )
 
@@ -160,7 +160,7 @@ world.saveInPlace();
 
 def fillBlocks(self, box, blockType, blockData = 0):
     chunkIterator = self.getChunkSlices(box)
-    
+
     for (chunk, slices, point) in chunkIterator:
         chunk.Blocks[slices] = blockType
         chunk.Data[slices] = blockData
@@ -188,9 +188,9 @@ log = logging.getLogger(__name__)
 warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
 
- 
 
-    
+
+
 
 class LoadingError(RuntimeError): pass
 

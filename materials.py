@@ -22,25 +22,25 @@ class Block(object):
     Provides elements of its parent material's block arrays.
     Blocks will have (name, ID, blockData, aka, color, brightness, opacity, blockTextures)
     """
-    
+
     def __str__(self):
         return "<Block {name} ({id}:{data}) hasVariants:{ha}>".format(
             name=self.name, id=self.ID, data=self.blockData, ha=self.hasVariants)
 
     def __repr__(self):
         return str(self)
-    
+
     def __cmp__(self, other):
         if not isinstance(other, Block): return -1
         key = lambda a:a and (a.ID, a.blockData)
         return cmp( key(self), key(other))
-        
+
     hasVariants = False #True if blockData defines additional blocktypes
     def __init__(self, materials, blockID, blockData=0):
         self.materials = materials
         self.ID = blockID
         self.blockData = blockData
-        
+
     def __getattr__(self, attr):
         if attr in self.__dict__:
             return self.__dict__[attr]
@@ -51,26 +51,26 @@ class Block(object):
         if attr in ("name", "aka", "color", "type"):
             r = r[self.blockData]
         return r
-            
-        
+
+
 class MCMaterials(object):
     defaultColor = (0xc9, 0x77, 0xf0, 0xff)
     defaultBrightness = 0
     defaultOpacity = 15
     defaultTexture = NOTEX
     defaultTex = [t//16 for t in defaultTexture]
-    
+
     def __init__(self, defaultName="Unused Block"):
         object.__init__(self)
         self.yamlDatas = []
-        
+
         self.defaultName = defaultName
 
         self.blockTextures = zeros((256, 16, 6, 2), dtype='uint8')
         self.blockTextures[:] = self.defaultTexture
         self.names = [[defaultName] * 16 for i in range(256)]
         self.aka = [[""] * 16 for i in range(256)]
-        
+
         self.type = [["NORMAL"] * 16] * 256
         self.blocksByType = defaultdict(list)
         self.allBlocks = []
@@ -82,13 +82,13 @@ class MCMaterials(object):
         self.lightAbsorption[:] = self.defaultOpacity
         self.flatColors = zeros((256, 16, 4), dtype='uint8')
         self.flatColors[:] = self.defaultColor
-        
+
         self.idStr = {}
-        
+
         self.color = self.flatColors
         self.brightness = self.lightEmission
         self.opacity = self.lightAbsorption
-        
+
         self.Air = self.addBlock(0,
             name="Air",
             texture=(0x80, 0xB0),
@@ -96,7 +96,7 @@ class MCMaterials(object):
         )  
     def __repr__(self):
         return "<MCMaterials ({0})>".format(self.name)
-    
+
     @property
     def AllStairs(self):
         return [b for b in self.allBlocks if b.name.endswith("Stairs")]
@@ -106,23 +106,23 @@ class MCMaterials(object):
             return self[key]
         except KeyError:
             return default
-    
+
     def __len__(self):
         return len(self.allBlocks)
-        
+
     def __iter__(self):
         return iter(self.allBlocks) 
-        
+
     def __getitem__(self, key):
         """ Let's be magic. If we get a string, return the first block whose 
             name matches exactly. If we get a (id, data) pair or an id, return
             that block. for example:
-            
+
                 level.materials[0] #returns Air
                 level.materials["Air"] #also returns Air
                 level.materials["Powered Rail"] #returns Powered Rail
                 level.materials["Lapis Lazuli Block"] #in Classic
-                    
+
            """
         if isinstance(key, basestring):
             for b in self.allBlocks:
@@ -132,7 +132,7 @@ class MCMaterials(object):
             id, blockData = key
             return self.blockWithID(id, blockData)
         return self.blockWithID(key)
-            
+
     def blocksMatching(self, name):
         name = name.lower()
         return [v for v in self.allBlocks if name in v.name.lower() or name in v.aka.lower()]
@@ -144,9 +144,9 @@ class MCMaterials(object):
             bl = Block(self, id, blockData=data)
             bl.hasVariants = True
             return bl
-    
-    
-    
+
+
+
     def addYamlBlocksFromFile(self, filename):
         try:
             import pkg_resources
@@ -159,11 +159,11 @@ class MCMaterials(object):
             info(u"Loading block info from %s", f)
             blockyaml = yaml.load(f)
             self.addYamlBlocks(blockyaml)
- 
+
         except Exception, e:
             warn(u"Exception while loading block info from %s: %s", f, e)
             traceback.print_exc()
-            
+
     def addYamlBlocks(self, blockyaml):
         self.yamlDatas.append(blockyaml)
         for block in blockyaml['blocks']:
@@ -173,12 +173,12 @@ class MCMaterials(object):
                 warn(u"Exception while parsing block: %s", e)
                 traceback.print_exc()
                 warn(u"Block definition: \n%s", pformat(block))
-                    
-            
-    
+
+
+
     def addYamlBlock(self, kw):
         blockID = kw['id']
-        
+
         unused_yaml_properties = \
         ['explored',
          #'id',
@@ -192,7 +192,7 @@ class MCMaterials(object):
          'tex_extra',
          #'type'
          ]
-        
+
         for val, data in kw.get('data', {0:{}}).items():
             datakw = dict(kw)
             datakw.update(data)
@@ -219,7 +219,7 @@ class MCMaterials(object):
             block.yaml = datakw
             if idStr not in self.idStr:
                 self.idStr[idStr] = block
-            
+
         tex_direction_data = kw.get('tex_direction_data')
         if tex_direction_data:
             texture = datakw['texture']
@@ -233,25 +233,25 @@ class MCMaterials(object):
             def rot90cw():
                 rot = (5, 0, 2, 3, 4, 1)
                 texture[:] = [texture[r] for r in rot]
-            
+
             for data, dir in tex_direction_data.items():
                 for _i in range(texDirMap.get(dir, 0)):
                     rot90cw()
                 self.blockTextures[blockID][data] = texture
-                
+
     def addBlock(self, blockID, blockData=0, **kw):
         name = kw.pop('name', self.names[blockID][blockData])
-        
+
         self.lightEmission[blockID] = kw.pop('brightness', self.defaultBrightness)
         self.lightAbsorption[blockID] = kw.pop('opacity', self.defaultOpacity)
         self.aka[blockID][blockData] = kw.pop('aka', "")
         type = kw.pop('type', 'NORMAL')
-        
+
         color = kw.pop('mapcolor', self.flatColors[blockID, blockData])
         self.flatColors[blockID, (blockData or slice(None))] = (tuple(color) + (255,))[:4]
 
         texture = kw.pop('texture', None)
-        
+
         if texture:
             self.blockTextures[blockID, (blockData or slice(None))] = texture
 
@@ -263,7 +263,7 @@ class MCMaterials(object):
             self.type[blockID][blockData] = type
 
         block = Block(self, blockID, blockData)
-        
+
         self.allBlocks.append(block)
         self.blocksByType[type].append(block)
 
@@ -275,9 +275,9 @@ class MCMaterials(object):
 
         return block
 
-           
-                
-    
+
+
+
 alphaMaterials = MCMaterials(defaultName="Future Block!")
 alphaMaterials.name = "Alpha"
 alphaMaterials.addYamlBlocksFromFile("minecraft.yaml")
@@ -325,13 +325,13 @@ def defineShroomFaces(Shroom, id, name):
                 tex[FaceXDecreasing] = Shroom
             if "east" in loway:
                 tex[FaceXIncreasing] = Shroom
-                
+
         alphaMaterials.addBlock(id, blockData = data,
             name="Huge " + name + " Mushroom (" + way + ")",
             texture=tex,
             )
 
-        
+
 defineShroomFaces(Brown, 99, "Brown")
 defineShroomFaces(Red, 100, "Red")
 
@@ -343,7 +343,7 @@ indevMaterials = MCMaterials(defaultName = "Not present in Indev")
 indevMaterials.name = "Indev"
 indevMaterials.addYamlBlocksFromFile("classic.yaml")
 indevMaterials.addYamlBlocksFromFile("indev.yaml")
-    
+
 pocketMaterials = MCMaterials()
 pocketMaterials.name = "Pocket"
 pocketMaterials.addYamlBlocksFromFile("pocket.yaml")
@@ -728,7 +728,7 @@ def _filterTable(filters, unavailable, default = (0, 0) ):
             pass
         table[f] = t
     return table    
-    
+
 nullConversion = lambda b, d: (b, d)
 
 def filterConversion(table):
@@ -738,13 +738,13 @@ def filterConversion(table):
         t = table[blocks, data]
         return t[..., 0], t[..., 1]
     return convert
-    
+
 
 def guessFilterTable(matsFrom, matsTo):
     """ Returns a pair (filters, unavailable)
     filters is a list of (from, to) pairs;  from and to are (ID, data) pairs
     unavailable is a list of (ID, data) pairs in matsFrom not found in matsTo.
-    
+
     Searches the 'name' and 'aka' fields to find matches.
     """
     filters = []
@@ -772,13 +772,13 @@ def guessFilterTable(matsFrom, matsTo):
                 block = toByName.get("Purple Wool")
             elif "Violet Wool" == fromBlock.name:
                 block = toByName.get("Purple Wool")
-                
+
         if block:
             if block != fromBlock:
                 filters.append( ( (fromBlock.ID, fromBlock.blockData), (block.ID, block.blockData) ) )
         else:
             unavailable.append((fromBlock.ID, fromBlock.blockData) )
-            
+
     return filters , unavailable
 
 allMaterials = (alphaMaterials, classicMaterials, pocketMaterials, indevMaterials)
@@ -788,16 +788,16 @@ def conversionFunc(destMats, sourceMats):
     if destMats is sourceMats: return nullConversion
     func = _conversionFuncs.get((destMats, sourceMats))
     if func: return func
-        
+
     filters, unavailable = guessFilterTable(sourceMats, destMats)
     debug("")
     debug("%s %s %s", sourceMats.name, "=>", destMats.name)
     for a,b in [(sourceMats.blockWithID(*a), destMats.blockWithID(*b)) for a,b in filters]:
         debug("{0:20}: \"{1}\"".format('"' + a.name + '"',b.name))
-    
+
     debug("")
     debug("Missing blocks: %s", [sourceMats.blockWithID(*a).name for a in unavailable])
-    
+
     table = _filterTable(filters, unavailable, (35, 0))
     func = filterConversion(table)
     _conversionFuncs[(destMats, sourceMats)] = func
@@ -805,9 +805,9 @@ def conversionFunc(destMats, sourceMats):
 
 def convertBlocks(destMats, sourceMats, blocks, blockData):
     if sourceMats == destMats: return blocks, blockData
-    
+
     return conversionFunc(destMats, sourceMats)(blocks, blockData)
-    
+
 namedMaterials = dict((i.name, i) for i in allMaterials)
 
 __all__ = "indevMaterials, pocketMaterials, alphaMaterials, classicMaterials, namedMaterials, MCMaterials".split(", ")

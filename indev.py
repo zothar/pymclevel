@@ -22,7 +22,7 @@ TAG_Compound "MinecraftLevel"
       TAG_Int "FogColor"                 // Hexadecimal value for the color of the fog
       TAG_Byte "SkyBrightness"           // The brightness of the sky, from 0 to 100
    }
-   
+
    TAG_List "Entities"
    {
       TAG_Compound
@@ -33,7 +33,7 @@ TAG_Compound "MinecraftLevel"
          // The most interesting one might be the one with ID "LocalPlayer", which contains the player inventory
       }
    }
-   
+
    TAG_Compound "Map"
    {
       // To access a specific block from either byte array, use the following algorithm:
@@ -44,7 +44,7 @@ TAG_Compound "MinecraftLevel"
       TAG_Short "Length"                 // Length of the level (along Z) 
       TAG_Byte_Array "Blocks"             // An array of Length*Height*Width bytes specifying the block types
       TAG_Byte_Array "Data"              // An array of Length*Height*Width bytes with data for each blocks
-      
+
       TAG_List "Spawn"                   // Default spawn position
       {
          TAG_Short x  // These values are multiplied by 32 before being saved
@@ -52,7 +52,7 @@ TAG_Compound "MinecraftLevel"
          TAG_Short z
       }
    }
-   
+
    TAG_Compound "About"
    {
       TAG_String "Name"                  // Level name
@@ -180,7 +180,7 @@ class MCIndevLevel(EntityLevel):
             if not Entities in root_tag:
                 root_tag[Entities] = TAG_List()
             self.Entities = root_tag[Entities]
-            
+
             #xxx fixup Motion and Pos to match infdev format
             def numbersToDoubles(ent):
                 for attr in "Motion", "Pos":
@@ -188,8 +188,8 @@ class MCIndevLevel(EntityLevel):
                         ent[attr] = TAG_List([TAG_Double(t.value) for t in ent[attr]])
             for ent in self.Entities:
                 numbersToDoubles(ent)
-                
-            
+
+
             if not TileEntities in root_tag:
                 root_tag[TileEntities] = TAG_List()
             self.TileEntities = root_tag[TileEntities]
@@ -278,7 +278,7 @@ class MCIndevLevel(EntityLevel):
 
         self.root_tag[Map] = mapTag
         self.root_tag[Map]
-        
+
         #fix up Entities imported from Alpha worlds
         def numbersToFloats(ent):
             for attr in "Motion", "Pos":
@@ -286,7 +286,7 @@ class MCIndevLevel(EntityLevel):
                     ent[attr] = TAG_List([TAG_Double(t.value) for t in ent[attr]])
         for ent in self.Entities:
             numbersToFloats(ent)
-            
+
         #fix up TileEntities imported from Alpha worlds.
         for ent in self.TileEntities:
             if "Pos" not in ent and all(c in ent for c in 'xyz'):

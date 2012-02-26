@@ -52,19 +52,19 @@ class TAG_Value(object):
     def delName(self):
             self._name = ""
     name = property(getName, setName, delName, "Change the TAG's name.    Coerced to a string.")
-    
+
     @classmethod
     def load_from(cls, data, data_cursor):
         data = data[data_cursor:]
         (value,) = struct.unpack_from(cls.fmt, data)
         self = cls(value=value)
         return self, data_cursor + struct.calcsize(self.fmt)
-        
+
     def __init__(self, value=0, name=None):
         self.name = name
         self.value = value
-        
-            
+
+
 
     def __repr__(self):
         return "%s( \"%s\" ): %s" % (str(self.__class__), self.name, repr(self.value))
@@ -181,7 +181,7 @@ class TAG_Byte_Array(TAG_Value):
                 self.value)
         else:
             return  " " * indent + "%s: %s %s" % (str(self.__class__.__name__), str(self.value.shape), self.value)
-    
+
     @classmethod
     def load_from(cls, data, data_cursor):
         data = data[data_cursor:]
@@ -189,7 +189,7 @@ class TAG_Byte_Array(TAG_Value):
         value = fromstring(data[4:string_len + 4], 'uint8')
         self = cls(value)
         return self, data_cursor + string_len + 4
-        
+
     def __init__(self, value=zeros(0, uint8), name=None):
         if name:
             self.name = name
@@ -207,7 +207,7 @@ class TAG_Int_Array(TAG_Byte_Array):
 
     def dataType(self, value):
         return array(value, '>u4')
-    
+
     @classmethod
     def load_from(cls, data, data_cursor):
         data = data[data_cursor:]
@@ -280,8 +280,8 @@ class TAG_String(TAG_Value):
     @property
     def unicodeValue(self):
         return self.value.decode('utf-8')
-    
-            
+
+
 
 class TAG_Compound(TAG_Value, collections.MutableMapping):
     """A heterogenous list of named tags. Names must be unique within
@@ -323,7 +323,7 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
             self._value.append(tag)
 
         return self, data_cursor
-        
+
     def __init__(self, value=[], name=""):
 
         self.name = name
@@ -378,7 +378,7 @@ class TAG_List(TAG_Value, collections.MutableSequence):
     Once created, the type can only be changed by emptying the list 
     and adding an element of the new type. If created with no arguments,
     returns a list of TAG_Compound
-    
+
     Empty lists in the wild have been seen with type TAG_Byte"""
 
     tag = 9
@@ -404,7 +404,7 @@ class TAG_List(TAG_Value, collections.MutableSequence):
         for tag in self.value:
             pretty += tag.pretty_string(indent) + "\n"
         return pretty
-    
+
     @classmethod
     def load_from(cls, data, data_cursor):
         self = cls()
@@ -422,7 +422,7 @@ class TAG_List(TAG_Value, collections.MutableSequence):
             self.append(tag)
 
         return self, data_cursor
-        
+
     def __init__(self, value=[], name=None, list_type=TAG_Compound):
         #can be created from a list of tags in value, with an optional
         #name, or created from raw tag data, or created with list_type
@@ -436,7 +436,7 @@ class TAG_List(TAG_Value, collections.MutableSequence):
             value = filter(lambda x:x.__class__ == value[0].__class__, value)
 
         self.value = value
-            
+
 
     """ collection methods """
     def __iter__(self):             return iter(self.value)
@@ -508,7 +508,7 @@ def load_named(data, data_cursor, tag_type):
 
     tag, data_cursor = tag_classes[tag_type].load_from(data, data_cursor)
     tag.name = tag_name
-    
+
     return tag, data_cursor
 
 def load(filename="", buf=None):

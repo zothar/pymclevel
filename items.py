@@ -159,7 +159,7 @@ items_txt = """
  118  Cauldron               terrain.png  10,9
  119  Air_Portal             special.png  1,5
  120  Air_Portal_Frame       terrain.png  15,9
- 
+
 
 #            Items
 # ID  NAME                   FILE       CORDS  DAMAGE
@@ -374,7 +374,7 @@ class Items (object):
 
         self.itemtypes = {}
         self.itemgroups = []
-        
+
         for line in items_txt.split("\n"):
             try:
                 line = line.strip()
@@ -426,7 +426,7 @@ class Items (object):
 
         item = self.itemtypes.get((id, 0))
         if item: return item
-        
+
         return ItemType(id, "Unknown Item {0}:{1}".format(id, damage), damagevalue=damage)
         #raise ItemNotFound, "Item {0}:{1} not found".format(id, damage)
 

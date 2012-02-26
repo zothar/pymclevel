@@ -21,7 +21,7 @@ def computeChunkHeightMap(materials, blocks, HeightMap = None):
     If HeightMap is passed, fills it with the result and returns it. Otherwise, returns a
     new array.
     """
-    
+
     lightAbsorption = materials.lightAbsorption[blocks]
     heights = extractHeights(lightAbsorption)
     heights = heights.swapaxes(0, 1)
@@ -58,18 +58,18 @@ def extractHeights(array):
 def getSlices(box, height):
     """ call this method to iterate through a large slice of the world by 
         visiting each chunk and indexing its data with a subslice.
-    
+
     this returns an iterator, which yields 3-tuples containing:
     +  a pair of chunk coordinates (cx,cz), 
     +  a x,z,y triplet of slices that can be used to index the InfdevChunk's data arrays, 
     +  a x,y,z triplet representing the relative location of this subslice within the requested world slice.
-    
+
     Note the different order of the coordinates between the 'slices' triplet
     and the 'offset' triplet. x,z,y ordering is used only
     to index arrays, since it reflects the order of the blocks in memory.
     In all other places, including an entity's 'Pos', the order is x,y,z. 
     """
-    
+
     #when yielding slices of chunks on the edge of the box, adjust the 
     #slices by an offset
     minxoff, minzoff = box.minx - (box.mincx << 4), box.minz - (box.mincz << 4)
@@ -106,20 +106,20 @@ def getSlices(box, height):
                 (slice(localMinX, localMaxX), slice(localMinZ, localMaxZ), slice(miny, maxy)),
                 (newMinX, newMinY, newMinZ)
             )
-            
+
             yield (cx,cz), slices, point
-            
+
 
 class MCLevel(object):
     """ MCLevel is an abstract class providing many routines to the different level types, 
     including a common copyEntitiesFrom built on class-specific routines, and
     a dummy getChunk/allChunks for the finite levels.
-    
+
     MCLevel also provides compress and decompress methods that are used to load
     NBT format levels, and expects subclasses to override shapeChunkData to 
     assign a shape to the Blocks and other arrays. The resulting arrays after 
     reshape must be indexed [x,z,y]
-    
+
     MCLevel subclasses must have Width, Length, and Height attributes.  The first two are always zero for infinite levels.
     Subclasses must also have Blocks, and optionally Data and BlockLight.
     """
@@ -145,7 +145,7 @@ class MCLevel(object):
     def isLevel(cls, filename):
         """Tries to find out whether the given filename can be loaded
         by this class.  Returns True or False.
-        
+
         Subclasses should implement _isLevel, _isDataLevel, or _isTagLevel.
         """
         if hasattr(cls, "_isLevel"):
@@ -201,7 +201,7 @@ class MCLevel(object):
     def copyEntitiesFromIter(self, *args, **kw): yield;
     def removeEntitiesInBox(self, box): pass
     def removeTileEntitiesInBox(self, box): pass
-    
+
     # --- Chunked Format Emulation ---
     def compressChunk(self, cx, cz): pass
 
@@ -237,7 +237,7 @@ class MCLevel(object):
         position. Subclasses override fakeBlocksForChunk and fakeDataForChunk
         to fill in the chunk arrays"""
 
-        
+
         f = FakeChunk()
         f.world = self
         f.chunkPosition = (cx, cz)
@@ -293,7 +293,7 @@ class MCLevel(object):
             return getAllSlices()
         else:
             return getSlices(box, self.Height)
-    
+
     def getChunkSlices(self, box):
         return ((self.getChunk(*cPos), slices, point)
                 for cPos, slices, point in self._getSlices(box)
@@ -380,7 +380,7 @@ class MCLevel(object):
     def fillBlocksIter(self, box, blockInfo, blocksToReplace=[]):
         self.fillBlocks(box, blockInfo, blocksToReplace)
         yield
-        
+
     def fillBlocks(self, box, blockInfo, blocksToReplace=[]):
 
         if box is None:
@@ -391,12 +391,12 @@ class MCLevel(object):
         info(u"Filling blocks in {0} with {1}, replacing{2}".format(box, blockInfo, blocksToReplace))
 
         slices = map(slice, box.origin, box.maximum)
-        
+
         blocks = self.Blocks[slices[0], slices[2], slices[1]]
         if len(blocksToReplace):
             blocktable = self.blockReplaceTable(blocksToReplace)
             shouldRetainData = (self.materials == alphaMaterials) and all([blockrotation.SameRotationType(blockInfo, b) for b in blocksToReplace])
-            
+
             if hasattr(self, "Data") and shouldRetainData:
                 data = self.Data[slices[0], slices[2], slices[1]]
                 mask = blocktable[blocks, data]
@@ -491,10 +491,10 @@ class MCLevel(object):
             if hasattr(self, 'Data'):
                 data = self.Data[ destSlices ]
                 data[mask] = convertedSourceData[mask]
-            
+
             yield i
-            
-            
+
+
 
 
     def adjustCopyParameters(self, sourceLevel, sourceBox, destinationPoint):
@@ -556,7 +556,7 @@ class MCLevel(object):
 
         sourceBox, destinationPoint = self.adjustCopyParameters(sourceLevel, sourceBox, destinationPoint)
         yield
-        
+
         if min(sourceBox.size) <= 0:
             print "Empty source box, aborting"
             return
@@ -574,7 +574,7 @@ class MCLevel(object):
 
     def convertBlocksFromLevel(self, sourceLevel, blocks, blockData):
         return materials.convertBlocks(self.materials, sourceLevel.materials, blocks, blockData)
-        
+
     def saveInPlace(self):
         self.saveToFile(self.filename)
 
@@ -789,7 +789,7 @@ class FakeChunk(ChunkBase):
     def HeightMap(self):
         if hasattr(self, "_heightMap"):
             return self._heightMap
-            
+
         self._heightMap = computeChunkHeightMap(self.materials, self.Blocks)
         return self._heightMap
 
