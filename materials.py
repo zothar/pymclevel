@@ -131,7 +131,7 @@ class MCMaterials(object):
             for b in self.allBlocks:
                 if b.name == key:
                     return b
-            raise KeyError, "No blocks named: " + key
+            raise KeyError("No blocks named: " + key)
         if isinstance(key, (tuple, list)):
             id, blockData = key
             return self.blockWithID(id, blockData)

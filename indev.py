@@ -216,7 +216,7 @@ class MCIndevLevel(EntityLevel):
 
         else:
             info(u"Creating new Indev levels is not yet implemented.!")
-            raise ValueError, "Can't do that yet"
+            raise ValueError("Can't do that yet")
 #            self.SurroundingGroundHeight = root_tag[Environment][SurroundingGroundHeight].value
 #            self.SurroundingGroundType = root_tag[Environment][SurroundingGroundType].value
 #            self.SurroundingWaterHeight = root_tag[Environment][SurroundingGroundHeight].value

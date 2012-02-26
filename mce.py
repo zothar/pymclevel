@@ -149,7 +149,7 @@ class mce(object):
         try:
             val = int(command.pop(0))
         except ValueError:
-            raise UsageError, "Cannot understand numeric input"
+            raise UsageError("Cannot understand numeric input")
         return val
 
     def prettySplit(self, command):
@@ -172,7 +172,7 @@ class mce(object):
         else:
             sourceSize = self.readIntPoint(command, isPoint=False)
         if len([p for p in sourceSize if p <= 0]):
-            raise UsageError, "Box size cannot be zero or negative"
+            raise UsageError("Box size cannot be zero or negative")
         box = BoundingBox(sourcePoint, sourceSize)
         return box
 
@@ -195,25 +195,25 @@ class mce(object):
                         z += int(command.pop(0))
 
                     except ValueError:
-                        raise UsageError, "Error decoding point input (expected a number)."
+                        raise UsageError("Error decoding point input (expected a number).")
                 return x, y, z
 
         except IndexError:
-            raise UsageError, "Error decoding point input (expected more values)."
+            raise UsageError("Error decoding point input (expected more values).")
 
         try:
             try:
                 x = float(word)
             except ValueError:
                 if isPoint:
-                    raise PlayerNotFound, word
+                    raise PlayerNotFound(word)
                 raise
             y = float(command.pop(0))
             z = float(command.pop(0))
         except ValueError:
-            raise UsageError, "Error decoding point input (expected a number)."
+            raise UsageError("Error decoding point input (expected a number).")
         except IndexError:
-            raise UsageError, "Error decoding point input (expected more values)."
+            raise UsageError("Error decoding point input (expected more values).")
 
         return x, y, z
 
@@ -328,7 +328,7 @@ class mce(object):
             try:
                 logging.getLogger().level = int(command[0])
             except ValueError:
-                raise UsageError, "Cannot understand numeric input."
+                raise UsageError("Cannot understand numeric input.")
         else:
             print "Log level: {0}".format(logging.getLogger().level)
 
@@ -969,17 +969,17 @@ class mce(object):
 
     """
         if len(command) < 1:
-            raise UsageError, "Expected a filename"
+            raise UsageError("Expected a filename")
 
         filename = command[0]
         if not os.path.exists(filename):
             os.mkdir(filename)
 
         if not os.path.isdir(filename):
-            raise IOError, "{0} already exists".format(filename)
+            raise IOError("{0} already exists".format(filename))
 
         if mclevel.MCInfdevOldLevel.isLevel(filename):
-            raise IOError, "{0} is already a Minecraft Alpha world".format(filename)
+            raise IOError("{0} is already a Minecraft Alpha world".format(filename))
 
         level = mclevel.MCInfdevOldLevel(filename, create=True)
 
@@ -1056,7 +1056,7 @@ class mce(object):
                     else:
                         hours = int(word)
                 except Exception, e:
-                    raise UsageError, ("Cannot interpret time, ", e)
+                    raise UsageError(("Cannot interpret time, ", e))
 
                 if len(command) > 1:
                     if command[1].lower() == "pm":
@@ -1082,7 +1082,7 @@ class mce(object):
             try:
                 seed = long(command[0])
             except ValueError:
-                raise UsageError, "Expected a long integer."
+                raise UsageError("Expected a long integer.")
 
             self.level.RandomSeed = seed
             self.needsSave = True
@@ -1111,7 +1111,7 @@ class mce(object):
         try:
             gametype = int(command[0])
         except ValueError:
-            raise UsageError, "Expected an integer."
+            raise UsageError("Expected an integer.")
 
         self.level.setPlayerGameType(gametype, player)
         self.needsSave = True
@@ -1460,7 +1460,7 @@ class mce(object):
                     print "  ", k
                 return
             else:
-                raise UsageError, "Command {0} not recognized.".format(keyword)
+                raise UsageError("Command {0} not recognized.".format(keyword))
 
         func = getattr(self, "_" + keyword)
 

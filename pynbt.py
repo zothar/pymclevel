@@ -556,12 +556,12 @@ def load(filename="", buf=None):
     #if buf != None:
     #    data = buf
     if not len(buf):
-        raise NBTFormatError, "Asked to load root tag of zero length"
+        raise NBTFormatError("Asked to load root tag of zero length")
 
     data_cursor = 0
     tag_type = data[data_cursor]
     if tag_type != 10:
-        raise NBTFormatError, 'Not an NBT file with a root TAG_Compound (found {0})'.format(tag_type)
+        raise NBTFormatError('Not an NBT file with a root TAG_Compound (found {0})'.format(tag_type))
     data_cursor += 1
 
     tag, data_cursor = load_named(data, data_cursor, tag_type)

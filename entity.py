@@ -155,7 +155,7 @@ class Entity(object):
     @classmethod
     def pos(cls, tag):
         if Pos not in tag:
-            raise InvalidEntity, tag
+            raise InvalidEntity(tag)
         return [a.value for a in tag[Pos]]
 
     @classmethod

@@ -58,7 +58,7 @@ class PocketChunksFile(object):
 
             for i in xrange(sector, sector + count):
                 if i >= len(self.freeSectors):
-                    #raise RegionMalformed, "Region file offset table points to sector {0} (past the end of the file)".format(i)
+                    #raise RegionMalformed("Region file offset table points to sector {0} (past the end of the file)".format(i))
                     print  "Region file offset table points to sector {0} (past the end of the file)".format(i)
                     needsRepair = True
                     break
@@ -105,12 +105,12 @@ class PocketChunksFile(object):
 #                try:
 #
 #                    if sectorStart + sectorCount > len(self.freeSectors):
-#                        raise RegionMalformed, "Offset {start}:{end} ({offset}) at index {index} pointed outside of the file".format(
+#                        raise RegionMalformed("Offset {start}:{end} ({offset}) at index {index} pointed outside of the file".format()
 #                            start=sectorStart, end=sectorStart + sectorCount, index=index, offset=offset)
 #
 #                    compressedData = self._readChunk(cx, cz)
 #                    if compressedData is None:
-#                        raise RegionMalformed, "Failed to read chunk data for {0}".format((cx, cz))
+#                        raise RegionMalformed("Failed to read chunk data for {0}".format((cx, cz)))
 #
 #                    format, data = self.decompressSectors(compressedData)
 #                    chunkTag = nbt.load(buf=data)
@@ -129,9 +129,9 @@ class PocketChunksFile(object):
 #                        lostAndFound[xPos, zPos] = (format, compressedData)
 #
 #                        if (xPos, zPos) != (cx, cz):
-#                            raise RegionMalformed, "Chunk {found} was found in the slot reserved for {expected}".format(found=(xPos, zPos), expected=(cx, cz))
+#                            raise RegionMalformed("Chunk {found} was found in the slot reserved for {expected}".format(found=(xPos, zPos), expected=(cx, cz)))
 #                        else:
-#                            raise RegionMalformed, "Chunk {found} (in slot {expected}) has overlapping sectors with another chunk!".format(found=(xPos, zPos), expected=(cx, cz))
+#                            raise RegionMalformed("Chunk {found} (in slot {expected}) has overlapping sectors with another chunk!".format(found=(xPos, zPos), expected=(cx, cz)))
 #
 #
 #
@@ -192,7 +192,7 @@ class PocketChunksFile(object):
     def loadChunk(self, cx, cz, world):
         data = self._readChunk(cx, cz)
         if data is None:
-            raise ChunkNotPresent, (cx, cz, self)
+            raise ChunkNotPresent((cx, cz, self))
 
         chunk = PocketChunk(cx, cz, data[4:], world)
         return chunk
@@ -330,7 +330,7 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
     def getChunk(self, cx, cz):
         for p in cx,cz:
             if not 0 <= p <= 31:
-                raise ChunkNotPresent, (cx,cz, self)
+                raise ChunkNotPresent((cx,cz, self))
 
         c = self._loadedChunks.get( (cx,cz) )
         if c is None:

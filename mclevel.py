@@ -199,9 +199,9 @@ def fromFile(filename, loadInfinite=True):
     info(u"Identifying " + filename)
 
     if not filename:
-        raise IOError, "File not found: " + filename
+        raise IOError("File not found: " + filename)
     if not os.path.exists(filename):
-        raise IOError, "File not found: " + filename
+        raise IOError("File not found: " + filename)
 
     if ZipSchematic._isLevel(filename):
         info("Zipfile found, attempting zipped infinite level")
@@ -217,20 +217,20 @@ def fromFile(filename, loadInfinite=True):
         if loadInfinite:
             return MCInfdevOldLevel(filename=filename)
         else:
-            raise ValueError, "Asked to load {0} which is an infinite level, loadInfinite was False".format(os.path.basename(filename))
+            raise ValueError("Asked to load {0} which is an infinite level, loadInfinite was False".format(os.path.basename(filename)))
 
     if os.path.isdir(filename):
-        raise ValueError, "Folder {0} was not identified as a Minecraft level.".format(os.path.basename(filename))
+        raise ValueError("Folder {0} was not identified as a Minecraft level.".format(os.path.basename(filename)))
 
     f = file(filename, 'rb')
     rawdata = f.read()
     f.close()
     if len(rawdata) < 4:
-        raise ValueError, "{0} is too small! ({1}) ".format(filename, len(rawdata))
+        raise ValueError("{0} is too small! ({1}) ".format(filename, len(rawdata)))
 
     data = fromstring(rawdata, dtype='uint8')
     if not data.any():
-        raise ValueError, "{0} contains only zeroes. This file is damaged beyond repair."
+        raise ValueError("{0} contains only zeroes. This file is damaged beyond repair.")
 
     if MCJavaLevel._isDataLevel(data):
         info(u"Detected Java-style level")
@@ -269,7 +269,7 @@ def fromFile(filename, loadInfinite=True):
             lev.compressed = compressed
             return lev
         except Exception, e2:
-            raise LoadingError, ("Multiple errors encountered", e, e2), sys.exc_info()[2]
+            raise LoadingError(("Multiple errors encountered", e, e2), sys.exc_info()[2])
 
     else:
         if MCIndevLevel._isTagLevel(root_tag):
@@ -283,7 +283,7 @@ def fromFile(filename, loadInfinite=True):
             info(u"Detected INVEdit inventory file")
             return INVEditChest(root_tag=root_tag, filename=filename)
 
-    raise IOError, "Cannot detect file type."
+    raise IOError("Cannot detect file type.")
 
 
 def loadWorld(name):

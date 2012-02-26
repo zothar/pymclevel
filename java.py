@@ -37,7 +37,7 @@ class MCJavaLevel(MCLevel):
     def guessSize(self, data):
         if data.shape[0] <= (32 * 32 * 64) * 2:
             warn(u"Can't guess the size of a {0} byte level".format(data.shape[0]))
-            raise IOError, "MCJavaLevel attempted for smaller than 64 blocks cubed"
+            raise IOError("MCJavaLevel attempted for smaller than 64 blocks cubed")
         if data.shape[0] > (32 * 32 * 64) * 2:
             Width = 64
             Length = 64
@@ -87,7 +87,7 @@ class MCJavaLevel(MCLevel):
 
         blockCount = h * l * w
         if blockCount > data.shape[0]:
-            raise ValueError, "Level file does not contain enough blocks! (size {s}) Try putting the size into the filename, e.g. server_level_{w}_{l}_{h}.dat".format(w=w, l=l, h=h, s=data.shape)
+            raise ValueError("Level file does not contain enough blocks! (size {s}) Try putting the size into the filename, e.g. server_level_{w}_{l}_{h}.dat".format(w=w, l=l, h=h, s=data.shape))
 
         blockOffset = data.shape[0] - blockCount
         blocks = data[blockOffset:blockOffset + blockCount]
@@ -101,7 +101,7 @@ class MCJavaLevel(MCLevel):
             blocks = data[blockOffset:blockOffset + blockCount]
 
             if blockOffset <= -data.shape[0]:
-                raise IOError, "Can't find a valid array of blocks <= #%d" % maxBlockType
+                raise IOError("Can't find a valid array of blocks <= #%d" % maxBlockType)
 
         self.Blocks = blocks
         self.blockOffset = blockOffset

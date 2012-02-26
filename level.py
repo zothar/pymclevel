@@ -563,7 +563,7 @@ class MCLevel(object):
         if (not sourceLevel.isInfinite) and not(
                sourceLevel.containsPoint(*sourceBox.origin) and
                sourceLevel.containsPoint(*map(lambda x:x - 1, sourceBox.maximum))):
-            raise ValueError, "{0} cannot provide blocks between {1}".format(sourceLevel, sourceBox)
+            raise ValueError("{0} cannot provide blocks between {1}".format(sourceLevel, sourceBox))
 
         sourceBox, destinationPoint = self.adjustCopyParameters(sourceLevel, sourceBox, destinationPoint)
         yield
