@@ -1606,7 +1606,7 @@ class SharkParser(LineParser):
         try:
             entry = self.entries[function.id]
         except KeyError:
-            self.entries[function.id] = (function, { })
+            self.entries[function.id] = (function, {})
         else:
             function_total, callees_total = entry
             function_total.samples += function.samples

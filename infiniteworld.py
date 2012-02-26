@@ -3182,7 +3182,7 @@ class MCAlphaDimension (MCInfdevOldLevel):
         if not os.path.exists(self.worldDir):
             os.mkdir(self.worldDir)
 
-    dimensionNames = { -1: "Nether", 1: "The End"}
+    dimensionNames = {-1: "Nether", 1: "The End"}
 
     @property
     def displayName(self):
