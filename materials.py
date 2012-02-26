@@ -5,7 +5,8 @@ from os.path import exists, join
 from collections import defaultdict
 from pprint import pformat
 
-import sys, os
+import os
+import sys
 
 NOTEX = (0xB0, 0xE0)
 
