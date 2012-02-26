@@ -38,7 +38,6 @@ class MCSchematic (EntityLevel):
         #if(shape != None):
         #    self.setShape(shape)
 
-
         if filename:
             self.filename = filename
             if None is root_tag and os.path.exists(filename):
@@ -78,7 +77,6 @@ class MCSchematic (EntityLevel):
 
         self.dataIsPacked = True
 
-
     def __str__(self):
         return u"MCSchematic(shape={0}, materials={2}, filename=\"{1}\")".format(self.size, self.filename or u"", self.Materials)
 
@@ -115,7 +113,6 @@ class MCSchematic (EntityLevel):
                 #error( u"Error reading compressed data, assuming uncompressed: {0}".format(e) )
                 data = self.compressedTag
 
-
         try:
             self.root_tag = nbt.load(buf=data)
         except Exception, e:
@@ -131,7 +128,6 @@ class MCSchematic (EntityLevel):
 
         self.dataIsPacked = True
 
-
     #these refer to the blocks array instead of the file's height because rotation swaps the axes
     # this will have an impact later on when editing schematics instead of just importing/exporting
     @property
@@ -145,7 +141,6 @@ class MCSchematic (EntityLevel):
     @property
     @decompress_first
     def Height(self):return self.Blocks.shape[2]
-
 
     @property
     @decompress_first
@@ -197,7 +192,6 @@ class MCSchematic (EntityLevel):
     def _isTagLevel(cls, root_tag):
         return "Schematic" == root_tag.name
 
-
     def shapeChunkData(self):
         w = self.root_tag[Width].value
         l = self.root_tag[Length].value
@@ -205,7 +199,6 @@ class MCSchematic (EntityLevel):
 
         self.root_tag[Blocks].value.shape = (h, l, w)
         self.root_tag[Data].value.shape = (h, l, w)
-
 
     def packUnpack(self):
         self.root_tag[Blocks].value = swapaxes(self.root_tag[Blocks].value, 0, 2)#yzx to xzy
@@ -274,7 +267,6 @@ class MCSchematic (EntityLevel):
         self.Data = swapaxes(self.Data, 2, 0)[:, :, ::-1]
         self._update_shape()
 
-
     def flipVertical(self):
         " xxx delete stuff "
         blockrotation.FlipVertical(self.Blocks, self.Data)
@@ -328,7 +320,6 @@ class MCSchematic (EntityLevel):
         for tileEntity in self.TileEntities:
             tileEntity["z"].value = self.Length - tileEntity["z"].value - 1
 
-
     @decompress_first
     def setShape(self, shape):
         """shape is a tuple of (width, height, length).  sets the
@@ -336,7 +327,6 @@ class MCSchematic (EntityLevel):
 
         x, y, z = shape
         shape = (x, z, y)
-
 
         self.root_tag[Blocks].value = zeros(dtype='uint8', shape=shape)
         self.root_tag[Data].value = zeros(dtype='uint8', shape=shape)
@@ -356,7 +346,6 @@ class MCSchematic (EntityLevel):
         with open(filename, 'wb') as chunkfh:
             chunkfh.write(self.compressedTag)
 
-
     def setBlockDataAt(self, x, y, z, newdata):
         if x < 0 or y < 0 or z < 0: return 0
         if x >= self.Width or y >= self.Height or z >= self.Length: return 0;
@@ -366,7 +355,6 @@ class MCSchematic (EntityLevel):
         if x < 0 or y < 0 or z < 0: return 0
         if x >= self.Width or y >= self.Height or z >= self.Length: return 0;
         return self.Data[x, z, y]
-
 
     @classmethod
     def chestWithItemID(self, itemID, count=64, damage=0):
@@ -423,9 +411,7 @@ class INVEditChest(MCSchematic):
             else:
                 item["Slot"].value -= 9 # adjust for different chest slot indexes
 
-
         self.root_tag = root_tag
-
 
     @property
     @decompress_first
@@ -550,7 +536,6 @@ def extractZipSchematicFromIter(sourceLevel, box, zipfilename=None, entities=Tru
     finally:
         #We get here if the generator is GCed also
         if os.path.exists(tempfolder): shutil.rmtree(tempfolder, False)
-
 
 MCLevel.extractZipSchematic = extractZipSchematicFrom
 MCLevel.extractZipSchematicIter = extractZipSchematicFromIter

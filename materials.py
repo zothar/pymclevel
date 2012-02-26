@@ -145,8 +145,6 @@ class MCMaterials(object):
             bl.hasVariants = True
             return bl
 
-
-
     def addYamlBlocksFromFile(self, filename):
         try:
             import pkg_resources
@@ -173,8 +171,6 @@ class MCMaterials(object):
                 warn(u"Exception while parsing block: %s", e)
                 traceback.print_exc()
                 warn(u"Block definition: \n%s", pformat(block))
-
-
 
     def addYamlBlock(self, kw):
         blockID = kw['id']
@@ -275,16 +271,9 @@ class MCMaterials(object):
 
         return block
 
-
-
-
 alphaMaterials = MCMaterials(defaultName="Future Block!")
 alphaMaterials.name = "Alpha"
 alphaMaterials.addYamlBlocksFromFile("minecraft.yaml")
-
-
-
-
 
 # --- Special treatment for some blocks ---
 
@@ -330,7 +319,6 @@ def defineShroomFaces(Shroom, id, name):
             name="Huge " + name + " Mushroom (" + way + ")",
             texture=tex,
             )
-
 
 defineShroomFaces(Brown, 99, "Brown")
 defineShroomFaces(Red, 100, "Red")

@@ -22,7 +22,6 @@ __author__ = "Jose Fonseca"
 
 __version__ = "1.0"
 
-
 import sys
 import math
 import os.path
@@ -30,7 +29,6 @@ import re
 import textwrap
 import optparse
 import xml.parsers.expat
-
 
 try:
     # Debugging helper module
@@ -56,7 +54,6 @@ def equal(a, b):
 
 def fail(a, b):
     assert False
-
 
 tol = 2 ** -23
 
@@ -116,7 +113,6 @@ class Event(object):
         """Format an event value."""
         assert val is not None
         return self._formatter(val)
-
 
 CALLS = Event("Calls", 0, add, times)
 SAMPLES = Event("Samples", 0, add)
@@ -616,7 +612,6 @@ class LineParser(Parser):
     def eof(self):
         assert self.__line is not None
         return self.__eof
-
 
 XML_ELEMENT_START, XML_ELEMENT_END, XML_CHARACTER_DATA, XML_EOF = range(4)
 
@@ -1268,7 +1263,6 @@ class CallgrindParser(LineParser):
             return None
         key, value = pair
         return value
-
 
     def parse_keys(self, keys):
         line = self.lookahead()
@@ -2238,7 +2232,6 @@ class Theme:
         else:
             return m1
 
-
 TEMPERATURE_COLORMAP = Theme(
     mincolor = (2.0/3.0, 0.80, 0.25), # dark blue
     maxcolor = (0.0, 1.0, 0.5), # satured red
@@ -2610,7 +2603,6 @@ class Main:
             function.name = self.compress_function_name(function.name)
 
         dot.graph(profile, self.theme)
-
 
 if __name__ == '__main__':
     Main().main()

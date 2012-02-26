@@ -75,7 +75,6 @@ class mce(object):
 
        Type 'box' to learn how to specify points and areas.
 
-
     """
     random_seed = os.getenv('MCE_RANDOM_SEED', None)
     last_played = os.getenv("MCE_LAST_PLAYED", None)
@@ -192,7 +191,6 @@ class mce(object):
         except IndexError:
             raise UsageError, "Error decoding point input (expected more values)."
 
-
         try:
             try:
                 x = float(word)
@@ -230,8 +228,6 @@ class mce(object):
                     keyword = keyword + " " + command.pop(0)
                 else:
                     break
-
-
 
         else:
             try:
@@ -325,7 +321,6 @@ class mce(object):
         else:
             print "Log level: {0}".format(logging.getLogger().level)
 
-
     def _clone(self, command):
         """
     clone <sourceBox> <destPoint> [noair] [nowater]
@@ -375,7 +370,6 @@ class mce(object):
 
         self.level.fillBlocks(box, blockInfo)
 
-
         self.needsSave = True
         print "Filled {0} blocks.".format("all" if box is None else box.volume)
 
@@ -403,7 +397,6 @@ class mce(object):
             box = self.readBox(command)
         else:
             box = None
-
 
         print "Replacing {0} with {1}".format(blockInfo.name, newBlockInfo.name)
 
@@ -443,7 +436,6 @@ class mce(object):
         print "Analyzing {0} chunks...".format(self.level.chunkCount)
         #for input to bincount, create an array of uint16s by
         #shifting the data left and adding the blocks
-
 
         for i, cPos in enumerate(self.level.allChunks, 1):
             ch = self.level.getChunk(*cPos)
@@ -665,7 +657,6 @@ class mce(object):
                 if i % 4 == 3: print ""
                 print "{start:>6}+{count:<4}".format(**locals()),
 
-
             print ""
 
         if len(command):
@@ -707,7 +698,6 @@ class mce(object):
                             print "R {0:3}, {1:3}:".format(rx,rz),
                             printFreeSectors(runs)
 
-
         else:
             level.allChunks
             coords = (r for r in level.regionFiles)
@@ -715,8 +705,6 @@ class mce(object):
                 count = level.regionFiles[rx,rz].chunkCount
                 print "({rx:6}, {rz:6}): {count}, ".format(**locals()),
                 if i % 5 == 4: print ""
-
-
 
     def _repair(self, command):
         """
@@ -736,7 +724,6 @@ class mce(object):
             self.level.preloadRegions()
             for rf in self.level.regionFiles.itervalues():
                 rf.repair()
-
 
     def _dumpchests(self, command):
         """
@@ -840,7 +827,6 @@ class mce(object):
                     return entityID.lower() in matchWords
 
             matchWords = map(lambda x:x.lower(), command)
-
 
         else:
             print "Removing all entities except Painting..."
@@ -980,7 +966,6 @@ class mce(object):
         level = mclevel.MCInfdevOldLevel(filename, create=True)
 
         self.level = level
-
 
     def _degrief(self, command):
         """
@@ -1150,7 +1135,6 @@ class mce(object):
         if not sys.stdin.isatty() or raw_input(
      "This will destroy a large portion of the map and may take a long time.  Did you really want to do this?"
      ).lower() in ("yes", "y", "1", "true"):
-
 
             from PIL import Image
             import datetime
@@ -1337,7 +1321,6 @@ class mce(object):
 #                print "{0:3}: {1}".format(searchNumber, self.level.materials.names[searchNumber])
  #               return
 
-
         else:
             matches = self.level.materials.allBlocks
 
@@ -1354,7 +1337,6 @@ class mce(object):
         else:
             print self.__doc__.format(commandPrefix=("", "mce.py <world> ")[not self.batchMode])
 
-
     def printUsageAndQuit(self):
         self.printUsage()
         raise SystemExit
@@ -1366,11 +1348,6 @@ class mce(object):
             self.level = mclevel.fromFile(worldpath)
         else:
             self.level = mclevel.loadWorld(world)
-
-
-
-
-
 
     level = None
 
@@ -1441,7 +1418,6 @@ class mce(object):
                     print "Use 'debug' to enable tracebacks."
 
                     #self.printUsage();
-
 
     def processCommand(self, command):
         command = command.strip()

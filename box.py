@@ -34,7 +34,6 @@ class BoundingBox (object):
         self.size[2] -= z - self.origin[2]
         self.origin[2] = z
 
-
     def setMaxx(self, x):
         if x < self.origin[0]:
             x = self.origin[0]
@@ -52,7 +51,6 @@ class BoundingBox (object):
             z = self.origin[2]
 
         self.size[2] = z - self.origin[2]
-
 
     minx = property(getMinx, setMinx)
     miny = property(getMiny, setMiny)
@@ -95,7 +93,6 @@ class BoundingBox (object):
     height = property(getHeight, setHeight, None, "The dimension along the Y axis")
     length = property(getLength, setLength, None, "The dimension along the Z axis")
 
-
     def getMaximum(self): return map(lambda a, b:a + b, self._origin, self._size)
 
     maximum = property(getMaximum, None, None, "The endpoint of the box; origin plus size.")
@@ -111,7 +108,6 @@ class BoundingBox (object):
     @property
     def chunkCount(self):
         return (self.maxcx - self.mincx) * (self.maxcz - self.mincz)
-
 
     @property
     def isChunkAligned(self):
@@ -131,8 +127,6 @@ class BoundingBox (object):
         if self.minz > box.maxz or self.maxz < box.minz: return BoundingBox()
         newbox.minz = max(self.minz, box.minz)
         newbox.maxz = min(self.maxz, box.maxz)
-
-
 
         #print "Intersect of {0} and {1}: {2}".format(self, box, newbox)
         return newbox
@@ -161,7 +155,6 @@ class BoundingBox (object):
         box.maxy += dy
         box.maxz += dz
         return box
-
 
     def __contains__(self, pos):
         x, y, z = pos

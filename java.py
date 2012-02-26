@@ -30,7 +30,6 @@ class MCJavaLevel(MCLevel):
     def Width(self):
         return self.Blocks.shape[0]
 
-
     def guessSize(self, data):
         if data.shape[0] <= (32 * 32 * 64) * 2:
             warn(u"Can't guess the size of a {0} byte level".format(data.shape[0]))
@@ -104,7 +103,6 @@ class MCJavaLevel(MCLevel):
         self.blockOffset = blockOffset
         blocks.shape = (w, l, h)
         blocks.strides = (1, w, w * l)
-
 
     def saveInPlace(self):
 

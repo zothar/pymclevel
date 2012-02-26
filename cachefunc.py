@@ -71,7 +71,6 @@ def lru_cache(maxsize=100):
                     queue_appendleft(key)
                     refcount[key] = 1
 
-
             return result
 
         def clear():
@@ -134,7 +133,6 @@ def lfu_cache(maxsize=100):
         wrapper.clear = clear
         return wrapper
     return decorating_function
-
 
 if __name__ == '__main__':
 

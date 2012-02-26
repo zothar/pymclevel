@@ -4,7 +4,6 @@ Created on Jul 22, 2011
 @author: Rio
 '''
 
-
 from mclevelbase import *
 import tempfile
 from collections import defaultdict
@@ -42,7 +41,6 @@ def extractHeights(array):
 
     w, h = array.shape[:2]
     heightMap = zeros((w, h), 'uint16')
-
 
     heights = argmax((array>0)[..., ::-1], 2)
     heights = array.shape[2] - heights
@@ -91,7 +89,6 @@ def getSlices(box, height):
             localMaxX = maxxoff
         newMinX = localMinX + (cx << 4) - box.minx
         newMaxX = localMaxX + (cx << 4) - box.minx
-
 
         for cz in range(box.mincz, box.maxcz):
             localMinZ = 0
@@ -183,13 +180,11 @@ class MCLevel(object):
     def bounds(self):
         return BoundingBox((0, 0, 0), self.size)
 
-
     def close(self): pass
 
     # --- Compression ---
     def compress(self): pass
     def decompress(self):pass
-
 
     # --- Entity Methods ---
     def addEntity(self, entityTag): pass
@@ -219,14 +214,12 @@ class MCLevel(object):
         being a chunked level format."""
         return self.loadedChunks
 
-
     def getChunks(self, chunks=None):
         """ pass a list of chunk coordinate tuples to get an iterator yielding
         InfdevChunks. pass nothing for an iterator of every chunk in the level.
         the chunks are automatically loaded."""
         if chunks is None: chunks = self.allChunks;
         return (self.getChunk(cx, cz) for (cx, cz) in chunks if self.containsChunk(cx, cz))
-
 
     def _getFakeChunkEntities(self, cx, cz):
         """Returns Entities, TileEntities"""
@@ -237,13 +230,11 @@ class MCLevel(object):
         position. Subclasses override fakeBlocksForChunk and fakeDataForChunk
         to fill in the chunk arrays"""
 
-
         f = FakeChunk()
         f.world = self
         f.chunkPosition = (cx, cz)
 
         f.Blocks = self.fakeBlocksForChunk(cx, cz)
-
 
         f.Data = self.fakeDataForChunk(cx, cz)
 
@@ -254,8 +245,6 @@ class MCLevel(object):
         f.SkyLight = whiteLight
 
         f.Entities, f.TileEntities = self._getFakeChunkEntities(cx, cz)
-
-
 
         f.root_tag = TAG_Compound()
 
@@ -272,7 +261,6 @@ class MCLevel(object):
                 chunk = self.getChunk(xPos, zPos)
             except (ChunkMalformed, ChunkNotPresent):
                 continue
-
 
             yield (chunk, slices, (xPos * 16 - x, 0, zPos * 16 - z))
 
@@ -299,7 +287,6 @@ class MCLevel(object):
                 for cPos, slices, point in self._getSlices(box)
                 if self.containsChunk(*cPos))
 
-
     def containsPoint(self, x, y, z):
         return (x >= 0 and x < self.Width and
                 y >= 0 and y < self.Height and
@@ -318,7 +305,6 @@ class MCLevel(object):
 
     def chunkIsDirty(self, cx, cz):
         return True
-
 
     def fakeBlocksForChunk(self, cx, cz):
         #return a 16x16xH block array for rendering.  Alpha levels can
@@ -412,7 +398,6 @@ class MCLevel(object):
             if hasattr(self, "Data"):
                 self.Data[slices[0], slices[2], slices[1]] = blockInfo.blockData
 
-
     # --- Transformations ---
     def rotateLeft(self):
         self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :] #x=z; z=-x
@@ -447,7 +432,6 @@ class MCLevel(object):
             sourceData = sourceLevel.Data[sourcex, sourcez, sourcey]
         convertedSourceBlocks, convertedSourceData = self.convertBlocksFromLevel(sourceLevel, sourceLevel.Blocks[sourcex, sourcez, sourcey], sourceData)
 
-
         blocks = self.Blocks[destx, destz, desty]
 
         mask = slice(None, None)
@@ -461,7 +445,6 @@ class MCLevel(object):
         if hasattr(self, 'Data') and hasattr(sourceLevel, 'Data'):
             data = self.Data[destx, destz, desty]
             data[mask] = convertedSourceData[mask]
-
 
     def copyBlocksFromInfinite(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy):
         return exhaust(self.copyBlocksFromInfinite(sourceLevel, sourceBox, destinationPoint, blocksToCopy))
@@ -478,7 +461,6 @@ class MCLevel(object):
 
             convertedSourceBlocks, convertedSourceData = self.convertBlocksFromLevel(sourceLevel, chunk.Blocks[slices], chunk.Data[slices])
 
-
             destSlices = [slice(p, p + s.stop - s.start) for p, s in zip(point, slices) ]
 
             blocks = self.Blocks[ destSlices ]
@@ -494,9 +476,6 @@ class MCLevel(object):
 
             yield i
 
-
-
-
     def adjustCopyParameters(self, sourceLevel, sourceBox, destinationPoint):
 
         # if the destination box is outside the level, it and the source corners are moved inward to fit.
@@ -507,7 +486,6 @@ class MCLevel(object):
 
         (lx, ly, lz) = sourceBox.size
         debug(u"Asked to copy {0} blocks \n\tfrom {1} in {3}\n\tto {2} in {4}" .format (ly * lz * lx, sourceBox, destinationPoint, sourceLevel, self))
-
 
         #clip the source ranges to this level's edges.  move the destination point as needed.
         #xxx abstract this
@@ -543,7 +521,6 @@ class MCLevel(object):
 
         return sourceBox, destinationPoint
 
-
     def copyBlocksFrom(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy=None, entities=True, create=False):
         return exhaust(self.copyBlocksFromIter(sourceLevel, sourceBox, destinationPoint, blocksToCopy, entities, create))
 
@@ -552,7 +529,6 @@ class MCLevel(object):
                sourceLevel.containsPoint(*sourceBox.origin) and
                sourceLevel.containsPoint(*map(lambda x:x - 1, sourceBox.maximum))):
             raise ValueError, "{0} cannot provide blocks between {1}".format(sourceLevel, sourceBox)
-
 
         sourceBox, destinationPoint = self.adjustCopyParameters(sourceLevel, sourceBox, destinationPoint)
         yield
@@ -570,7 +546,6 @@ class MCLevel(object):
                 yield i
         for i in self.copyEntitiesFromIter(sourceLevel, sourceBox, destinationPoint, entities):
             yield i
-
 
     def convertBlocksFromLevel(self, sourceLevel, blocks, blockData):
         return materials.convertBlocks(self.materials, sourceLevel.materials, blocks, blockData)
@@ -600,16 +575,11 @@ class MCLevel(object):
     def getPlayerOrientation(self, player="Player"):
         return -45., 0.
 
-
     # --- Dummy Lighting Methods ---
     def generateLights(self, dirtyChunks=None):
         pass;
     def generateLightsIter(self, dirtyChunks=None):
         yield 0
-
-
-
-
 
 class EntityLevel(MCLevel):
     """Abstract subclass of MCLevel that adds default entity behavior"""
@@ -643,8 +613,6 @@ class EntityLevel(MCLevel):
                 self.addTileEntity(eTag)
 
         info("Copied {0} entities, {1} tile entities".format(e, t))
-
-
 
     def copyEntitiesFromIter(self, sourceLevel, sourceBox, destinationPoint, entities=True):
         #assume coords have already been adjusted by copyBlocks

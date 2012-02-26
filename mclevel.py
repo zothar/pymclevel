@@ -187,11 +187,6 @@ import sys
 log = logging.getLogger(__name__)
 warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
-
-
-
-
-
 class LoadingError(RuntimeError): pass
 
 def fromFile(filename, loadInfinite=True):
@@ -230,13 +225,9 @@ def fromFile(filename, loadInfinite=True):
     if len(rawdata) < 4:
         raise ValueError, "{0} is too small! ({1}) ".format(filename, len(rawdata))
 
-
-
-
     data = fromstring(rawdata, dtype='uint8')
     if not data.any():
         raise ValueError, "{0} contains only zeroes. This file is damaged beyond repair."
-
 
     if MCJavaLevel._isDataLevel(data):
         info(u"Detected Java-style level")

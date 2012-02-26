@@ -64,8 +64,6 @@ class TAG_Value(object):
         self.name = name
         self.value = value
 
-
-
     def __repr__(self):
         return "%s( \"%s\" ): %s" % (str(self.__class__), self.name, repr(self.value))
 
@@ -77,7 +75,6 @@ class TAG_Value(object):
             return  " " * indent + "%s( \"%s\" ): %s" % (str(self.__class__.__name__), self.name, self.value)
         else:
             return  " " * indent + "%s: %s" % (str(self.__class__.__name__), self.value)
-
 
     def write_tag(self, buf):
         buf.write(struct.pack(TAGfmt, self.tag))
@@ -170,7 +167,6 @@ class TAG_Byte_Array(TAG_Value):
     def __repr__(self):
         return "<%s: length %d> ( %s )" % (self.__class__, len(self.value), self.name)
 
-
     def pretty_string(self, indent=0):
         if self.name:
             return  " " * indent + "%s( \"%s\" ): shape=%s dtype=%s %s" % (
@@ -194,7 +190,6 @@ class TAG_Byte_Array(TAG_Value):
         if name:
             self.name = name
         self.value = value
-
 
     def write_value(self, buf):
         #print self.value
@@ -220,7 +215,6 @@ class TAG_Int_Array(TAG_Byte_Array):
         self.name = name
         self.value = value
 
-
     def write_value(self, buf):
         #print self.value
         valuestr = self.value.tostring()
@@ -244,7 +238,6 @@ class TAG_Short_Array(TAG_Int_Array):
     def __init__(self, value=zeros(0, ">u2"), name=None):
         self.name = name
         self.value = value
-
 
     def write_value(self, buf):
         #print self.value
@@ -280,8 +273,6 @@ class TAG_String(TAG_Value):
     @property
     def unicodeValue(self):
         return self.value.decode('utf-8')
-
-
 
 class TAG_Compound(TAG_Value, collections.MutableMapping):
     """A heterogenous list of named tags. Names must be unique within
@@ -332,7 +323,6 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
             value = []
         self.value = value
 
-
     def write_value(self, buf):
         for i in self.value:
             i.save(buf=buf)
@@ -349,7 +339,6 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
     def __iter__(self):             return itertools.imap(lambda x:x.name, self.value);
     def __contains__(self, k):return k in map(lambda x:x.name, self.value);
     def __len__(self):                return self.value.__len__()
-
 
     def __setitem__(self, k, v):
         """Automatically wraps lists and tuples in a TAG_List, and wraps strings
@@ -393,7 +382,6 @@ class TAG_List(TAG_Value, collections.MutableSequence):
     def __repr__(self):
         return "%s( %s ): %s" % (self.__class__.__name__, self.name, self.value)
 
-
     def pretty_string(self, indent=0):
         if self.name:
             pretty = " " * indent + "%s( \"%s\" ):\n" % (str(self.__class__.__name__), self.name)
@@ -415,7 +403,6 @@ class TAG_List(TAG_Value, collections.MutableSequence):
         list_length, data_cursor = TAG_Int.load_from(data, data_cursor)
         list_length = list_length.value
 
-
         for i in range(list_length):
 
             tag, data_cursor = tag_classes[self.list_type].load_from(data, data_cursor)
@@ -436,7 +423,6 @@ class TAG_List(TAG_Value, collections.MutableSequence):
             value = filter(lambda x:x.__class__ == value[0].__class__, value)
 
         self.value = value
-
 
     """ collection methods """
     def __iter__(self):             return iter(self.value)
@@ -468,7 +454,6 @@ class TAG_List(TAG_Value, collections.MutableSequence):
         TAG_Int(len(self)).write_value(buf)
         for i in self.value:
             i.write_value(buf)
-
 
 tag_classes = {
     1 : TAG_Byte,
@@ -533,6 +518,5 @@ def load(filename="", buf=None):
     tag, data_cursor = load_named(data, data_cursor, tag_type)
 
     return tag
-
 
 __all__ = [a.__name__ for a in tag_classes.itervalues()] + ["load", "loadFile", "gunzip"]

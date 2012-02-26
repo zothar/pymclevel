@@ -128,7 +128,6 @@ def generic8wayRotation(cls):
     cls.rotateLeft[cls.Southwest] = cls.Southeast
     cls.rotateLeft[cls.Northwest] = cls.Southwest
 
-
     cls.flipEastWest = genericEastWestFlip(cls)
     cls.flipEastWest[cls.Northeast] = cls.Northwest
     cls.flipEastWest[cls.Northwest] = cls.Northeast
@@ -181,7 +180,6 @@ PoweredDetectorRail.rotateLeft = genericRotation(PoweredDetectorRail)
 
 PoweredDetectorRail.rotateLeft[PoweredDetectorRail.NorthSouth] = PoweredDetectorRail.EastWest
 PoweredDetectorRail.rotateLeft[PoweredDetectorRail.EastWest] = PoweredDetectorRail.NorthSouth
-
 
 PoweredDetectorRail.flipEastWest = genericEastWestFlip(PoweredDetectorRail)
 PoweredDetectorRail.flipNorthSouth = genericNorthSouthFlip(PoweredDetectorRail)
@@ -374,7 +372,6 @@ class HugeMushroom:
     West = 8
     Northwest = 7
     North = 4
-
 
 generic8wayRotation(HugeMushroom)
 

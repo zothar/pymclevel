@@ -41,7 +41,6 @@ class PocketChunksFile(object):
                 filesize = self.SECTOR_BYTES
                 f.truncate(filesize)
 
-
             f.seek(0)
             offsetsData = f.read(self.SECTOR_BYTES)
 
@@ -49,7 +48,6 @@ class PocketChunksFile(object):
             self.freeSectors[0] = False
 
             self.offsets = fromstring(offsetsData, dtype='<u4')
-
 
         needsRepair = False
 
@@ -192,7 +190,6 @@ class PocketChunksFile(object):
         chunk = PocketChunk(cx, cz, data[4:], world)
         return chunk
 
-
     def saveChunk(self, chunk):
         cx, cz = chunk.chunkPosition
 
@@ -265,7 +262,6 @@ class PocketChunksFile(object):
 
                 self.setOffset(cx, cz, sectorNumber << 8 | sectorsNeeded)
                 self.writeSector(sectorNumber, data, format)
-
 
     def writeSector(self, sectorNumber, data, format):
         with self.file as f:

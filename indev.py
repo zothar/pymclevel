@@ -4,7 +4,6 @@ Created on Jul 22, 2011
 @author: Rio
 '''
 
-
 """
 Indev levels:
 
@@ -169,8 +168,6 @@ class MCIndevLevel(EntityLevel):
 
             self.Data = swapaxes(mapTag[Data].value, 0, 2)
 
-
-
             self.BlockLight = self.Data & 0xf
 
             self.Data >>= 4
@@ -188,7 +185,6 @@ class MCIndevLevel(EntityLevel):
                         ent[attr] = TAG_List([TAG_Double(t.value) for t in ent[attr]])
             for ent in self.Entities:
                 numbersToDoubles(ent)
-
 
             if not TileEntities in root_tag:
                 root_tag[TileEntities] = TAG_List()
@@ -228,8 +224,6 @@ class MCIndevLevel(EntityLevel):
 #            self.Name = self.root_tag[About][Name].value
 #            self.Author = self.root_tag[About][Author].value
 #            self.CreatedOn = self.root_tag[About][CreatedOn].value
-
-
 
     def rotateLeft(self):
         MCLevel.rotateLeft(self)

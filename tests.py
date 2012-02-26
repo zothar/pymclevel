@@ -144,7 +144,6 @@ class TestNBT(unittest.TestCase):
         blocks = level["Map"]["Blocks"].value
         blocks[blocks == 5] = 41
 
-
     def testSave(self):
 
         level = self.testCreate()
@@ -152,7 +151,6 @@ class TestNBT(unittest.TestCase):
 
         "Save the entire TAG structure to a different file."
         atlantis = TempLevel("atlantis.mclevel", createFunc = level.save)
-
 
     def testErrors(self):
         """
@@ -281,7 +279,6 @@ class TestAlphaLevel(unittest.TestCase):
         level = self.alphalevel.level
         cx, cz = level.allChunks.next()
 
-
         schem = fromFile("schematics/CreativeInABox.schematic")
         box = BoundingBox((cx*16, 64, cz*16), schem.bounds.size)
         level.copyBlocksFrom(schem, schem.bounds, (0, 64, 0))
@@ -345,7 +342,6 @@ class TestAlphaLevel(unittest.TestCase):
             assert (ch.Data == 13).all()
             for key in keys:
                 assert (d[key] == getattr(ch, key)).all()
-
 
     def testPlayerSpawn(self):
         level = self.alphalevel.level
