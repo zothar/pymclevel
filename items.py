@@ -384,8 +384,10 @@ class Items (object):
         for line in items_txt.split("\n"):
             try:
                 line = line.strip()
-                if len(line) == 0: continue
-                if line[0] == "#": continue;
+                if len(line) == 0:
+                    continue
+                if line[0] == "#":
+                    continue;
                 if line[0] == "~":
                     fields = line.split()
                     name, icon, items = fields[1:4]
@@ -425,18 +427,22 @@ class Items (object):
 
     def findItem(self, id=0, damage=None):
         item = self.itemtypes.get((id, damage))
-        if item: return item
+        if item:
+            return item
 
         item = self.itemtypes.get((id, None))
-        if item: return item
+        if item:
+            return item
 
         item = self.itemtypes.get((id, 0))
-        if item: return item
+        if item:
+            return item
 
         return ItemType(id, "Unknown Item {0}:{1}".format(id, damage), damagevalue=damage)
         #raise ItemNotFound, "Item {0}:{1} not found".format(id, damage)
 
 
-class ItemNotFound(KeyError): pass
+class ItemNotFound(KeyError):
+    pass
 
 items = Items()

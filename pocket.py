@@ -74,13 +74,16 @@ class PocketChunksFile(object):
              file=os.path.basename(path), used=self.usedSectors, total=self.sectorCount, chunks=self.chunkCount))
 
     @property
-    def usedSectors(self): return len(self.freeSectors) - sum(self.freeSectors)
+    def usedSectors(self):
+        return len(self.freeSectors) - sum(self.freeSectors)
 
     @property
-    def sectorCount(self): return len(self.freeSectors)
+    def sectorCount(self):
+        return len(self.freeSectors)
 
     @property
-    def chunkCount(self): return sum(self.offsets > 0)
+    def chunkCount(self):
+        return sum(self.offsets > 0)
 
     def repair(self):
         pass
@@ -168,11 +171,13 @@ class PocketChunksFile(object):
         cx &= 0x1f
         cz &= 0x1f
         offset = self.getOffset(cx, cz)
-        if offset == 0: return None
+        if offset == 0:
+            return None
 
         sectorStart = offset >> 8
         numSectors = offset & 0xff
-        if numSectors == 0: return None
+        if numSectors == 0:
+            return None
 
         if sectorStart + numSectors > len(self.freeSectors):
             return None
@@ -186,7 +191,8 @@ class PocketChunksFile(object):
 
     def loadChunk(self, cx, cz, world):
         data = self._readChunk(cx, cz)
-        if data is None: raise ChunkNotPresent, (cx, cz, self)
+        if data is None:
+            raise ChunkNotPresent, (cx, cz, self)
 
         chunk = PocketChunk(cx, cz, data[4:], world)
         return chunk
@@ -203,7 +209,8 @@ class PocketChunksFile(object):
         data = chunk._savedData()
 
         sectorsNeeded = (len(data) + self.CHUNK_HEADER_SIZE) / self.SECTOR_BYTES + 1
-        if sectorsNeeded >= 256: return
+        if sectorsNeeded >= 256:
+            return
 
         if sectorNumber != 0 and sectorsAllocated >= sectorsNeeded:
             debug("REGION SAVE {0},{1} rewriting {2}b".format(cx, cz, len(data)))
@@ -322,7 +329,8 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
 
     def getChunk(self, cx, cz):
         for p in cx,cz:
-            if not 0 <= p <= 31: raise ChunkNotPresent, (cx,cz, self)
+            if not 0 <= p <= 31:
+                raise ChunkNotPresent, (cx,cz, self)
 
         c = self._loadedChunks.get( (cx,cz) )
         if c is None:
@@ -336,7 +344,8 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
 
         if not os.path.isdir(filename):
             f = os.path.basename(filename)
-            if f not in clp: return False
+            if f not in clp:
+                return False
             filename = os.path.dirname(filename)
 
         return all([os.path.exists(os.path.join(filename, f)) for f in clp])
@@ -348,7 +357,8 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
                 chunk.dirty = False
 
     def containsChunk(self, cx, cz):
-        if cx>31 or cz>31 or cx < 0 or cz < 0: return False
+        if cx>31 or cz>31 or cx < 0 or cz < 0:
+            return False
         return self.chunkFile.getOffset(cx,cz) != 0
 
 
@@ -376,13 +386,17 @@ class PocketChunk(LightedChunk):
         self.unpackChunkData()
         self.shapeChunkData()
 
-    def isLoaded(self): return True
+    def isLoaded(self):
+        return True
 
-    def load(self): pass
+    def load(self):
+        pass
 
-    def decompress(self): pass
+    def decompress(self):
+        pass
 
-    def compress(self): pass
+    def compress(self):
+        pass
 
     def unpackChunkData(self):
         for key in ('SkyLight', 'BlockLight', 'Data'):

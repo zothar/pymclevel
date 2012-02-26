@@ -29,7 +29,8 @@ from numpy import array, zeros, uint8, fromstring
 TAGfmt = ">b"
 
 
-class NBTFormatError(RuntimeError): pass
+class NBTFormatError(RuntimeError):
+    pass
 
 
 class TAG_Value(object):
@@ -98,7 +99,8 @@ class TAG_Value(object):
             self.saveGzipped(filename)
             return
         "Save the tagged element to a file."
-        if self.name == None: self.name = "" #root tag must have name
+        if self.name == None:
+            self.name = "" #root tag must have name
         self.write_tag(buf)
         self.write_name(buf)
         self.write_value(buf)
@@ -106,7 +108,8 @@ class TAG_Value(object):
     def saveGzipped(self, filename, compresslevel=1):
         sio = StringIO()
         #atomic write
-        try: os.rename(filename, filename + ".old")
+        try:
+            os.rename(filename, filename + ".old")
         except Exception, e:
             #print "Atomic Save: No existing file to rename"
             pass
@@ -126,7 +129,8 @@ class TAG_Value(object):
                 print e
                 return
 
-        try: os.remove(filename + ".old")
+        try:
+            os.remove(filename + ".old")
         except Exception, e:
             #print "Atomic Save: No old file to remove"
             pass
@@ -353,14 +357,18 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
         #hits=filter(lambda x:x.name==k, self.value)
         #if(len(hits)): return hits[0]
         for key in self.value:
-                if key.name == k: return key
+                if key.name == k:
+                    return key
         raise KeyError("Key {0} not found in tag {1}".format(k, self))
 
-    def __iter__(self):             return itertools.imap(lambda x:x.name, self.value)
+    def __iter__(self):
+        return itertools.imap(lambda x:x.name, self.value)
 
-    def __contains__(self, k):return k in map(lambda x:x.name, self.value)
+    def __contains__(self, k):
+        return k in map(lambda x:x.name, self.value)
 
-    def __len__(self):                return self.value.__len__()
+    def __len__(self):
+        return self.value.__len__()
 
     def __setitem__(self, k, v):
         """Automatically wraps lists and tuples in a TAG_List, and wraps strings
@@ -370,14 +378,17 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
         elif isinstance(v, basestring):
             v = TAG_String(v)
 
-        if not (v.__class__ in tag_classes.values()): raise TypeError("Invalid type %s for TAG_Compound" % v.__class__)
+        if not (v.__class__ in tag_classes.values()):
+            raise TypeError("Invalid type %s for TAG_Compound" % v.__class__)
         """remove any items already named "k".    """
         olditems = filter(lambda x:x.name == k, self.value)
-        for i in olditems: self.value.remove(i)
+        for i in olditems:
+            self.value.remove(i)
         self.value.append(v)
         v.name = k
 
-    def __delitem__(self, k): self.value.__delitem__(self.value.index(self[k]))
+    def __delitem__(self, k):
+        self.value.__delitem__(self.value.index(self[k]))
 
     def add(self, v):
         self[v.name] = v
@@ -448,13 +459,17 @@ class TAG_List(TAG_Value, collections.MutableSequence):
 
     """ collection methods """
 
-    def __iter__(self):             return iter(self.value)
+    def __iter__(self):
+        return iter(self.value)
 
-    def __contains__(self, k):return k in self.value
+    def __contains__(self, k):
+        return k in self.value
 
-    def __getitem__(self, i): return self.value[i]
+    def __getitem__(self, i):
+        return self.value[i]
 
-    def __len__(self):                return len(self.value)
+    def __len__(self):
+        return len(self.value)
 
     def __setitem__(self, i, v):
         if v.__class__ != tag_classes[self.list_type]:
@@ -466,11 +481,13 @@ class TAG_List(TAG_Value, collections.MutableSequence):
         del self.value[i]
 
     def insert(self, i, v):
-            if not v.tag in tag_classes: raise TypeError("Not a tag type: %s" % (v,))
+            if not v.tag in tag_classes:
+                raise TypeError("Not a tag type: %s" % (v,))
             if len(self) == 0:
                     self.list_type = v.tag
             else:
-                    if v.__class__ != tag_classes[self.list_type]: raise TypeError("Invalid type %s for TAG_List(%s)" % (v.__class__, tag_classes[self.list_type]))
+                    if v.__class__ != tag_classes[self.list_type]:
+                        raise TypeError("Invalid type %s for TAG_List(%s)" % (v.__class__, tag_classes[self.list_type]))
 
             v.name = ""
             self.value.insert(i, v)
@@ -533,9 +550,11 @@ def load(filename="", buf=None):
 
     if filename and isinstance(filename, (str, unicode)):
         return loadFile(filename)
-    if isinstance(buf, str): buf = fromstring(buf, uint8)
+    if isinstance(buf, str):
+        buf = fromstring(buf, uint8)
     data = buf
-    #if buf != None: data = buf
+    #if buf != None:
+    #    data = buf
     if not len(buf):
         raise NBTFormatError, "Asked to load root tag of zero length"
 

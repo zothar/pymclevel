@@ -177,7 +177,9 @@ class Entity(object):
         return eTag
 
 
-class InvalidEntity(ValueError): pass
+class InvalidEntity(ValueError):
+    pass
 
 
-class InvalidTileEntity(ValueError): pass
+class InvalidTileEntity(ValueError):
+    pass

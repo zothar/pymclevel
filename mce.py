@@ -19,13 +19,16 @@ except:
     pass
 
 
-class UsageError(RuntimeError): pass
+class UsageError(RuntimeError):
+    pass
 
 
-class BlockMatchError(RuntimeError): pass
+class BlockMatchError(RuntimeError):
+    pass
 
 
-class PlayerNotFound(RuntimeError): pass
+class PlayerNotFound(RuntimeError):
+    pass
 
 
 class mce(object):
@@ -253,7 +256,8 @@ class mce(object):
                 if len(matches):
                     print "Matches: "
                     for m in matches:
-                        if m == self.level.materials.defaultName: continue
+                        if m == self.level.materials.defaultName:
+                            continue
                         print "{0:3}:{1:<2} : {2}".format(m.ID, m.blockData, m.name)
                 else:
                     print "No blocks matched."
@@ -662,7 +666,8 @@ class mce(object):
         def printFreeSectors(runs):
 
             for i, (start, count) in enumerate(runs):
-                if i % 4 == 3: print ""
+                if i % 4 == 3:
+                    print ""
                 print "{start:>6}+{count:<4}".format(**locals()),
 
             print ""
@@ -712,7 +717,8 @@ class mce(object):
             for i, (rx, rz) in enumerate(coords):
                 count = level.regionFiles[rx,rz].chunkCount
                 print "({rx:6}, {rz:6}): {count}, ".format(**locals()),
-                if i % 5 == 4: print ""
+                if i % 5 == 4:
+                    print ""
 
     def _repair(self, command):
         """
@@ -841,7 +847,8 @@ class mce(object):
         else:
             print "Removing all entities except Painting..."
 
-            def match(entityID): return entityID != "Painting";
+            def match(entityID):
+                return entityID != "Painting";
 
         for cx, cz in self.level.allChunks:
             chunk = self.level.getChunk(cx, cz)
@@ -1056,7 +1063,8 @@ class mce(object):
                         hours += 12
 
             ticks = ageInTicks + hours * 1000 + minutes * 1000 / 60 - 6000
-            if ticks < 0: ticks += 18000
+            if ticks < 0:
+                ticks += 18000
 
             ampm = ("AM", "PM")[hours > 11 and hours < 24]
             print "Changed time to {0}:{1:02} {2}".format(hours % 12 or 12, minutes, ampm)
@@ -1433,9 +1441,11 @@ class mce(object):
     def processCommand(self, command):
         command = command.strip()
 
-        if len(command) == 0: return
+        if len(command) == 0:
+            return
 
-        if command[0] == "#": return
+        if command[0] == "#":
+            return
 
         commandWords = command.split()
 

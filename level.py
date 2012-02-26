@@ -184,34 +184,47 @@ class MCLevel(object):
     def bounds(self):
         return BoundingBox((0, 0, 0), self.size)
 
-    def close(self): pass
+    def close(self):
+        pass
 
     # --- Compression ---
-    def compress(self): pass
+    def compress(self):
+        pass
 
-    def decompress(self):pass
+    def decompress(self):
+        pass
 
     # --- Entity Methods ---
-    def addEntity(self, entityTag): pass
+    def addEntity(self, entityTag):
+        pass
 
-    def addEntities(self, entities): pass
+    def addEntities(self, entities):
+        pass
 
-    def tileEntityAt(self, x, y, z): return None
+    def tileEntityAt(self, x, y, z):
+        return None
 
-    def addTileEntity(self, entityTag): pass
+    def addTileEntity(self, entityTag):
+        pass
 
-    def getEntitiesInBox(self, box): return []
+    def getEntitiesInBox(self, box):
+        return []
 
-    def getTileEntitiesInBox(self, box): return []
+    def getTileEntitiesInBox(self, box):
+        return []
 
-    def copyEntitiesFromIter(self, *args, **kw): yield
+    def copyEntitiesFromIter(self, *args, **kw):
+        yield
 
-    def removeEntitiesInBox(self, box): pass
+    def removeEntitiesInBox(self, box):
+        pass
 
-    def removeTileEntitiesInBox(self, box): pass
+    def removeTileEntitiesInBox(self, box):
+        pass
 
     # --- Chunked Format Emulation ---
-    def compressChunk(self, cx, cz): pass
+    def compressChunk(self, cx, cz):
+        pass
 
     @property
     def loadedChunks(self):
@@ -231,7 +244,8 @@ class MCLevel(object):
         """ pass a list of chunk coordinate tuples to get an iterator yielding
         InfdevChunks. pass nothing for an iterator of every chunk in the level.
         the chunks are automatically loaded."""
-        if chunks is None: chunks = self.allChunks
+        if chunks is None:
+            chunks = self.allChunks
         return (self.getChunk(cx, cz) for (cx, cz) in chunks if self.containsChunk(cx, cz))
 
     def _getFakeChunkEntities(self, cx, cz):
@@ -347,22 +361,30 @@ class MCLevel(object):
     def skylightAt(self, *args):
         return 15
 
-    def setSkylightAt(self, *args): pass
+    def setSkylightAt(self, *args):
+        pass
 
-    def setBlockDataAt(self, x, y, z, newdata): pass
+    def setBlockDataAt(self, x, y, z, newdata):
+        pass
 
-    def blockDataAt(self, x, y, z): return 0
+    def blockDataAt(self, x, y, z):
+        return 0
 
-    def blockLightAt(self, x, y, z): return 15
+    def blockLightAt(self, x, y, z):
+        return 15
 
     def blockAt(self, x, y, z):
-        if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0
+        if x < 0 or y < 0 or z < 0:
+            return 0
+        if x >= self.Width or y >= self.Height or z >= self.Length:
+            return 0
         return self.Blocks[x, z, y]
 
     def setBlockAt(self, x, y, z, blockID):
-        if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0
+        if x < 0 or y < 0 or z < 0:
+            return 0
+        if x >= self.Width or y >= self.Height or z >= self.Length:
+            return 0
         self.Blocks[x, z, y] = blockID
 
     # --- Fill and Replace ---
@@ -573,9 +595,11 @@ class MCLevel(object):
     def getPlayerPosition(self, player="Player"):
         return 8, self.Height * 0.75, 8
 
-    def getPlayerDimension(self, player="Player"): return 0
+    def getPlayerDimension(self, player="Player"):
+        return 0
 
-    def setPlayerDimension(self, d, player="Player"): return
+    def setPlayerDimension(self, d, player="Player"):
+        return
 
     def setPlayerSpawnPosition(self, pos, player=None):
         pass
@@ -614,7 +638,8 @@ class EntityLevel(MCLevel):
                 e += len(chunk.Entities)
                 for entityTag in chunk.Entities:
                     x, y, z = Entity.pos(entityTag)
-                    if (x, y, z) not in sourceBox: continue
+                    if (x, y, z) not in sourceBox:
+                        continue
 
                     eTag = Entity.copyWithOffset(entityTag, copyOffset)
 
@@ -623,7 +648,8 @@ class EntityLevel(MCLevel):
             t += len(chunk.TileEntities)
             for tileEntityTag in chunk.TileEntities:
                 x, y, z = TileEntity.pos(tileEntityTag)
-                if (x, y, z) not in sourceBox: continue
+                if (x, y, z) not in sourceBox:
+                    continue
 
                 eTag = TileEntity.copyWithOffset(tileEntityTag, copyOffset)
 
@@ -633,7 +659,8 @@ class EntityLevel(MCLevel):
 
     def copyEntitiesFromIter(self, sourceLevel, sourceBox, destinationPoint, entities=True):
         #assume coords have already been adjusted by copyBlocks
-        #if not self.hasEntities or not sourceLevel.hasEntities: return
+        #if not self.hasEntities or not sourceLevel.hasEntities:
+        #    return
         sourcePoint0 = sourceBox.origin
         sourcePoint1 = sourceBox.maximum
 
@@ -657,7 +684,8 @@ class EntityLevel(MCLevel):
                 if i % 100 == 0:
                     yield
 
-                if not 'x' in entity: continue
+                if not 'x' in entity:
+                    continue
                 eTag = TileEntity.copyWithOffset(entity, copyOffset)
 
                 try:
@@ -694,7 +722,8 @@ class EntityLevel(MCLevel):
 
     def removeTileEntitiesInBox(self, box):
 
-        if not hasattr(self, "TileEntities"): return
+        if not hasattr(self, "TileEntities"):
+            return
         newEnts = []
         for ent in self.TileEntities:
             if TileEntity.pos(ent) in box:
@@ -764,16 +793,19 @@ class ChunkBase(EntityLevel):
     needsLighting = False
     Blocks = Data = SkyLight = BlockLight = HeightMap = NotImplemented #override these!
 
-    def load(self):pass
+    def load(self):
+        pass
 
-    def compress(self):pass
+    def compress(self):
+        pass
 
     def chunkChanged(self, needsLighting = True):
         self.dirty = True
         self.needsLighting = needsLighting or self.needsLighting
 
     @property
-    def materials(self): return self.world.materials
+    def materials(self):
+        return self.world.materials
 
 
 class FakeChunk(ChunkBase):
@@ -787,7 +819,8 @@ class FakeChunk(ChunkBase):
 
 
 class LightedChunk(ChunkBase):
-    def isLoaded(self): return True
+    def isLoaded(self):
+        return True
 
     def generateHeightMap(self):
         computeChunkHeightMap(self.materials, self.Blocks, self.HeightMap)
@@ -797,7 +830,8 @@ class LightedChunk(ChunkBase):
         the chunk. Pass False for calcLighting if you know your changes will
         not change any lights."""
 
-        if not self.isLoaded(): return
+        if not self.isLoaded():
+            return
 
         self.dirty = True
         self.needsLighting = calcLighting or self.needsLighting

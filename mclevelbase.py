@@ -63,16 +63,20 @@ def unpack_first(func):
     return upk_first
 
 
-class PlayerNotFound(Exception): pass
+class PlayerNotFound(Exception):
+    pass
 
 
-class ChunkNotPresent(Exception): pass
+class ChunkNotPresent(Exception):
+    pass
 
 
-class RegionMalformed(Exception): pass
+class RegionMalformed(Exception):
+    pass
 
 
-class ChunkMalformed(ChunkNotPresent): pass
+class ChunkMalformed(ChunkNotPresent):
+    pass
 
 
 def exhaust(_iter):

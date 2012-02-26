@@ -124,18 +124,24 @@ class MCIndevLevel(EntityLevel):
                 return array(map(lambda x:x.value, x["Rotation"]))
 
     def setBlockDataAt(self, x, y, z, newdata):
-        if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0
+        if x < 0 or y < 0 or z < 0:
+            return 0
+        if x >= self.Width or y >= self.Height or z >= self.Length:
+            return 0
         self.Data[x, z, y] = (newdata & 0xf)
 
     def blockDataAt(self, x, y, z):
-        if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0
+        if x < 0 or y < 0 or z < 0:
+            return 0
+        if x >= self.Width or y >= self.Height or z >= self.Length:
+            return 0
         return self.Data[x, z, y]
 
     def blockLightAt(self, x, y, z):
-        if x < 0 or y < 0 or z < 0: return 0
-        if x >= self.Width or y >= self.Height or z >= self.Length: return 0
+        if x < 0 or y < 0 or z < 0:
+            return 0
+        if x >= self.Width or y >= self.Height or z >= self.Length:
+            return 0
         return self.BlockLight[x, z, y]
 
     def __repr__(self):
@@ -251,7 +257,8 @@ class MCIndevLevel(EntityLevel):
         return x + (y << b) + (z << (2 * b))
 
     def saveToFile(self, filename=None):
-        if filename == None: filename = self.filename
+        if filename == None:
+            filename = self.filename
         if filename == None:
             warn(u"Attempted to save an unnamed file in place")
             return #you fool!
@@ -300,7 +307,8 @@ class MCIndevLevel(EntityLevel):
         except:
             os.rename(filename + ".old", filename)
 
-        try: os.remove(filename + ".old")
+        try:
+            os.remove(filename + ".old")
         except Exception, e:
             pass
 

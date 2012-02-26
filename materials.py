@@ -31,7 +31,8 @@ class Block(object):
         return str(self)
 
     def __cmp__(self, other):
-        if not isinstance(other, Block): return -1
+        if not isinstance(other, Block):
+            return -1
         key = lambda a:a and (a.ID, a.blockData)
         return cmp( key(self), key(other))
 
@@ -128,7 +129,8 @@ class MCMaterials(object):
            """
         if isinstance(key, basestring):
             for b in self.allBlocks:
-                if b.name == key: return b
+                if b.name == key:
+                    return b
             raise KeyError, "No blocks named: " + key
         if isinstance(key, (tuple, list)):
             id, blockData = key
@@ -782,9 +784,11 @@ _conversionFuncs = {}
 
 
 def conversionFunc(destMats, sourceMats):
-    if destMats is sourceMats: return nullConversion
+    if destMats is sourceMats:
+        return nullConversion
     func = _conversionFuncs.get((destMats, sourceMats))
-    if func: return func
+    if func:
+        return func
 
     filters, unavailable = guessFilterTable(sourceMats, destMats)
     debug("")
@@ -802,7 +806,8 @@ def conversionFunc(destMats, sourceMats):
 
 
 def convertBlocks(destMats, sourceMats, blocks, blockData):
-    if sourceMats == destMats: return blocks, blockData
+    if sourceMats == destMats:
+        return blocks, blockData
 
     return conversionFunc(destMats, sourceMats)(blocks, blockData)
 

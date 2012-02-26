@@ -93,7 +93,8 @@ def launch_subprocess(directory, arguments, env={}):
     return proc
 
 
-class RegressionError(Exception): pass
+class RegressionError(Exception):
+    pass
 
 
 def do_test(test_data, result_check, arguments=[]):
@@ -201,7 +202,8 @@ def main(argv):
                     print passes[-1]
 
         print "{0} tests passed.".format(len(passes))
-        for line in fails: print line;
+        for line in fails:
+            print line;
 
 
 if __name__ == '__main__':

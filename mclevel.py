@@ -188,7 +188,8 @@ log = logging.getLogger(__name__)
 warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
 
-class LoadingError(RuntimeError): pass
+class LoadingError(RuntimeError):
+    pass
 
 
 def fromFile(filename, loadInfinite=True):

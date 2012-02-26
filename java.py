@@ -16,9 +16,11 @@ from level import MCLevel
 
 
 class MCJavaLevel(MCLevel):
-    def setBlockDataAt(self, *args): pass
+    def setBlockDataAt(self, *args):
+        pass
 
-    def blockDataAt(self, *args): return 0
+    def blockDataAt(self, *args):
+        return 0
 
     @property
     def Height(self):
@@ -128,8 +130,10 @@ class MCJavaLevel(MCLevel):
                 f.write(s.getvalue())
         except Exception, e:
             info(u"Error while saving java level in place: {0}".format(e))
-            try:os.remove(self.filename)
-            except: pass
+            try:
+                os.remove(self.filename)
+            except:
+                pass
             os.rename(self.filename + ".old", self.filename)
 
         try:
