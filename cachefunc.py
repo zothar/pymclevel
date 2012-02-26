@@ -143,7 +143,7 @@ if __name__ == '__main__':
 
     @lru_cache(maxsize=20)
     def f(x, y):
-        return 3*x+y
+        return 3 * x + y
 
     domain = range(5)
     from random import choice
@@ -154,7 +154,7 @@ if __name__ == '__main__':
 
     @lfu_cache(maxsize=20)
     def f(x, y):
-        return 3*x+y
+        return 3 * x + y
 
     domain = range(5)
     from random import choice

@@ -691,7 +691,7 @@ class mce(object):
                             print ""
                             print "{0:3}, {1:3}: ".format(cx, cz),
                         off = rf.getOffset(cx, cz)
-                        sector, length = off>>8, off&0xff
+                        sector, length = off >> 8, off & 0xff
                         print "{sector:>6}+{length:<2} ".format(**locals()),
                     print ""
 

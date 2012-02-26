@@ -277,7 +277,7 @@ class TestAlphaLevel(unittest.TestCase):
         indevlevel = self.indevlevel.level
         level = self.alphalevel.level
         cx, cz = level.allChunks.next()
-        level.copyBlocksFrom(indevlevel, BoundingBox((0, 0, 0), (256, 128, 256)), (cx*16, 0, cz*16))
+        level.copyBlocksFrom(indevlevel, BoundingBox((0, 0, 0), (256, 128, 256)), (cx * 16, 0, cz * 16))
 
         convertedSourceBlocks, convertedSourceData = indevlevel.convertBlocksFromLevel(level, indevlevel.Blocks[0:16, 0:16, 0:indevlevel.Height], indevlevel.Data[0:16, 0:16, 0:indevlevel.Height])
         assert (level.getChunk(cx, cz).Blocks[0:16, 0:16, 0:indevlevel.Height] == convertedSourceBlocks).all()
@@ -288,7 +288,7 @@ class TestAlphaLevel(unittest.TestCase):
         cx, cz = level.allChunks.next()
 
         schem = fromFile("schematics/CreativeInABox.schematic")
-        box = BoundingBox((cx*16, 64, cz*16), schem.bounds.size)
+        box = BoundingBox((cx * 16, 64, cz * 16), schem.bounds.size)
         level.copyBlocksFrom(schem, schem.bounds, (0, 64, 0))
         schem = MCSchematic(shape=schem.bounds.size)
         schem.copyBlocksFrom(level, box, (0, 0, 0))
@@ -305,7 +305,7 @@ class TestAlphaLevel(unittest.TestCase):
     def testFill(self):
         level = self.alphalevel.level
         cx, cz = level.allChunks.next()
-        box = BoundingBox((cx*16, 0, cz*16), (38, level.Height, 25))
+        box = BoundingBox((cx * 16, 0, cz * 16), (38, level.Height, 25))
         level.fillBlocks(box , level.materials.WoodPlanks)
         c = level.getChunk(cx, cz)
 

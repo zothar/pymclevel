@@ -225,7 +225,7 @@ class MCSchematic (EntityLevel):
             self.dataIsPacked = False
 
     def _update_shape(self):
-        root_tag=self.root_tag
+        root_tag = self.root_tag
         shape = self.Blocks.shape
         root_tag[Height] = TAG_Short(shape[2])
         root_tag[Length] = TAG_Short(shape[1])

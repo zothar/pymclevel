@@ -61,7 +61,7 @@ class MCMaterials(object):
     defaultBrightness = 0
     defaultOpacity = 15
     defaultTexture = NOTEX
-    defaultTex = [t//16 for t in defaultTexture]
+    defaultTex = [t // 16 for t in defaultTexture]
 
     def __init__(self, defaultName="Unused Block"):
         object.__init__(self)
@@ -198,7 +198,7 @@ class MCMaterials(object):
             datakw = dict(kw)
             datakw.update(data)
             idStr = datakw.get('idStr', "")
-            tex = [t*16 for t in datakw.get('tex', self.defaultTex)]
+            tex = [t * 16 for t in datakw.get('tex', self.defaultTex)]
             texture = [tex] * 6
             texDirs = {
                 "FORWARD": 5,
@@ -211,9 +211,9 @@ class MCMaterials(object):
             for dirname, dirtex in datakw.get('tex_direction', {}).items():
                 if dirname == "SIDES":
                     for dirname in ("LEFT", "RIGHT"):
-                        texture[texDirs[dirname]] = [t*16 for t in dirtex]
+                        texture[texDirs[dirname]] = [t * 16 for t in dirtex]
                 if dirname in texDirs:
-                    texture[texDirs[dirname]] = [t*16 for t in dirtex]
+                    texture[texDirs[dirname]] = [t * 16 for t in dirtex]
             datakw['texture'] = texture
             # print datakw
             block = self.addBlock(blockID, val, **datakw)

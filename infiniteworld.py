@@ -509,10 +509,10 @@ class MCServerChunkGenerator(object):
             for p in self.generateAtPositionIter(tempWorld, tempDir, centercx, centercz, simulate):
                 yield startLength - len(chunks), startLength, p
 
-            i=0
+            i = 0
             for cx, cz in itertools.product(
-                            xrange(centercx-maxRadius, centercx+maxRadius),
-                            xrange(centercz-maxRadius, centercz+maxRadius)):
+                            xrange(centercx - maxRadius, centercx + maxRadius),
+                            xrange(centercz - maxRadius, centercz + maxRadius)):
                 if level.containsChunk(cx, cz):
                     chunks.discard((cx, cz))
                 elif ((cx, cz) in chunks
@@ -520,7 +520,7 @@ class MCServerChunkGenerator(object):
                     and tempWorld.getChunk(cx, cz).TerrainPopulated
                     ):
                     self.copyChunkAtPosition(tempWorld, level, cx, cz)
-                    i+= 1
+                    i += 1
                     chunks.discard((cx, cz))
                     yield startLength - len(chunks), startLength
 
@@ -1088,7 +1088,7 @@ class AnvilChunk(InfdevChunk):
                     secarray.shape = (16, 16, 8)
                     secarray = unpackNibbleArray(secarray)
 
-                arr[..., y:y+16] = secarray.swapaxes(0, 2)
+                arr[..., y:y + 16] = secarray.swapaxes(0, 2)
 
     def _compressChunk(self):
         sections = self.root_tag[Level][Sections] = TAG_List()
@@ -1098,7 +1098,7 @@ class AnvilChunk(InfdevChunk):
             for name in Blocks, Data, SkyLight, BlockLight:
 
                 arr = getattr(self, name)
-                secarray = arr[..., y:y+16].swapaxes(0, 2)
+                secarray = arr[..., y:y + 16].swapaxes(0, 2)
                 if name is Blocks:
                     if not secarray.any():
                         break  # detect empty sections here
@@ -1108,7 +1108,7 @@ class AnvilChunk(InfdevChunk):
                 sec[name] = TAG_Byte_Array(array(secarray))
 
             if len(sec):
-                sec["Y"] = TAG_Byte(y/16)
+                sec["Y"] = TAG_Byte(y / 16)
                 sections.append(sec)
 
         super(AnvilChunk, self)._compressChunk()
@@ -1959,7 +1959,7 @@ class ChunkedLevelMixin(object):
             t = 0
             for c, t, p in self._generateLightsIter(dc):
 
-                yield c+workDone, t + workTotal - estimatedTotals[i], p
+                yield c + workDone, t + workTotal - estimatedTotals[i], p
 
             estimatedTotals[i] = t
             workDone += t
@@ -2404,7 +2404,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         a level.dat or a folder containing one. If create is True, it will
         also create the world using the random_seed and last_played arguments.
         If they are none, a random 64-bit seed will be selected for RandomSeed
-        and long(time.time()*1000) will be used for LastPlayed.
+        and long(time.time() * 1000) will be used for LastPlayed.
 
         If you try to create an existing world, its level.dat will be replaced.
         """
@@ -2945,7 +2945,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         if (cx, cz) in self._loadedChunks:
             return True
         if self.version:
-            rx, rz = cx>>5, cz>>5
+            rx, rz = cx >> 5, cz >> 5
             if not os.path.exists(self.regionFilename(rx, rz)):
                 return False
 

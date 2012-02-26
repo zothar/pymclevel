@@ -44,12 +44,12 @@ def extractHeights(array):
     w, h = array.shape[:2]
     heightMap = zeros((w, h), 'uint16')
 
-    heights = argmax((array>0)[..., ::-1], 2)
+    heights = argmax((array > 0)[..., ::-1], 2)
     heights = array.shape[2] - heights
 
     # if the entire column is air, argmax finds the first air block and the result is a top height column
     # top height columns won't ever have air in the top block so we can find air columns by checking for both
-    heights[(array[..., -1]==0) & (heights == array.shape[2])] = 0
+    heights[(array[..., -1] == 0) & (heights == array.shape[2])] = 0
 
     heightMap[:] = heights
 

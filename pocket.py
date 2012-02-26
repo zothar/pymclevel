@@ -357,7 +357,7 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
                 chunk.dirty = False
 
     def containsChunk(self, cx, cz):
-        if cx>31 or cz>31 or cx < 0 or cz < 0:
+        if cx > 31 or cz > 31 or cx < 0 or cz < 0:
             return False
         return self.chunkFile.getOffset(cx, cz) != 0
 
