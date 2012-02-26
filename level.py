@@ -496,7 +496,7 @@ class MCLevel(object):
 
             convertedSourceBlocks, convertedSourceData = self.convertBlocksFromLevel(sourceLevel, chunk.Blocks[slices], chunk.Data[slices])
 
-            destSlices = [slice(p, p + s.stop - s.start) for p, s in zip(point, slices) ]
+            destSlices = [slice(p, p + s.stop - s.start) for p, s in zip(point, slices)]
 
             blocks = self.Blocks[destSlices]
 

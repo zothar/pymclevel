@@ -1151,7 +1151,7 @@ class CallgrindParser(LineParser):
         assert len(values) == self.num_positions + self.num_events
 
         positions = values[0: self.num_positions]
-        events = values[self.num_positions: ]
+        events = values[self.num_positions:]
 
         for i in range(self.num_positions):
             position = positions[i]
