@@ -344,6 +344,8 @@ items_txt = """
 ~ Drops      341   344,288,334,287,352,289,367,375,376,341,368,369,377,370,371,378,381
 ~ Music      2257  2256,2257,2258,2259,2260,2261,2262,2263,2264,2265,2266
 """
+
+
 class ItemType (object):
     def __init__(self, id, name, imagefile=None, imagecoords=None, maxdamage=0, damagevalue=0, stacksize=64):
         self.id = id
@@ -357,6 +359,7 @@ class ItemType (object):
         return "ItemType({0}, '{1}')".format(self.id, self.name)
     def __str__(self):
         return "ItemType {0}: {1}".format(self.id, self.name)
+
 
 class Items (object):
     items_txt = items_txt
@@ -429,6 +432,7 @@ class Items (object):
 
         return ItemType(id, "Unknown Item {0}:{1}".format(id, damage), damagevalue=damage)
         #raise ItemNotFound, "Item {0}:{1} not found".format(id, damage)
+
 
 class ItemNotFound(KeyError): pass
 

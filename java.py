@@ -14,6 +14,7 @@ warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
 from level import MCLevel
 
+
 class MCJavaLevel(MCLevel):
 
     def setBlockDataAt(self, *args): pass
@@ -134,6 +135,7 @@ class MCJavaLevel(MCLevel):
             os.remove(self.filename + ".old")
         except Exception, e:
             pass;
+
 
 class MCSharpLevel(MCLevel):
     """ int magic = convert(data.readShort());

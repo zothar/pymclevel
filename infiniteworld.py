@@ -52,10 +52,13 @@ import re
 
 convert = lambda text: int(text) if text.isdigit() else text
 alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
+
+
 def sort_nicely(l):
     """ Sort the given list in the way that humans expect.
     """
     l.sort(key=alphanum_key)
+
 
 # Thank you, Stackoverflow
 # http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python
@@ -88,6 +91,7 @@ elif sys.platform == "darwin":
     appSupportDir = os.path.expanduser(u"~/Library/Application Support/pymclevel/")
 else:
     appSupportDir = os.path.expanduser(u"~/.pymclevel")
+
 
 class ServerJarStorage(object):
     defaultCacheDir = os.path.join(appSupportDir, u"ServerJarStorage")
@@ -198,8 +202,12 @@ this way.
         if version not in self.versions: return None
         return self.jarfileForVersion(version)
 
+
 class JavaNotFound(RuntimeError): pass
+
+
 class VersionNotFound(RuntimeError): pass
+
 
 def readProperties(filename):
     if not os.path.exists(filename): return {}
@@ -209,10 +217,12 @@ def readProperties(filename):
 
     return properties
 
+
 def saveProperties(filename, properties):
     with file(filename, "w") as f:
         for k, v in properties.iteritems():
             f.write("{0}={1}\n".format(k, v))
+
 
 def findJava():
     if sys.platform == "win32":
@@ -246,6 +256,7 @@ def findJava():
         javaExe = which("java")
 
     return javaExe
+
 
 class MCServerChunkGenerator(object):
     """Generates chunks using minecraft_server.jar. Uses a ServerJarStorage to
@@ -573,6 +584,8 @@ class MCServerChunkGenerator(object):
         return version
 
 _zeros = {}
+
+
 def ZeroChunk(height=512):
     z = _zeros.get(height)
     if z is None:
@@ -580,6 +593,7 @@ def ZeroChunk(height=512):
     return z
 
 from level import ChunkBase
+
 
 class _ZeroChunk(ChunkBase):
     " a placebo for neighboring-chunk routines "
@@ -602,11 +616,13 @@ def unpackNibbleArray(dataArray):
     unpackedData[:, :, 1::2] >>= 4
     return unpackedData
 
+
 def packNibbleArray(unpackedData):
     packedData = unpackedData.reshape(16, 16, unpackedData.shape[2] / 2, 2)
     packedData[..., 1] <<= 4
     packedData[..., 1] |= packedData[..., 0]
     return array(packedData[:, :, :, 1])
+
 
 class InfdevChunk(LightedChunk):
     """ This is a 16x16xH chunk in an (infinite) world.
@@ -978,6 +994,7 @@ class InfdevChunk(LightedChunk):
         self.root_tag[Level]["TerrainPopulated"].value = val
         self.dirty = True
 
+
 class dequeset(object):
     def __init__(self):
         self.deque = deque()
@@ -1101,6 +1118,7 @@ class AnvilChunk(InfdevChunk):
             self.root_tag[Level][HeightMap].value.shape = (16,16)
     def packChunkData(self): pass
     def unpackChunkData(self): pass
+
 
 class MCRegionFile(object):
     holdFileOpen = False #if False, reopens and recloses the file on each access
@@ -1419,8 +1437,11 @@ class MCRegionFile(object):
     compressMode = VERSION_DEFLATE
 
 base36alphabet = "0123456789abcdefghijklmnopqrstuvwxyz"
+
+
 def decbase36(s):
     return int(s, 36)
+
 
 def base36(n):
     global base36alphabet
@@ -1447,8 +1468,11 @@ def deflate(data):
     #zdata += zobj.flush()
     #return zdata
     return zlib.compress(data)
+
+
 def inflate(data):
     return zlib.decompress(data)
+
 
 class ChunkedLevelMixin(object):
 
@@ -2163,6 +2187,7 @@ class ChunkedLevelMixin(object):
 
         for ch in startingDirtyChunks:
             ch.needsLighting = False
+
 
 
 class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
@@ -3058,6 +3083,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             playerTag = self.getPlayerTag(player)
             return playerTag["playerGameType"].value
 
+
 class MCAlphaDimension (MCInfdevOldLevel):
     def __init__(self, parentWorld, dimNo, create=False):
         filename = os.path.join(parentWorld.worldDir, "DIM" + str(int(dimNo)))
@@ -3102,6 +3128,7 @@ class MCAlphaDimension (MCInfdevOldLevel):
 
 from zipfile import ZipFile, is_zipfile
 import tempfile
+
 
 class ZipSchematic (MCInfdevOldLevel):
     def __init__(self, filename):

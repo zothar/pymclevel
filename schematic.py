@@ -14,6 +14,8 @@ warn, error, info, debug = log.warn, log.error, log.info, log.debug
 Materials = 'Materials'
 
 __all__ = ['MCSchematic', 'INVEditChest']
+
+
 class MCSchematic (EntityLevel):
     materials = alphaMaterials
     def __init__(self, shape=None, root_tag=None, filename=None, mats='Alpha'):
@@ -425,6 +427,7 @@ class INVEditChest(MCSchematic):
 
         return TAG_List([chestTag], name="TileEntities")
 
+
 def adjustExtractionParameters(self, box):
     x, y, z = box.origin
     w, h, l = box.size
@@ -471,8 +474,10 @@ def adjustExtractionParameters(self, box):
 
     return box, (destX, destY, destZ)
 
+
 def extractSchematicFrom(sourceLevel, box, entities=True):
     return exhaust(extractSchematicFromIter(sourceLevel, box, entities))
+
 
 def extractSchematicFromIter(sourceLevel, box, entities=True):
     p = sourceLevel.adjustExtractionParameters(box)
@@ -492,8 +497,11 @@ MCLevel.extractSchematicIter = extractSchematicFromIter
 MCLevel.adjustExtractionParameters = adjustExtractionParameters
 
 import tempfile
+
+
 def extractZipSchematicFrom(sourceLevel, box, zipfilename=None, entities=True):
     return exhaust(extractZipSchematicFromIter(sourceLevel, box, zipfilename, entities))
+
 
 def extractZipSchematicFromIter(sourceLevel, box, zipfilename=None, entities=True):
     #converts classic blocks to alpha
@@ -540,8 +548,10 @@ def extractZipSchematicFromIter(sourceLevel, box, zipfilename=None, entities=Tru
 MCLevel.extractZipSchematic = extractZipSchematicFrom
 MCLevel.extractZipSchematicIter = extractZipSchematicFromIter
 
+
 def extractAnySchematic(level, box):
     return exhaust(level.extractAnySchematicIter(box))
+
 
 def extractAnySchematicIter(level, box):
     try:
@@ -558,6 +568,8 @@ MCLevel.extractAnySchematic = extractAnySchematic
 MCLevel.extractAnySchematicIter = extractAnySchematicIter
 
 from zipfile import ZipFile, ZIP_STORED
+
+
 def zipdir(basedir, archivename):
     assert os.path.isdir(basedir)
     with closing(ZipFile(archivename, "w", ZIP_STORED)) as z:

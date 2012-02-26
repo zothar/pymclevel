@@ -40,11 +40,14 @@ except ImportError:
 def times(x):
     return u"%u\xd7" % (x,)
 
+
 def percentage(p):
     return "%.02f%%" % (p*100.0,)
 
+
 def add(a, b):
     return a + b
+
 
 def equal(a, b):
     if a == b:
@@ -52,10 +55,12 @@ def equal(a, b):
     else:
         return None
 
+
 def fail(a, b):
     assert False
 
 tol = 2 ** -23
+
 
 def ratio(numerator, denominator):
     try:

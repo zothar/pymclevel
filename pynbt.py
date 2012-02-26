@@ -28,7 +28,9 @@ from contextlib import closing
 from numpy import array, zeros, uint8, fromstring
 TAGfmt = ">b"
 
+
 class NBTFormatError(RuntimeError): pass
+
 
 class TAG_Value(object):
     """Simple values. Subclasses override fmt to change the type and size.
@@ -122,30 +124,36 @@ class TAG_Value(object):
             #print "Atomic Save: No old file to remove"
             pass;
 
+
 class TAG_Byte(TAG_Value):
     tag = 1
     fmt = ">b"
     dataType = int
+
 
 class TAG_Short(TAG_Value):
     tag = 2
     fmt = ">h"
     dataType = int
 
+
 class TAG_Int(TAG_Value):
     tag = 3
     fmt = ">i"
     dataType = int
+
 
 class TAG_Long(TAG_Value):
     tag = 4
     fmt = ">q"
     dataType = long
 
+
 class TAG_Float(TAG_Value):
     tag = 5
     fmt = ">f"
     dataType = float
+
 
 
 class TAG_Double(TAG_Value):
@@ -196,6 +204,7 @@ class TAG_Byte_Array(TAG_Value):
         valuestr = self.value.tostring()
         buf.write(struct.pack(self.fmt % (len(valuestr),), len(valuestr), valuestr))
 
+
 class TAG_Int_Array(TAG_Byte_Array):
     """An array of ints"""
     tag = 11
@@ -220,6 +229,7 @@ class TAG_Int_Array(TAG_Byte_Array):
         valuestr = self.value.tostring()
         buf.write(struct.pack(self.fmt % (len(valuestr),), len(valuestr) / 4, valuestr))
 
+
 class TAG_Short_Array(TAG_Int_Array):
     """An array of ints"""
     tag = 12
@@ -243,6 +253,7 @@ class TAG_Short_Array(TAG_Int_Array):
         #print self.value
         valuestr = self.value.tostring()
         buf.write(struct.pack(self.fmt % (len(valuestr),), len(valuestr) / 2, valuestr))
+
 
 class TAG_String(TAG_Value):
     """String in UTF-8
@@ -273,6 +284,7 @@ class TAG_String(TAG_Value):
     @property
     def unicodeValue(self):
         return self.value.decode('utf-8')
+
 
 class TAG_Compound(TAG_Value, collections.MutableMapping):
     """A heterogenous list of named tags. Names must be unique within
@@ -471,9 +483,12 @@ tag_classes = {
     }
 
 import zlib
+
+
 def gunzip(data):
     #strip off the header and use negative WBITS to tell zlib there's no header
     return zlib.decompress(data[10:], -zlib.MAX_WBITS)
+
 
 def loadFile(filename):
     with file(filename, "rb") as f:
@@ -495,6 +510,7 @@ def load_named(data, data_cursor, tag_type):
     tag.name = tag_name
 
     return tag, data_cursor
+
 
 def load(filename="", buf=None):
     """Unserialize data from an entire NBT file and return the

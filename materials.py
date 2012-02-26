@@ -296,6 +296,7 @@ Brown = (0xE0, 0x70)
 Pore = (0xE0, 0x80)
 Stem = (0xD0, 0x80)
 
+
 def defineShroomFaces(Shroom, id, name):
     for way, data in sorted(HugeMushroomTypes.items(), key=lambda a:a[1]):
         loway = way.lower()
@@ -697,6 +698,7 @@ pocketMaterials.OrangeWool = pocketMaterials[115,0]
 
 _indices = rollaxis(indices( (256, 16) ), 0, 3)
 
+
 def _filterTable(filters, unavailable, default = (0, 0) ):
     #a filter table is a 256x16 table of (ID, data) pairs.
     table = zeros((256, 16, 2), dtype='uint8')
@@ -718,6 +720,7 @@ def _filterTable(filters, unavailable, default = (0, 0) ):
     return table
 
 nullConversion = lambda b, d: (b, d)
+
 
 def filterConversion(table):
     def convert(blocks, data):
@@ -772,6 +775,8 @@ def guessFilterTable(matsFrom, matsTo):
 allMaterials = (alphaMaterials, classicMaterials, pocketMaterials, indevMaterials)
 
 _conversionFuncs = {}
+
+
 def conversionFunc(destMats, sourceMats):
     if destMats is sourceMats: return nullConversion
     func = _conversionFuncs.get((destMats, sourceMats))
@@ -790,6 +795,7 @@ def conversionFunc(destMats, sourceMats):
     func = filterConversion(table)
     _conversionFuncs[(destMats, sourceMats)] = func
     return func
+
 
 def convertBlocks(destMats, sourceMats, blocks, blockData):
     if sourceMats == destMats: return blocks, blockData

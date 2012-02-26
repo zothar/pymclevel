@@ -88,6 +88,7 @@ __all__ = ["MCIndevLevel"]
 
 from level import EntityLevel, computeChunkHeightMap
 
+
 class MCIndevLevel(EntityLevel):
     """ IMPORTANT: self.Blocks and self.Data are indexed with [x,z,y] via axis
     swapping to be consistent with infinite levels."""

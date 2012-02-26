@@ -1,6 +1,7 @@
 from materials import alphaMaterials
 from numpy import array, arange, zeros
 
+
 def genericVerticalFlip(cls):
     rotation = arange(16, dtype='uint8')
     if hasattr(cls, "Up") and hasattr(cls, "Down"):
@@ -8,6 +9,7 @@ def genericVerticalFlip(cls):
         rotation[cls.Down] = cls.Up
 
     return rotation
+
 
 def genericRotation(cls):
     rotation = arange(16, dtype='uint8')
@@ -17,11 +19,13 @@ def genericRotation(cls):
     rotation[cls.East] = cls.North
     return rotation
 
+
 def genericEastWestFlip(cls):
     rotation = arange(16, dtype='uint8')
     rotation[cls.West] = cls.East
     rotation[cls.East] = cls.West
     return rotation
+
 
 def genericNorthSouthFlip(cls):
     rotation = arange(16, dtype='uint8')
@@ -31,6 +35,7 @@ def genericNorthSouthFlip(cls):
 
 rotationClasses = []
 
+
 def genericFlipRotation(cls):
     cls.rotateLeft = genericRotation(cls)
 
@@ -38,6 +43,7 @@ def genericFlipRotation(cls):
     cls.flipEastWest = genericEastWestFlip(cls)
     cls.flipNorthSouth = genericNorthSouthFlip(cls)
     rotationClasses.append(cls)
+
 
 class Torch:
     blocktypes = [
@@ -53,6 +59,7 @@ class Torch:
 
 genericFlipRotation(Torch)
 
+
 class Ladder:
     blocktypes = [alphaMaterials.Ladder.ID]
 
@@ -61,6 +68,7 @@ class Ladder:
     North = 4
     South = 5
 genericFlipRotation(Ladder)
+
 
 class Stair:
     blocktypes = [b.ID for b in alphaMaterials.AllStairs]
@@ -71,6 +79,7 @@ class Stair:
     East = 3
 genericFlipRotation(Stair)
 
+
 class WallSign:
     blocktypes = [alphaMaterials.WallSign.ID]
 
@@ -79,6 +88,7 @@ class WallSign:
     North = 4
     South = 5
 genericFlipRotation(WallSign)
+
 
 class FurnaceDispenserChest:
     blocktypes = [
@@ -93,6 +103,7 @@ class FurnaceDispenserChest:
     South = 5
 genericFlipRotation(FurnaceDispenserChest)
 
+
 class Pumpkin:
     blocktypes = [
         alphaMaterials.Pumpkin.ID,
@@ -104,6 +115,7 @@ class Pumpkin:
     West = 2
     North = 3
 genericFlipRotation(Pumpkin)
+
 
 class Rail:
     blocktypes = [alphaMaterials.Rail.ID]
@@ -119,6 +131,7 @@ class Rail:
     Southeast = 7
     Southwest = 8
     Northwest = 9
+
 
 def generic8wayRotation(cls):
 
@@ -145,6 +158,7 @@ generic8wayRotation(Rail)
 Rail.rotateLeft[Rail.NorthSouth] = Rail.EastWest
 Rail.rotateLeft[Rail.EastWest] = Rail.NorthSouth
 
+
 def applyBit(apply):
     def _applyBit(class_or_array):
         if hasattr(class_or_array, "rotateLeft"):
@@ -158,14 +172,17 @@ def applyBit(apply):
 
     return _applyBit
 
+
 @applyBit
 def applyBit8(array):
     array[8:16] = array[0:8] | 0x8
+
 
 @applyBit
 def applyBit4(array):
     array[4:8] = array[0:4] | 0x4
     array[12:16] = array[8:12] | 0x4
+
 
 @applyBit
 def applyBits48(array):
@@ -173,6 +190,7 @@ def applyBits48(array):
     array[8:16] = array[0:8] | 0x8
 
 applyThrownBit = applyBit8
+
 
 class PoweredDetectorRail(Rail):
     blocktypes = [alphaMaterials.PoweredRail.ID, alphaMaterials.DetectorRail.ID]
@@ -204,6 +222,7 @@ Lever.flipNorthSouth = genericNorthSouthFlip(Lever)
 applyThrownBit(Lever)
 rotationClasses.append(Lever)
 
+
 class Button:
     blocktypes = [alphaMaterials.Button.ID]
     PressedBit = 0x8
@@ -216,6 +235,7 @@ Button.flipEastWest = genericEastWestFlip(Button)
 Button.flipNorthSouth = genericNorthSouthFlip(Button)
 applyThrownBit(Button)
 rotationClasses.append(Button)
+
 
 class SignPost:
     blocktypes = [alphaMaterials.Sign.ID]
@@ -231,6 +251,7 @@ class SignPost:
 
 rotationClasses.append(SignPost)
 
+
 class Bed:
     blocktypes = [alphaMaterials.Bed.ID]
     West = 0
@@ -241,6 +262,7 @@ class Bed:
 genericFlipRotation(Bed)
 applyBit8(Bed)
 applyBit4(Bed)
+
 
 class Door:
     blocktypes = [
@@ -332,9 +354,11 @@ genericFlipRotation(PistonBody)
 applyPistonBit = applyBit8
 applyPistonBit(PistonBody)
 
+
 class PistonHead(PistonBody):
     blocktypes = [alphaMaterials.PistonHead.ID]
 rotationClasses.append(PistonHead)
+
 
 class Vines:
     blocktypes = [alphaMaterials.Vines.ID]
@@ -362,6 +386,8 @@ Value     Description     Textures
 9     Corner piece     Cap texture on top, directions 3 (cloud origin) and 0 (sunset)
 10     Stem piece     Stem texture on all four sides, pores on top and bottom
 """
+
+
 class HugeMushroom:
     blocktypes = [alphaMaterials.HugeRedMushroom.ID, alphaMaterials.HugeBrownMushroom.ID]
     Northeast = 1
@@ -386,6 +412,7 @@ Vines.flipNorthSouth[(Vines.flipNorthSouth & NorthSouthBits) > 0] ^= NorthSouthB
 
 rotationClasses.append(Vines)
 
+
 def masterRotationTable(attrname):
     # compute a 256x16 table mapping each possible blocktype/data combination to
     # the resulting data when the block is rotated
@@ -399,6 +426,7 @@ def masterRotationTable(attrname):
 
     return table
 
+
 def rotationTypeTable():
     table = {}
     for cls in rotationClasses:
@@ -407,6 +435,7 @@ def rotationTypeTable():
 
     return table
 
+
 class BlockRotation:
     rotateLeft = masterRotationTable("rotateLeft")
     flipEastWest = masterRotationTable("flipEastWest")
@@ -414,15 +443,19 @@ class BlockRotation:
     flipVertical = masterRotationTable("flipVertical")
     typeTable = rotationTypeTable()
 
+
 def SameRotationType(blocktype1, blocktype2):
     #use different default values for typeTable.get() to make it return false when neither blocktype is present
     return BlockRotation.typeTable.get(blocktype1.ID) == BlockRotation.typeTable.get(blocktype2.ID, BlockRotation)
 
+
 def FlipVertical(blocks, data):
     data[:] = BlockRotation.flipVertical[blocks, data]
 
+
 def FlipNorthSouth(blocks, data):
     data[:] = BlockRotation.flipNorthSouth[blocks, data]
+
 
 def FlipEastWest(blocks, data):
     data[:] = BlockRotation.flipEastWest[blocks, data]

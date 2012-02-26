@@ -5,10 +5,12 @@ from itertools import ifilterfalse
 from heapq import nsmallest
 from operator import itemgetter
 
+
 class Counter(dict):
     'Mapping where default values are zero'
     def __missing__(self, key):
         return 0
+
 
 def lru_cache(maxsize=100):
     '''Least-recently-used cache decorator.

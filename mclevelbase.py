@@ -52,6 +52,8 @@ def decompress_first(func):
 
     dec_first.__doc__ = func.__doc__
     return dec_first
+
+
 def unpack_first(func):
     def upk_first(self, *args, **kw):
         self.unpackChunkData()
@@ -60,9 +62,16 @@ def unpack_first(func):
     upk_first.__doc__ = func.__doc__
     return upk_first
 
+
 class PlayerNotFound(Exception): pass
+
+
 class ChunkNotPresent(Exception): pass
+
+
 class RegionMalformed(Exception): pass
+
+
 class ChunkMalformed(ChunkNotPresent): pass
 
 

@@ -187,7 +187,9 @@ import sys
 log = logging.getLogger(__name__)
 warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
+
 class LoadingError(RuntimeError): pass
+
 
 def fromFile(filename, loadInfinite=True):
     ''' The preferred method for loading Minecraft levels of any type.
@@ -286,6 +288,7 @@ def fromFile(filename, loadInfinite=True):
 def loadWorld(name):
     filename = os.path.join(saveFileDir, name)
     return fromFile(filename)
+
 
 def loadWorldNumber(i):
     #deprecated

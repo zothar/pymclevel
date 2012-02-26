@@ -16,6 +16,7 @@ Motion = "Motion"
 Pos = "Pos"
 Rotation = "Rotation"
 
+
 class TileEntity(object):
     baseStructures = {
         "Furnace": (
@@ -174,5 +175,8 @@ class Entity(object):
 
         return eTag
 
+
 class InvalidEntity(ValueError): pass
+
+
 class InvalidTileEntity(ValueError): pass

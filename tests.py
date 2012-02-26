@@ -31,10 +31,13 @@ warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
 #logging.basicConfig(format=u'%(levelname)s:%(message)s')
 #logging.getLogger().level = logging.INFO
+
+
 def mktemp(suffix):
     td = tempfile.mkdtemp(suffix)
     os.rmdir(td)
     return td
+
 
 class TempLevel(object):
     def __init__(self, filename, createFunc = None):
@@ -60,6 +63,7 @@ class TempLevel(object):
             shutil.rmtree(filename)
         else:
             os.unlink(filename)
+
 
 class TestNBT(unittest.TestCase):
 
@@ -190,6 +194,7 @@ class TestNBT(unittest.TestCase):
         print "Duration: ", time.time() - startTime
         #print "NBT: ", n
 
+
 class TestIndevLevel(unittest.TestCase):
     def setUp(self):
         self.srclevel = TempLevel("hell.mclevel")
@@ -241,6 +246,7 @@ class TestAlphaLevelCreate(unittest.TestCase):
         self.alphaLevel = MCInfdevOldLevel(filename=temppath, create=True)
         self.alphaLevel.close()
         shutil.rmtree(temppath)
+
 
 class TestAlphaLevel(unittest.TestCase):
     def setUp(self):
@@ -350,6 +356,7 @@ class TestAlphaLevel(unittest.TestCase):
         level.getPlayerPosition()
         level.players
 
+
 class TestSchematics(unittest.TestCase):
     def setUp(self):
         #self.alphaLevel = TempLevel("Dojo_64_64_128.dat")
@@ -417,6 +424,7 @@ class TestSchematics(unittest.TestCase):
         info("Entities: %s", invFile.Entities)
         info("TileEntities: %s", invFile.TileEntities)
         #raise SystemExit;
+
 
 class TestPocket(unittest.TestCase):
     def setUp(self):

@@ -1,5 +1,6 @@
 import itertools
 
+
 class BoundingBox (object):
     type = int
     def __init__(self, origin=(0, 0, 0), size=(0, 0, 0)):
@@ -169,6 +170,7 @@ class BoundingBox (object):
 
     def __repr__(self):
         return "BoundingBox({0}, {1})".format(self.origin, self.size)
+
 
 class FloatBox (BoundingBox):
     type = float

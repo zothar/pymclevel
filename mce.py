@@ -18,9 +18,15 @@ try:
 except:
     pass
 
+
 class UsageError(RuntimeError): pass
+
+
 class BlockMatchError(RuntimeError): pass
+
+
 class PlayerNotFound(RuntimeError): pass
+
 
 class mce(object):
     """

@@ -4,6 +4,7 @@ import struct
 
 #values are usually little-endian, unlike Minecraft PC
 
+
 class PocketChunksFile(object):
     holdFileOpen = False #if False, reopens and recloses the file on each access
     SECTOR_BYTES = 4096
@@ -296,6 +297,7 @@ class PocketChunksFile(object):
 from infiniteworld import ChunkedLevelMixin
 from level import MCLevel, LightedChunk
 
+
 class PocketWorld(ChunkedLevelMixin, MCLevel):
     Height = 128
     Length = 512
@@ -348,6 +350,7 @@ class PocketWorld(ChunkedLevelMixin, MCLevel):
     def containsChunk(self, cx, cz):
         if cx>31 or cz>31 or cx < 0 or cz < 0: return False
         return self.chunkFile.getOffset(cx,cz) != 0
+
 
 class PocketChunk(LightedChunk):
     Blocks = Data = SkyLight = BlockLight = None
