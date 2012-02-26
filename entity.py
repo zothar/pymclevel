@@ -57,9 +57,9 @@ class TileEntity(object):
 
     knownIDs = baseStructures.keys()
     maxItems = {
-        "Furnace" : 3,
-        "Chest" : 27,
-        "Trap" : 9,
+        "Furnace": 3,
+        "Chest": 27,
+        "Trap": 9,
         "Cauldron": 4,
     }
     slotNames = {

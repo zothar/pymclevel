@@ -2491,7 +2491,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
     def preloadDimensions(self):
         worldDirs = os.listdir(self.worldDir)
 
-        for dirname in worldDirs :
+        for dirname in worldDirs:
             if dirname.startswith("DIM"):
                 try:
                     dimNo = int(dirname[3:])
@@ -2814,7 +2814,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         the chunk is done later, accesses to chunk attributes may
         raise ChunkMalformed"""
 
-        if not self.containsChunk(cx, cz) :
+        if not self.containsChunk(cx, cz):
             raise ChunkNotPresent((cx, cz))
 
         if not (cx, cz) in self._loadedChunks:

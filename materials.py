@@ -284,16 +284,16 @@ alphaMaterials.addYamlBlocksFromFile("minecraft.yaml")
 # --- Special treatment for some blocks ---
 
 HugeMushroomTypes = {
-   "Northwest" : 1,
-   "North" : 2,
-   "Northeast" : 3,
-   "East" : 6,
-   "Southeast" : 9,
-   "South" : 8,
-   "Southwest" : 7,
-   "West" : 4,
-   "Stem" : 10,
-   "Top" : 5,
+   "Northwest": 1,
+   "North": 2,
+   "Northeast": 3,
+   "East": 6,
+   "Southeast": 9,
+   "South": 8,
+   "Southwest": 7,
+   "West": 4,
+   "Stem": 10,
+   "Top": 5,
 }
 from faces import *
 
