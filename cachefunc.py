@@ -8,6 +8,7 @@ from operator import itemgetter
 
 class Counter(dict):
     'Mapping where default values are zero'
+
     def __missing__(self, key):
         return 0
 
@@ -22,6 +23,7 @@ def lru_cache(maxsize=100):
 
     '''
     maxqueue = maxsize * 10
+
     def decorating_function(user_function,
             len=len, iter=iter, tuple=tuple, sorted=sorted, KeyError=KeyError):
         cache = {}                  # mapping of args to results
@@ -96,6 +98,7 @@ def lfu_cache(maxsize=100):
     http://en.wikipedia.org/wiki/Least_Frequently_Used
 
     '''
+
     def decorating_function(user_function):
         cache = {}                      # mapping of args to results
         use_count = Counter()           # times each key has been accessed

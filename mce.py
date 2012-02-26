@@ -84,6 +84,7 @@ class mce(object):
     """
     random_seed = os.getenv('MCE_RANDOM_SEED', None)
     last_played = os.getenv("MCE_LAST_PLAYED", None)
+
     def commandUsage(self, command):
         " returns usage info for the named command - just give the docstring for the handler func "
         func = getattr(self, "_" + command)
@@ -636,6 +637,7 @@ class mce(object):
         level = self.level
         assert(isinstance(level, mclevel.MCInfdevOldLevel))
         assert level.version
+
         def getFreeSectors(rf):
             runs = []
             start = None
@@ -825,10 +827,12 @@ class mce(object):
             if command[0].lower() == "except":
                 command.pop(0)
                 print "Removing all entities except ", command
+
                 def match(entityID):
                     return not (entityID.lower() in matchWords)
             else:
                 print "Removing {0}...".format(", ".join(command))
+
                 def match(entityID):
                     return entityID.lower() in matchWords
 
@@ -836,6 +840,7 @@ class mce(object):
 
         else:
             print "Removing all entities except Painting..."
+
             def match(entityID): return entityID != "Painting";
 
         for cx, cz in self.level.allChunks:

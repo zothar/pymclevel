@@ -379,7 +379,9 @@ class PocketChunk(LightedChunk):
     def isLoaded(self): return True
 
     def load(self): pass
+
     def decompress(self): pass
+
     def compress(self): pass
 
     def unpackChunkData(self):

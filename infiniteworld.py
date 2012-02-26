@@ -180,6 +180,7 @@ this way.
 
     def jarfileForVersion(self, v):
         return os.path.join(self.cacheDir, v, "minecraft_server.jar").encode(sys.getfilesystemencoding())
+
     def checksumForVersion(self, v):
         jf = self.jarfileForVersion(v)
         with file(jf, "rb") as f:
@@ -528,6 +529,7 @@ class MCServerChunkGenerator(object):
         return self._runServer(startingDir, self.serverJarFile)
 
     lowMemory = False
+
     @classmethod
     def _runServer(cls, startingDir, jarfile):
         info("Starting server %s in %s", jarfile, startingDir)
@@ -597,6 +599,7 @@ from level import ChunkBase
 
 class _ZeroChunk(ChunkBase):
     " a placebo for neighboring-chunk routines "
+
     def __init__(self, height=512):
         zeroChunk = zeros((16, 16, height), uint8)
         whiteLight = zeroChunk + 15
@@ -633,6 +636,7 @@ class InfdevChunk(LightedChunk):
     for better handling.
     """
     @property
+
     def filename(self):
         if self.world.version:
             cx, cz = self.chunkPosition
@@ -1024,14 +1028,17 @@ class AnvilChunk(InfdevChunk):
     @decompress_first
     def Blocks(self):
         return self._Blocks
+
     @property
     @decompress_first
     def Data(self):
         return self._Data
+
     @property
     @decompress_first
     def SkyLight(self):
         return self._SkyLight
+
     @property
     @decompress_first
     def BlockLight(self):
@@ -1116,7 +1123,9 @@ class AnvilChunk(InfdevChunk):
     def shapeChunkData(self):
         if self.root_tag:
             self.root_tag[Level][HeightMap].value.shape = (16,16)
+
     def packChunkData(self): pass
+
     def unpackChunkData(self): pass
 
 
@@ -1475,7 +1484,6 @@ def inflate(data):
 
 
 class ChunkedLevelMixin(object):
-
     def blockLightAt(self, x, y, z):
         if y < 0 or y >= self.Height: return 0
         zc = z >> 4
@@ -2269,6 +2277,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
     VERSION_ANVIL = 19133
 
     _bounds = None
+
     @property
     def bounds(self):
         if self._bounds is None: self._bounds = self.getWorldBounds();
@@ -3103,8 +3112,10 @@ class MCAlphaDimension (MCInfdevOldLevel):
 
     def loadLevelDat(self, create=False, random_seed=None, last_played=None):
         pass;
+
     def preloadDimensions(self):
         pass
+
     def create(self, *args, **kw):
         if not os.path.exists(self.worldDir):
             os.mkdir(self.worldDir)

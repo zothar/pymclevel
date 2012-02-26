@@ -40,17 +40,22 @@ class TAG_Value(object):
     tag = -1 #error!
 
     _value = None
+
     def getValue(self):
             return self._value
+
     def setValue(self, newVal):
             self._value = self.dataType(newVal)
     value = property(getValue, setValue, None, "Change the TAG's value.    Data types are checked and coerced if needed.")
 
     _name = None
+
     def getName(self):
             return self._name
+
     def setName(self, newVal):
             self._name = str(newVal)
+
     def delName(self):
             self._name = ""
     name = property(getName, setName, delName, "Change the TAG's name.    Coerced to a string.")
@@ -80,9 +85,11 @@ class TAG_Value(object):
 
     def write_tag(self, buf):
         buf.write(struct.pack(TAGfmt, self.tag))
+
     def write_name(self, buf):
         if self.name != None:
             TAG_String(self.name).write_value(buf)
+
     def write_value(self, buf):
         buf.write(struct.pack(self.fmt, self.value))
 
@@ -341,6 +348,7 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
         buf.write("\x00")
 
     "collection functions"
+
     def __getitem__(self, k):
         #hits=filter(lambda x:x.name==k, self.value);
         #if(len(hits)): return hits[0];
@@ -349,7 +357,9 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
         raise KeyError("Key {0} not found in tag {1}".format(k, self))
 
     def __iter__(self):             return itertools.imap(lambda x:x.name, self.value);
+
     def __contains__(self, k):return k in map(lambda x:x.name, self.value);
+
     def __len__(self):                return self.value.__len__()
 
     def __setitem__(self, k, v):
@@ -437,9 +447,13 @@ class TAG_List(TAG_Value, collections.MutableSequence):
         self.value = value
 
     """ collection methods """
+
     def __iter__(self):             return iter(self.value)
+
     def __contains__(self, k):return k in self.value;
+
     def __getitem__(self, i): return self.value[i];
+
     def __len__(self):                return len(self.value)
 
     def __setitem__(self, i, v):

@@ -18,6 +18,7 @@ __all__ = ['MCSchematic', 'INVEditChest']
 
 class MCSchematic (EntityLevel):
     materials = alphaMaterials
+
     def __init__(self, shape=None, root_tag=None, filename=None, mats='Alpha'):
         """ shape is (x,y,z) for a new level's shape.  if none, takes
         root_tag as a TAG_Compound for an existing schematic file.  if

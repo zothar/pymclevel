@@ -94,6 +94,7 @@ class MCIndevLevel(EntityLevel):
     swapping to be consistent with infinite levels."""
 
     materials = indevMaterials
+
     def setPlayerSpawnPosition(self, pos, player=None):
         assert len(pos) == 3
         self.Spawn = array(pos)
@@ -243,6 +244,7 @@ class MCIndevLevel(EntityLevel):
     def decodePos(self, v):
         b = 10
         m = (1 << b) - 1; return v & m, (v >> b) & m, (v >> (2 * b))
+
     def encodePos(self, x, y, z):
         b = 10
         return x + (y << b) + (z << (2 * b))

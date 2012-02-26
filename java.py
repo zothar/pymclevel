@@ -16,9 +16,10 @@ from level import MCLevel
 
 
 class MCJavaLevel(MCLevel):
-
     def setBlockDataAt(self, *args): pass
+
     def blockDataAt(self, *args): return 0;
+
     @property
     def Height(self):
         return self.Blocks.shape[2]

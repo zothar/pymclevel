@@ -12,6 +12,7 @@ import materials
 log = logging.getLogger(__name__)
 warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
+
 def computeChunkHeightMap(materials, blocks, HeightMap = None):
     """Computes the HeightMap array for a chunk, which stores the lowest
     y-coordinate of each column where the sunlight is still at full strength.
@@ -29,6 +30,7 @@ def computeChunkHeightMap(materials, blocks, HeightMap = None):
     else:
         HeightMap[:] = heights
         return HeightMap
+
 
 def extractHeights(array):
     """ Given an array of bytes shaped (x, z, y), return the coordinates of the highest
@@ -52,6 +54,7 @@ def extractHeights(array):
     heightMap[:] = heights
 
     return heightMap
+
 
 def getSlices(box, height):
     """ call this method to iterate through a large slice of the world by
@@ -138,6 +141,7 @@ class MCLevel(object):
     dimNo = 0
     parentWorld = None
     world = None
+
     @classmethod
     def isLevel(cls, filename):
         """Tries to find out whether the given filename can be loaded
@@ -184,17 +188,26 @@ class MCLevel(object):
 
     # --- Compression ---
     def compress(self): pass
+
     def decompress(self):pass
 
     # --- Entity Methods ---
     def addEntity(self, entityTag): pass
+
     def addEntities(self, entities): pass
+
     def tileEntityAt(self, x, y, z): return None
+
     def addTileEntity(self, entityTag): pass
+
     def getEntitiesInBox(self, box): return []
+
     def getTileEntitiesInBox(self, box): return []
+
     def copyEntitiesFromIter(self, *args, **kw): yield;
+
     def removeEntitiesInBox(self, box): pass
+
     def removeTileEntitiesInBox(self, box): pass
 
     # --- Chunked Format Emulation ---
@@ -561,6 +574,7 @@ class MCLevel(object):
         return 8, self.Height * 0.75, 8
 
     def getPlayerDimension(self, player="Player"): return 0;
+
     def setPlayerDimension(self, d, player="Player"): return;
 
     def setPlayerSpawnPosition(self, pos, player=None):
@@ -578,11 +592,14 @@ class MCLevel(object):
     # --- Dummy Lighting Methods ---
     def generateLights(self, dirtyChunks=None):
         pass;
+
     def generateLightsIter(self, dirtyChunks=None):
         yield 0
 
+
 class EntityLevel(MCLevel):
     """Abstract subclass of MCLevel that adds default entity behavior"""
+
     def copyEntitiesFromInfiniteIter(self, sourceLevel, sourceBox, destinationPoint, entities):
         chunkCount = sourceBox.chunkCount
         i = 0
@@ -715,6 +732,7 @@ class EntityLevel(MCLevel):
 
     def addTileEntity(self, tileEntityTag):
         assert isinstance(tileEntityTag, TAG_Compound)
+
         def differentPosition(a):
 
             return not ((tileEntityTag is a) or TileEntity.pos(a) == TileEntity.pos(tileEntityTag))
@@ -725,6 +743,7 @@ class EntityLevel(MCLevel):
         self._fakeEntities = None
 
     _fakeEntities = None
+
     def _getFakeChunkEntities(self, cx, cz):
         """distribute entities into sublists based on fake chunk position
         _fakeEntities keys are (cx,cz) and values are (Entities, TileEntities)"""
@@ -739,18 +758,23 @@ class EntityLevel(MCLevel):
 
         return self._fakeEntities[cx, cz]
 
+
 class ChunkBase(EntityLevel):
     dirty = False
     needsLighting = False
     Blocks = Data = SkyLight = BlockLight = HeightMap = NotImplemented #override these!
 
     def load(self):pass
+
     def compress(self):pass
+
     def chunkChanged(self, needsLighting = True):
         self.dirty = True
         self.needsLighting = needsLighting or self.needsLighting
+
     @property
     def materials(self): return self.world.materials
+
 
 class FakeChunk(ChunkBase):
     @property
@@ -760,6 +784,7 @@ class FakeChunk(ChunkBase):
 
         self._heightMap = computeChunkHeightMap(self.materials, self.Blocks)
         return self._heightMap
+
 
 class LightedChunk(ChunkBase):
     def isLoaded(self): return True

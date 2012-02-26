@@ -355,14 +355,17 @@ class ItemType (object):
         self.maxdamage = maxdamage
         self.damagevalue = damagevalue
         self.stacksize = stacksize
+
     def __repr__(self):
         return "ItemType({0}, '{1}')".format(self.id, self.name)
+
     def __str__(self):
         return "ItemType {0}: {1}".format(self.id, self.name)
 
 
 class Items (object):
     items_txt = items_txt
+
     def __init__(self, filename=None):
         if filename is None:
             items_txt = self.items_txt

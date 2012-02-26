@@ -36,6 +36,7 @@ class Block(object):
         return cmp( key(self), key(other))
 
     hasVariants = False #True if blockData defines additional blocktypes
+
     def __init__(self, materials, blockID, blockData=0):
         self.materials = materials
         self.ID = blockID
@@ -94,6 +95,7 @@ class MCMaterials(object):
             texture=(0x80, 0xB0),
             opacity=0,
         )
+
     def __repr__(self):
         return "<MCMaterials ({0})>".format(self.name)
 
@@ -226,6 +228,7 @@ class MCMaterials(object):
                 "SOUTH": 2,
                 "WEST": 3,
             }
+
             def rot90cw():
                 rot = (5, 0, 2, 3, 4, 1)
                 texture[:] = [texture[r] for r in rot]
@@ -728,6 +731,7 @@ def filterConversion(table):
             data = 0
         t = table[blocks, data]
         return t[..., 0], t[..., 1]
+
     return convert
 
 
