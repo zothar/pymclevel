@@ -227,7 +227,7 @@ class mce(object):
             if len(matches) == 1:
                 blockInfo = matches[0]
 
-            #eat up more words that possibly specify a block.  stop eating when 0 matching blocks.
+            # eat up more words that possibly specify a block.  stop eating when 0 matching blocks.
             while len(command):
                 newMatches = self.level.materials.blocksMatching(keyword + " " + command[0])
 
@@ -445,8 +445,8 @@ class mce(object):
         sizeOnDisk = 0
 
         print "Analyzing {0} chunks...".format(self.level.chunkCount)
-        #for input to bincount, create an array of uint16s by
-        #shifting the data left and adding the blocks
+        # for input to bincount, create an array of uint16s by
+        # shifting the data left and adding the blocks
 
         for i, cPos in enumerate(self.level.allChunks, 1):
             ch = self.level.getChunk(*cPos)
@@ -1162,7 +1162,7 @@ class mce(object):
 
             imgobj = Image.open(filename)
 
-            greyimg = imgobj.convert("L")  #luminance
+            greyimg = imgobj.convert("L")  # luminance
             del imgobj
 
             width, height = greyimg.size
@@ -1182,31 +1182,31 @@ class mce(object):
                     c = self.level.getChunk(cx, cz)
 
                     imgarray = numpy.asarray(greyimg.crop((cz * 16, cx * 16, cz * 16 + 16, cx * 16 + 16)))
-                    imgarray = imgarray / 2  #scale to 0-127
+                    imgarray = imgarray / 2  # scale to 0-127
 
                     for x in range(16):
                         for z in range(16):
                             if z + (cz * 16) < width - 1 and x + (cx * 16) < height - 1:
-                                #world dimension X goes north-south
-                                #first array axis goes up-down
+                                # world dimension X goes north-south
+                                # first array axis goes up-down
 
                                 h = imgarray[x, z]
 
-                                c.Blocks[x, z, h + 1:] = 0  #air
-                                c.Blocks[x, z, h:h + 1] = 2  #grass
-                                c.Blocks[x, z, h - 4:h] = 3  #dirt
-                                c.Blocks[x, z, :h - 4] = 1  #rock
+                                c.Blocks[x, z, h + 1:] = 0  # air
+                                c.Blocks[x, z, h:h + 1] = 2  # grass
+                                c.Blocks[x, z, h - 4:h] = 3  # dirt
+                                c.Blocks[x, z, :h - 4] = 1  # rock
 
                                 if h < water_level:
-                                    c.Blocks[x, z, h + 1:water_level] = 9  #water
+                                    c.Blocks[x, z, h + 1:water_level] = 9  # water
                                 if h < water_level + 2:
-                                    c.Blocks[x, z, h - 2:h + 1] = 12  #sand if it's near water level
+                                    c.Blocks[x, z, h - 2:h + 1] = 12  # sand if it's near water level
 
-                                c.Blocks[x, z, 0] = 7  #bedrock
+                                c.Blocks[x, z, 0] = 7  # bedrock
 
                     c.chunkChanged()
                     c.TerrainPopulated = False
-                    #the quick lighting from chunkChanged has already lit this simple terrain completely
+                    # the quick lighting from chunkChanged has already lit this simple terrain completely
                     c.needsLighting = False
 
                     logging.info("%s Just did chunk %d,%d" % (datetime.datetime.now().strftime("[%H:%M:%S]"), cx, cz))
@@ -1385,7 +1385,7 @@ class mce(object):
                 self.printUsageAndQuit()
 
             if len(sys.argv) and sys.argv[0].lower() == "create":
-                #accept the syntax, "mce world3 create"
+                # accept the syntax, "mce world3 create"
                 self._create([world])
                 print "Created world {0}".format(world)
 
@@ -1409,7 +1409,7 @@ class mce(object):
                     break
 
         if len(sys.argv):
-            #process one command from command line
+            # process one command from command line
             try:
                 self.processCommand(" ".join(sys.argv))
             except UsageError:
@@ -1417,7 +1417,7 @@ class mce(object):
             self._save([])
 
         else:
-            #process many commands on standard input, maybe interactively
+            # process many commands on standard input, maybe interactively
             command = [""]
             self.batchMode = True
             while True:
@@ -1436,7 +1436,7 @@ class mce(object):
                     print 'Exception during command: {0!r}'.format(e)
                     print "Use 'debug' to enable tracebacks."
 
-                    #self.printUsage()
+                    # self.printUsage()
 
     def processCommand(self, command):
         command = command.strip()

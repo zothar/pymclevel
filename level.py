@@ -37,7 +37,7 @@ def extractHeights(array):
     non-zero value in each y-column into heightMap
     """
 
-    #The fastest way I've found to do this is to make a boolean array with >0,
+    # The fastest way I've found to do this is to make a boolean array with >0,
     # then turn it upside down with ::-1 and use argmax to get the _first_ nonzero
     # from each column.
 
@@ -47,8 +47,8 @@ def extractHeights(array):
     heights = argmax((array>0)[..., ::-1], 2)
     heights = array.shape[2] - heights
 
-    #if the entire column is air, argmax finds the first air block and the result is a top height column
-    #top height columns won't ever have air in the top block so we can find air columns by checking for both
+    # if the entire column is air, argmax finds the first air block and the result is a top height column
+    # top height columns won't ever have air in the top block so we can find air columns by checking for both
     heights[(array[..., -1]==0) & (heights == array.shape[2])] = 0
 
     heightMap[:] = heights
@@ -71,8 +71,8 @@ def getSlices(box, height):
     In all other places, including an entity's 'Pos', the order is x,y,z.
     """
 
-    #when yielding slices of chunks on the edge of the box, adjust the
-    #slices by an offset
+    # when yielding slices of chunks on the edge of the box, adjust the
+    # slices by an offset
     minxoff, minzoff = box.minx - (box.mincx << 4), box.minz - (box.mincz << 4)
     maxxoff, maxzoff = box.maxx - (box.maxcx << 4) + 16, box.maxz - (box.maxcz << 4) + 16
 
@@ -124,8 +124,8 @@ class MCLevel(object):
     Subclasses must also have Blocks, and optionally Data and BlockLight.
     """
 
-    ###common to Creative, Survival and Indev. these routines assume
-    ###self has Width, Height, Length, and Blocks
+    ### common to Creative, Survival and Indev. these routines assume
+    ### self has Width, Height, Length, and Blocks
 
     materials = classicMaterials
     isInfinite = False
@@ -320,7 +320,7 @@ class MCLevel(object):
                 z >= 0 and z < self.Length)
 
     def containsChunk(self, cx, cz):
-        #w+15 to allow non 16 aligned schematics
+        # w+15 to allow non 16 aligned schematics
         return (cx >= 0 and cx < (self.Width + 15 >> 4) and
                 cz >= 0 and cz < (self.Length + 15 >> 4))
 
@@ -334,20 +334,20 @@ class MCLevel(object):
         return True
 
     def fakeBlocksForChunk(self, cx, cz):
-        #return a 16x16xH block array for rendering.  Alpha levels can
-        #just return the chunk data.  other levels need to reorder the
-        #indices and return a slice of the blocks.
+        # return a 16x16xH block array for rendering.  Alpha levels can
+        # just return the chunk data.  other levels need to reorder the
+        # indices and return a slice of the blocks.
 
         cxOff = cx << 4
         czOff = cz << 4
         b = self.Blocks[cxOff:cxOff + 16, czOff:czOff + 16, 0:self.Height, ]
-        #(w, l, h) = b.shape
-        #if w<16 or l<16:
+        # (w, l, h) = b.shape
+        # if w<16 or l<16:
         #    b = resize(b, (16,16,h) )
         return b
 
     def fakeDataForChunk(self, cx, cz):
-        #Data is emulated for flexibility
+        # Data is emulated for flexibility
         cxOff = cx << 4
         czOff = cz << 4
 
@@ -435,23 +435,23 @@ class MCLevel(object):
 
     # --- Transformations ---
     def rotateLeft(self):
-        self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :]  #x=z; z=-x
+        self.Blocks = swapaxes(self.Blocks, 1, 0)[:, ::-1, :]  # x=z; z=-x
         pass
 
     def roll(self):
-        self.Blocks = swapaxes(self.Blocks, 2, 0)[:, :, ::-1]  #x=y; y=-x
+        self.Blocks = swapaxes(self.Blocks, 2, 0)[:, :, ::-1]  # x=y; y=-x
         pass
 
     def flipVertical(self):
-        self.Blocks = self.Blocks[:, :, ::-1]  #y=-y
+        self.Blocks = self.Blocks[:, :, ::-1]  # y=-y
         pass
 
     def flipNorthSouth(self):
-        self.Blocks = self.Blocks[::-1, :, :]  #x=-x
+        self.Blocks = self.Blocks[::-1, :, :]  # x=-x
         pass
 
     def flipEastWest(self):
-        self.Blocks = self.Blocks[:, ::-1, :]  #z=-z
+        self.Blocks = self.Blocks[:, ::-1, :]  # z=-z
         pass
 
     # --- Copying ---
@@ -522,8 +522,8 @@ class MCLevel(object):
         (lx, ly, lz) = sourceBox.size
         debug(u"Asked to copy {0} blocks \n\tfrom {1} in {3}\n\tto {2} in {4}" .format (ly * lz * lx, sourceBox, destinationPoint, sourceLevel, self))
 
-        #clip the source ranges to this level's edges.  move the destination point as needed.
-        #xxx abstract this
+        # clip the source ranges to this level's edges.  move the destination point as needed.
+        # xxx abstract this
         if y < 0:
             sourceBox.origin[1] -= y
             sourceBox.size[1] += y
@@ -532,8 +532,8 @@ class MCLevel(object):
             sourceBox.size[1] -= y + sourceBox.size[1] - self.Height
             y = self.Height - sourceBox.size[1]
 
-        #for infinite levels, don't clip along those dimensions because the
-        #infinite copy func will just skip missing chunks
+        # for infinite levels, don't clip along those dimensions because the
+        # infinite copy func will just skip missing chunks
         if self.Width != 0:
             if x < 0:
                 sourceBox.origin[0] -= x
@@ -541,7 +541,7 @@ class MCLevel(object):
                 x = 0
             if x + sourceBox.size[0] > self.Width:
                 sourceBox.size[0] -= x + sourceBox.size[0] - self.Width
-                #x=self.Width-sourceBox.size[0]
+                # x=self.Width-sourceBox.size[0]
 
         if self.Length != 0:
             if z < 0:
@@ -550,7 +550,7 @@ class MCLevel(object):
                 z = 0
             if z + sourceBox.size[2] > self.Length:
                 sourceBox.size[2] -= z + sourceBox.size[2] - self.Length
-                #z=self.Length-sourceBox.size[2]
+                # z=self.Length-sourceBox.size[2]
 
         destinationPoint = (x, y, z)
 
@@ -658,8 +658,8 @@ class EntityLevel(MCLevel):
         info("Copied {0} entities, {1} tile entities".format(e, t))
 
     def copyEntitiesFromIter(self, sourceLevel, sourceBox, destinationPoint, entities=True):
-        #assume coords have already been adjusted by copyBlocks
-        #if not self.hasEntities or not sourceLevel.hasEntities:
+        # assume coords have already been adjusted by copyBlocks
+        # if not self.hasEntities or not sourceLevel.hasEntities:
         #    return
         sourcePoint0 = sourceBox.origin
         sourcePoint1 = sourceBox.maximum
@@ -791,7 +791,7 @@ class EntityLevel(MCLevel):
 class ChunkBase(EntityLevel):
     dirty = False
     needsLighting = False
-    Blocks = Data = SkyLight = BlockLight = HeightMap = NotImplemented  #override these!
+    Blocks = Data = SkyLight = BlockLight = HeightMap = NotImplemented  # override these!
 
     def load(self):
         pass
@@ -842,7 +842,7 @@ class LightedChunk(ChunkBase):
     def genFastLights(self):
         self.SkyLight[:] = 0
         if self.world.dimNo in (-1, 1):
-            return  #no light in nether or the end
+            return  # no light in nether or the end
 
         blocks = self.Blocks
         la = self.world.materials.lightAbsorption

@@ -38,7 +38,7 @@ class TAG_Value(object):
     Subclasses may set dataType instead of overriding setValue for automatic data type coercion"""
 
     fmt = ">b"
-    tag = -1  #error!
+    tag = -1  # error!
 
     _value = None
 
@@ -100,25 +100,25 @@ class TAG_Value(object):
             return
         "Save the tagged element to a file."
         if self.name == None:
-            self.name = ""  #root tag must have name
+            self.name = ""  # root tag must have name
         self.write_tag(buf)
         self.write_name(buf)
         self.write_value(buf)
 
     def saveGzipped(self, filename, compresslevel=1):
         sio = StringIO()
-        #atomic write
+        # atomic write
         try:
             os.rename(filename, filename + ".old")
         except Exception, e:
-            #print "Atomic Save: No existing file to rename"
+            # print "Atomic Save: No existing file to rename"
             pass
 
         with closing(gzip.GzipFile(fileobj=sio, mode="wb", compresslevel=compresslevel)) as outputGz:
                 self.save(buf=outputGz)
                 outputGz.flush()
 
-        #print len(sio.getvalue())
+        # print len(sio.getvalue())
         try:
                 with open(filename, 'wb') as f:
                         f.write(sio.getvalue())
@@ -132,7 +132,7 @@ class TAG_Value(object):
         try:
             os.remove(filename + ".old")
         except Exception, e:
-            #print "Atomic Save: No old file to remove"
+            # print "Atomic Save: No old file to remove"
             pass
 
 
@@ -211,7 +211,7 @@ class TAG_Byte_Array(TAG_Value):
         self.value = value
 
     def write_value(self, buf):
-        #print self.value
+        # print self.value
         valuestr = self.value.tostring()
         buf.write(struct.pack(self.fmt % (len(valuestr),), len(valuestr), valuestr))
 
@@ -236,7 +236,7 @@ class TAG_Int_Array(TAG_Byte_Array):
         self.value = value
 
     def write_value(self, buf):
-        #print self.value
+        # print self.value
         valuestr = self.value.tostring()
         buf.write(struct.pack(self.fmt % (len(valuestr),), len(valuestr) / 4, valuestr))
 
@@ -261,7 +261,7 @@ class TAG_Short_Array(TAG_Int_Array):
         self.value = value
 
     def write_value(self, buf):
-        #print self.value
+        # print self.value
         valuestr = self.value.tostring()
         buf.write(struct.pack(self.fmt % (len(valuestr),), len(valuestr) / 2, valuestr))
 
@@ -354,8 +354,8 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
     "collection functions"
 
     def __getitem__(self, k):
-        #hits=filter(lambda x: x.name==k, self.value)
-        #if(len(hits)): return hits[0]
+        # hits=filter(lambda x: x.name==k, self.value)
+        # if(len(hits)): return hits[0]
         for key in self.value:
                 if key.name == k:
                     return key
@@ -444,9 +444,9 @@ class TAG_List(TAG_Value, collections.MutableSequence):
         return self, data_cursor
 
     def __init__(self, value=[], name=None, list_type=TAG_Compound):
-        #can be created from a list of tags in value, with an optional
-        #name, or created from raw tag data, or created with list_type
-        #taken from a TAG class or instance
+        # can be created from a list of tags in value, with an optional
+        # name, or created from raw tag data, or created with list_type
+        # taken from a TAG class or instance
 
         self.name = name
         self.list_type = list_type.tag
@@ -517,7 +517,7 @@ import zlib
 
 
 def gunzip(data):
-    #strip off the header and use negative WBITS to tell zlib there's no header
+    # strip off the header and use negative WBITS to tell zlib there's no header
     return zlib.decompress(data[10:], -zlib.MAX_WBITS)
 
 
@@ -553,7 +553,7 @@ def load(filename="", buf=None):
     if isinstance(buf, str):
         buf = fromstring(buf, uint8)
     data = buf
-    #if buf != None:
+    # if buf != None:
     #    data = buf
     if not len(buf):
         raise NBTFormatError("Asked to load root tag of zero length")

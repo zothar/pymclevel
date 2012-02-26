@@ -37,7 +37,7 @@ class Block(object):
         key = lambda a: a and (a.ID, a.blockData)
         return cmp( key(self), key(other))
 
-    hasVariants = False  #True if blockData defines additional blocktypes
+    hasVariants = False  # True if blockData defines additional blocktypes
 
     def __init__(self, materials, blockID, blockData=0):
         self.materials = materials
@@ -122,10 +122,10 @@ class MCMaterials(object):
             name matches exactly. If we get a (id, data) pair or an id, return
             that block. for example:
 
-                level.materials[0]  #returns Air
-                level.materials["Air"]  #also returns Air
-                level.materials["Powered Rail"]  #returns Powered Rail
-                level.materials["Lapis Lazuli Block"]  #in Classic
+                level.materials[0]  # returns Air
+                level.materials["Air"]  # also returns Air
+                level.materials["Powered Rail"]  # returns Powered Rail
+                level.materials["Lapis Lazuli Block"]  # in Classic
 
            """
         if isinstance(key, basestring):
@@ -156,7 +156,7 @@ class MCMaterials(object):
 
             f = pkg_resources.resource_stream(__name__, filename)
         except (ImportError, IOError):
-            root = os.environ.get("PYMCLEVEL_YAML_ROOT", "pymclevel")  #fall back to cwd as last resort
+            root = os.environ.get("PYMCLEVEL_YAML_ROOT", "pymclevel")  # fall back to cwd as last resort
             f = file(join(root, filename))
         try:
             info(u"Loading block info from %s", f)
@@ -182,16 +182,16 @@ class MCMaterials(object):
 
         unused_yaml_properties = \
         ['explored',
-         #'id',
-         #'idStr',
-         #'mapcolor',
-         #'name',
-         #'tex',
-         ###'tex_data',
-         #'tex_direction',
-         ###'tex_direction_data',
+         # 'id',
+         # 'idStr',
+         # 'mapcolor',
+         # 'name',
+         # 'tex',
+         ### 'tex_data',
+         # 'tex_direction',
+         ### 'tex_direction_data',
          'tex_extra',
-         #'type'
+         # 'type'
          ]
 
         for val, data in kw.get('data', {0: {}}).items():
@@ -215,7 +215,7 @@ class MCMaterials(object):
                 if dirname in texDirs:
                     texture[texDirs[dirname]] = [t*16 for t in dirtex]
             datakw['texture'] = texture
-            #print datakw
+            # print datakw
             block = self.addBlock(blockID, val, **datakw)
             block.yaml = datakw
             if idStr not in self.idStr:
@@ -224,7 +224,7 @@ class MCMaterials(object):
         tex_direction_data = kw.get('tex_direction_data')
         if tex_direction_data:
             texture = datakw['texture']
-            #X+0, X-1, Y+, Y-, Z+b, Z-f
+            # X+0, X-1, Y+, Y-, Z+b, Z-f
             texDirMap = {
                 "NORTH": 0,
                 "EAST": 1,
@@ -706,7 +706,7 @@ _indices = rollaxis(indices( (256, 16) ), 0, 3)
 
 
 def _filterTable(filters, unavailable, default = (0, 0) ):
-    #a filter table is a 256x16 table of (ID, data) pairs.
+    # a filter table is a 256x16 table of (ID, data) pairs.
     table = zeros((256, 16, 2), dtype='uint8')
     table[:] = _indices
     for u in unavailable:

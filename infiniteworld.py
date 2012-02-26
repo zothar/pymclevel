@@ -20,7 +20,7 @@ warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
 from level import LightedChunk, EntityLevel, computeChunkHeightMap
 
-#infinite
+# infinite
 Level = 'Level'
 BlockData = 'BlockData'
 BlockLight = 'BlockLight'
@@ -37,7 +37,7 @@ SpawnY = 'SpawnY'
 SpawnZ = 'SpawnZ'
 LastPlayed = 'LastPlayed'
 RandomSeed = 'RandomSeed'
-SizeOnDisk = 'SizeOnDisk'  #maybe update this?
+SizeOnDisk = 'SizeOnDisk'  # maybe update this?
 Time = 'Time'
 Player = 'Player'
 
@@ -220,7 +220,7 @@ def readProperties(filename):
         return {}
 
     with file(filename) as f:
-        properties = dict((line.split("=", 2) for line in (l.strip() for l in f) if not line.startswith("#")))
+        properties = dict((line.split("=", 2) for line in (l.strip() for l in f) if not line.startswith("# ")))
 
     return properties
 
@@ -337,7 +337,7 @@ class MCServerChunkGenerator(object):
 
     def tempWorldForLevel(self, level):
 
-        #tempDir = tempfile.mkdtemp("mclevel_servergen")
+        # tempDir = tempfile.mkdtemp("mclevel_servergen")
         tempDir = os.path.join(self.worldCacheDir, self.jarStorage.checksumForVersion(self.serverVersion), str(level.RandomSeed))
         propsFile = os.path.join(tempDir, "server.properties")
         properties = readProperties(propsFile)
@@ -411,7 +411,7 @@ class MCServerChunkGenerator(object):
             for i in self.generateAtPositionIter(tempWorld, tempDir, cx, cz):
                 yield i
 
-        (tempWorld.parentWorld or tempWorld).loadLevelDat()  #reload version number
+        (tempWorld.parentWorld or tempWorld).loadLevelDat()  # reload version number
 
     def copyChunkAtPosition(self, tempWorld, level, cx, cz):
         if level.containsChunk(cx, cz):
@@ -431,7 +431,7 @@ class MCServerChunkGenerator(object):
         chunk = level.getChunk(cx, cz)
         chunk.decompress()
         chunk.unpackChunkData()
-        chunk.root_tag = root_tag  #xxx tag swap, could copy blocks and entities and chunk attrs instead?
+        chunk.root_tag = root_tag  # xxx tag swap, could copy blocks and entities and chunk attrs instead?
         chunk.dirty = True
 
         chunk.compress()
@@ -495,16 +495,16 @@ class MCServerChunkGenerator(object):
             length = len(chunks)
             centercx, centercz = chunks.pop()
             chunks.add((centercx, centercz))
-            #assume the generator always generates at least an 11x11 chunk square.
+            # assume the generator always generates at least an 11x11 chunk square.
             centercx += minRadius
             centercz += minRadius
 
-            #boxedChunks = [cPos for cPos in chunks if inBox(cPos)]
+            # boxedChunks = [cPos for cPos in chunks if inBox(cPos)]
 
             print "Generating {0} chunks out of {1} starting from {2}".format("XXX", len(chunks), (centercx, centercz))
             yield startLength - len(chunks), startLength
 
-            #chunks = [c for c in chunks if not inBox(c)]
+            # chunks = [c for c in chunks if not inBox(c)]
 
             for p in self.generateAtPositionIter(tempWorld, tempDir, centercx, centercz, simulate):
                 yield startLength - len(chunks), startLength, p
@@ -565,8 +565,8 @@ class MCServerChunkGenerator(object):
         proc = cls._runServer(tempdir, jarfile)
 
         version = "Unknown"
-        #out, err = proc.communicate()
-        #for line in err.split("\n"):
+        # out, err = proc.communicate()
+        # for line in err.split("\n"):
 
         while proc.poll() is None:
             line = proc.stderr.readline()
@@ -580,12 +580,12 @@ class MCServerChunkGenerator(object):
             try:
                 proc.kill()
             except WindowsError:
-                pass  #access denied, process already terminated
+                pass  # access denied, process already terminated
 
         proc.wait()
         shutil.rmtree(tempdir)
         if ";)" in version:
-            version = version.replace(";)", "")  #Damnit, Jeb!
+            version = version.replace(";)", "")  # Damnit, Jeb!
         # Versions like "0.2.1" are alphas, and versions like "1.0.0" without "Beta" are releases
         if version[0] == "0":
             version = "Alpha " + version
@@ -735,15 +735,15 @@ class InfdevChunk(LightedChunk):
         return len(self.compressedTag)
 
     def sanitizeBlocks(self):
-        #change grass to dirt where needed so Minecraft doesn't flip out and die
+        # change grass to dirt where needed so Minecraft doesn't flip out and die
         grass = self.Blocks == self.materials.Grass.ID
         grass |= self.Blocks == self.materials.Dirt.ID
         badgrass = grass[:, :, 1:] & grass[:, :, :-1]
 
         self.Blocks[:, :, :-1][badgrass] = self.materials.Dirt.ID
 
-        #remove any thin snow layers immediately above other thin snow layers.
-        #minecraft doesn't flip out, but it's almost never intended
+        # remove any thin snow layers immediately above other thin snow layers.
+        # minecraft doesn't flip out, but it's almost never intended
         if hasattr(self.materials, "SnowLayer"):
             snowlayer = self.Blocks == self.materials.SnowLayer.ID
             badsnow = snowlayer[:, :, 1:] & snowlayer[:, :, :-1]
@@ -753,12 +753,12 @@ class InfdevChunk(LightedChunk):
     def compress(self):
 
         if not self.dirty:
-            #if we are not dirty, just throw the
-            #uncompressed tag structure away. rely on the OS disk cache.
+            # if we are not dirty, just throw the
+            # uncompressed tag structure away. rely on the OS disk cache.
             self.root_tag = None
         else:
             if self.root_tag is not None:
-                self.sanitizeBlocks()  #xxx
+                self.sanitizeBlocks()  # xxx
 
                 self.packChunkData()
                 self._compressChunk()
@@ -884,8 +884,8 @@ class InfdevChunk(LightedChunk):
             self.world.chunkDidUnload(self)
 
     def isLoaded(self):
-        #we're loaded if we have our tag data in ram
-        #and we don't have to go back to the disk for it.
+        # we're loaded if we have our tag data in ram
+        # and we don't have to go back to the disk for it.
         return not (self.compressedTag is None and self.root_tag is None)
 
     def isCompressed(self):
@@ -1071,7 +1071,7 @@ class AnvilChunk(InfdevChunk):
     def _decompressChunk(self):
         super(AnvilChunk, self)._decompressChunk()
 
-        self._Blocks = zeros((16, 16, self.Height), 'uint8')  #xxx uint16?
+        self._Blocks = zeros((16, 16, self.Height), 'uint8')  # xxx uint16?
         self._Data = zeros((16, 16, self.Height), 'uint8')
         self._BlockLight = zeros((16, 16, self.Height), 'uint8')
         self._SkyLight = zeros((16, 16, self.Height), 'uint8')
@@ -1101,7 +1101,7 @@ class AnvilChunk(InfdevChunk):
                 secarray = arr[..., y:y+16].swapaxes(0, 2)
                 if name is Blocks:
                     if not secarray.any():
-                        break  #detect empty sections here
+                        break  # detect empty sections here
                 else:
                     secarray = packNibbleArray(secarray)
 
@@ -1154,7 +1154,7 @@ class AnvilChunk(InfdevChunk):
 
 
 class MCRegionFile(object):
-    holdFileOpen = False  #if False, reopens and recloses the file on each access
+    holdFileOpen = False  # if False, reopens and recloses the file on each access
 
     @property
     def file(self):
@@ -1210,7 +1210,7 @@ class MCRegionFile(object):
 
             for i in xrange(sector, sector + count):
                 if i >= len(self.freeSectors):
-                    #raise RegionMalformed("Region file offset table points to sector {0} (past the end of the file)".format(i))
+                    # raise RegionMalformed("Region file offset table points to sector {0} (past the end of the file)".format(i))
                     print  "Region file offset table points to sector {0} (past the end of the file)".format(i)
                     needsRepair = True
                     break
@@ -1309,7 +1309,7 @@ class MCRegionFile(object):
                 xPos = lev["xPos"].value
                 zPos = lev["zPos"].value
                 gzdata = InfdevChunk.compressTagGzip(chunkTag)
-                #print chunkTag.pretty_string()
+                # print chunkTag.pretty_string()
 
                 with file(os.path.join(folder, "c.{0}.{1}.dat".format(base36(xPos), base36(zPos))), "wb") as f:
                     f.write(gzdata)
@@ -1333,7 +1333,7 @@ class MCRegionFile(object):
             f.seek(sectorStart * self.SECTOR_BYTES)
             data = f.read(numSectors * self.SECTOR_BYTES)
         assert(len(data) > 0)
-        #debug("REGION LOAD {0},{1} sector {2}".format(cx, cz, sectorStart))
+        # debug("REGION LOAD {0},{1} sector {2}".format(cx, cz, sectorStart))
         return data
 
     def loadChunk(self, chunk):
@@ -1450,7 +1450,7 @@ class MCRegionFile(object):
             f.write(struct.pack(">I", len(data) + 1))  # // chunk length
             f.write(struct.pack("B", format))  # // chunk version number
             f.write(data)  # // chunk data
-            #f.flush()
+            # f.flush()
 
     def containsChunk(self, cx,cz):
         return self.getOffset(cx,cz) != 0
@@ -1504,10 +1504,10 @@ def base36(n):
 
 
 def deflate(data):
-    #zobj = zlib.compressobj(6,zlib.DEFLATED,-zlib.MAX_WBITS,zlib.DEF_MEM_LEVEL,0)
-    #zdata = zobj.compress(data)
-    #zdata += zobj.flush()
-    #return zdata
+    # zobj = zlib.compressobj(6,zlib.DEFLATED,-zlib.MAX_WBITS,zlib.DEF_MEM_LEVEL,0)
+    # zdata = zobj.compress(data)
+    # zdata += zobj.flush()
+    # return zdata
     return zlib.compress(data)
 
 
@@ -1657,7 +1657,7 @@ class ChunkedLevelMixin(object):
         return sourceMask
 
     def copyBlocksFromFiniteIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy, create = False):
-        #assumes destination point and bounds have already been checked.
+        # assumes destination point and bounds have already been checked.
         (sx, sy, sz) = sourceBox.origin
 
         start = datetime.now()
@@ -1694,16 +1694,16 @@ class ChunkedLevelMixin(object):
             sourceBlocks = sourceLevel.Blocks[sx + point[0]:localSourceCorner2[0],
                                               sz + point[2]:localSourceCorner2[2],
                                               sy:localSourceCorner2[1]]
-            #sourceBlocks = filterTable[sourceBlocks]
+            # sourceBlocks = filterTable[sourceBlocks]
             mask = sourceMask(sourceBlocks)
 
-            #for small level slices, reduce the destination area
+            # for small level slices, reduce the destination area
             x, z, y = sourceBlocks.shape
             blocks = blocks[0:x, 0:z, 0:y]
 
             sourceData = None
             if hasattr(sourceLevel, 'Data'):
-                #indev or schematic
+                # indev or schematic
                 sourceData = sourceLevel.Data[sx + point[0]:localSourceCorner2[0],
                                               sz + point[2]:localSourceCorner2[2],
                                               sy:localSourceCorner2[1]]
@@ -1723,14 +1723,14 @@ class ChunkedLevelMixin(object):
         if i:
             info("Finished {2} chunks in {0} ({1} per chunk)".format(d, d / i, i))
 
-            #chunk.compress();  #xxx find out why this trashes changes to tile entities
+            # chunk.compress();  # xxx find out why this trashes changes to tile entities
 
     def copyBlocksFromInfiniteIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy, create = False):
         """ copy blocks between two infinite levels by looping through the
         destination's chunks. make a sub-box of the source level for each chunk
         and copy block and entities in the sub box to the dest chunk."""
 
-        #assumes destination point and bounds have already been checked.
+        # assumes destination point and bounds have already been checked.
         destBox = BoundingBox(destinationPoint, sourceBox.size)
         chunkCount = destBox.chunkCount
         i = 0
@@ -1743,8 +1743,8 @@ class ChunkedLevelMixin(object):
 
         def shouldCreateFunc(slices, point):
             box = subbox(slices, point)
-            b = any(list(sourceLevel.containsChunk(*c) for c in box.chunkPositions))  #any() won't take a generator-expression :(
-            #if b == False:
+            b = any(list(sourceLevel.containsChunk(*c) for c in box.chunkPositions))  # any() won't take a generator-expression :(
+            # if b == False:
             #    print 'Skipped ', list(box.chunkPositions)
             return b
 
@@ -1784,10 +1784,10 @@ class ChunkedLevelMixin(object):
     def copyBlocksFromIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy=None, entities=True, create=False):
         (x, y, z) = destinationPoint
         (lx, ly, lz) = sourceBox.size
-        #sourcePoint, sourcePoint1 = sourceBox
+        # sourcePoint, sourcePoint1 = sourceBox
 
         sourceBox, destinationPoint = self.adjustCopyParameters(sourceLevel, sourceBox, destinationPoint)
-        #needs work xxx
+        # needs work xxx
         info(u"Copying {0} blocks from {1} to {2}" .format (ly * lz * lx, sourceBox, destinationPoint))
         startTime = datetime.now()
 
@@ -1802,7 +1802,7 @@ class ChunkedLevelMixin(object):
         for i in self.copyEntitiesFromIter(sourceLevel, sourceBox, destinationPoint, entities):
             yield i
         info("Duration: {0}".format(datetime.now() - startTime))
-        #self.saveInPlace()
+        # self.saveInPlace()
 
     def fillBlocks(self, box, blockInfo, blocksToReplace=[]):
         return exhaust(self.fillBlocksIter(box, blockInfo, blocksToReplace))
@@ -1814,10 +1814,10 @@ class ChunkedLevelMixin(object):
         else:
             chunkIterator = self.getChunkSlices(box)
 
-        #shouldRetainData = (not blockInfo.hasVariants and not any([b.hasVariants for b in blocksToReplace]))
-        #if shouldRetainData:
+        # shouldRetainData = (not blockInfo.hasVariants and not any([b.hasVariants for b in blocksToReplace]))
+        # if shouldRetainData:
         #    info( "Preserving data bytes" )
-        shouldRetainData = False  #xxx old behavior overwrote blockdata with 0 when e.g. replacing water with lava
+        shouldRetainData = False  # xxx old behavior overwrote blockdata with 0 when e.g. replacing water with lava
 
         info("Replacing {0} with {1}".format(blocksToReplace, blockInfo))
 
@@ -1862,7 +1862,7 @@ class ChunkedLevelMixin(object):
                 blockCount = mask.sum()
                 replaced += blockCount
 
-                #don't waste time relighting and copying if the mask is empty
+                # don't waste time relighting and copying if the mask is empty
                 if blockCount:
                     blocks[:][mask] = blockInfo.ID
                     if not shouldRetainData:
@@ -1909,7 +1909,7 @@ class ChunkedLevelMixin(object):
 
         dirtyChunks = sorted(dirtyChunks, key=lambda x: x.chunkPosition)
 
-        #at 150k per loaded chunk,
+        # at 150k per loaded chunk,
         maxLightingChunks = 4000
 
         info(u"Asked to light {0} chunks".format(len(dirtyChunks)))
@@ -1923,16 +1923,16 @@ class ChunkedLevelMixin(object):
             newChunkLists = []
             for l in chunkLists:
 
-                #list is already sorted on x position, so this splits into left and right
+                # list is already sorted on x position, so this splits into left and right
 
                 smallX = l[:len(l) / 2]
                 bigX = l[len(l) / 2:]
 
-                #sort halves on z position
+                # sort halves on z position
                 smallX = sorted(smallX, key=reverseChunkPosition)
                 bigX = sorted(bigX, key=reverseChunkPosition)
 
-                #add quarters to list
+                # add quarters to list
 
                 newChunkLists.append(smallX[:len(smallX) / 2])
                 newChunkLists.append(smallX[len(smallX) / 2:])
@@ -1947,7 +1947,7 @@ class ChunkedLevelMixin(object):
 
         if len(chunkLists) > 1:
             info(u"Using {0} batches to conserve memory.".format(len(chunkLists)))
-        #batchSize = min(len(a) for a in chunkLists)
+        # batchSize = min(len(a) for a in chunkLists)
         estimatedTotals = [len(a) * 32 for a in chunkLists]
         workDone = 0
 
@@ -1999,7 +1999,7 @@ class ChunkedLevelMixin(object):
         workTotal = len(dirtyChunks)
 
         for ch in list(dirtyChunks):
-            #relight all blocks in neighboring chunks in case their light source disappeared.
+            # relight all blocks in neighboring chunks in case their light source disappeared.
             cx, cz = ch.chunkPosition
             for dx, dz in itertools.product((-1, 0, 1), (-1, 0, 1)):
                 try:
@@ -2033,9 +2033,9 @@ class ChunkedLevelMixin(object):
         info(u"Dispersing light...")
 
         def clipLight(light):
-            #light arrays are all uint8 by default, so when results go negative
-            #they become large instead.  reinterpret as signed int using view()
-            #and then clip to range
+            # light arrays are all uint8 by default, so when results go negative
+            # they become large instead.  reinterpret as signed int using view()
+            # and then clip to range
             light.view('int8').clip(0, 15, light)
 
         for j, light in enumerate(lights):
@@ -2099,21 +2099,21 @@ class ChunkedLevelMixin(object):
 
                     nc = neighboringChunks[FaceXDecreasing]
                     ncLight = getattr(nc, light)
-                    oldLeftEdge[:] = ncLight[15:16, :, 0:self.Height]  #save the old left edge
+                    oldLeftEdge[:] = ncLight[15:16, :, 0:self.Height]  # save the old left edge
 
-                    #left edge
+                    # left edge
                     newlight = (chunkLight[0:1, :, :self.Height] - la[nc.Blocks[15:16, :, 0:self.Height]])
                     clipLight(newlight)
 
                     maximum(ncLight[15:16, :, 0:self.Height], newlight, ncLight[15:16, :, 0:self.Height])
 
-                    #chunk body
+                    # chunk body
                     newlight = (chunkLight[1:16, :, 0:self.Height] - chunkLa[0:15, :, 0:self.Height])
                     clipLight(newlight)
 
                     maximum(chunkLight[0:15, :, 0:self.Height], newlight, chunkLight[0:15, :, 0:self.Height])
 
-                    #right edge
+                    # right edge
                     nc = neighboringChunks[FaceXIncreasing]
                     ncLight = getattr(nc, light)
 
@@ -2124,7 +2124,7 @@ class ChunkedLevelMixin(object):
 
                     ### Spread light toward +X
 
-                    #right edge
+                    # right edge
                     nc = neighboringChunks[FaceXIncreasing]
                     ncLight = getattr(nc, light)
 
@@ -2133,13 +2133,13 @@ class ChunkedLevelMixin(object):
 
                     maximum(ncLight[0:1, :, 0:self.Height], newlight, ncLight[0:1, :, 0:self.Height])
 
-                    #chunk body
+                    # chunk body
                     newlight = (chunkLight[0:15, :, 0:self.Height] - chunkLa[1:16, :, 0:self.Height])
                     clipLight(newlight)
 
                     maximum(chunkLight[1:16, :, 0:self.Height], newlight, chunkLight[1:16, :, 0:self.Height])
 
-                    #left edge
+                    # left edge
                     nc = neighboringChunks[FaceXDecreasing]
                     ncLight = getattr(nc, light)
 
@@ -2148,17 +2148,17 @@ class ChunkedLevelMixin(object):
 
                     maximum(chunkLight[0:1, :, 0:self.Height], newlight, chunkLight[0:1, :, 0:self.Height])
 
-                    zerochunkLight[:] = 0  #zero the zero chunk after each direction
+                    zerochunkLight[:] = 0  # zero the zero chunk after each direction
                     # so the lights it absorbed don't affect the next pass
 
-                    #check if the left edge changed and dirty or compress the chunk appropriately
+                    # check if the left edge changed and dirty or compress the chunk appropriately
                     if (oldLeftEdge != ncLight[15:16, :, :self.Height]).any():
-                        #chunk is dirty
+                        # chunk is dirty
                         newDirtyChunks.append(nc)
 
                     ### Spread light toward -Z
 
-                    #bottom edge
+                    # bottom edge
                     nc = neighboringChunks[FaceZDecreasing]
                     ncLight = getattr(nc, light)
                     oldBottomEdge[:] = ncLight[:, 15:16, :self.Height]  # save the old bottom edge
@@ -2168,13 +2168,13 @@ class ChunkedLevelMixin(object):
 
                     maximum(ncLight[:, 15:16, :self.Height], newlight, ncLight[:, 15:16, :self.Height])
 
-                    #chunk body
+                    # chunk body
                     newlight = (chunkLight[:, 1:16, :self.Height] - chunkLa[:, 0:15, :self.Height])
                     clipLight(newlight)
 
                     maximum(chunkLight[:, 0:15, :self.Height], newlight, chunkLight[:, 0:15, :self.Height])
 
-                    #top edge
+                    # top edge
                     nc = neighboringChunks[FaceZIncreasing]
                     ncLight = getattr(nc, light)
 
@@ -2185,7 +2185,7 @@ class ChunkedLevelMixin(object):
 
                     ### Spread light toward +Z
 
-                    #top edge
+                    # top edge
                     nc = neighboringChunks[FaceZIncreasing]
 
                     ncLight = getattr(nc, light)
@@ -2195,13 +2195,13 @@ class ChunkedLevelMixin(object):
 
                     maximum(ncLight[:, 0:1, :self.Height], newlight, ncLight[:, 0:1, :self.Height])
 
-                    #chunk body
+                    # chunk body
                     newlight = (chunkLight[:, 0:15, :self.Height] - chunkLa[:, 1:16, :self.Height])
                     clipLight(newlight)
 
                     maximum(chunkLight[:, 1:16, :self.Height], newlight, chunkLight[:, 1:16, :self.Height])
 
-                    #bottom edge
+                    # bottom edge
                     nc = neighboringChunks[FaceZDecreasing]
                     ncLight = getattr(nc, light)
 
@@ -2249,8 +2249,8 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     @property
     def displayName(self):
-        #shortname = os.path.basename(self.filename)
-        #if shortname == "level.dat":
+        # shortname = os.path.basename(self.filename)
+        # if shortname == "level.dat":
         shortname = os.path.basename(os.path.dirname(self.filename))
 
         return shortname
@@ -2313,7 +2313,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     MapFeatures = TagProperty('MapFeatures', TAG_Byte, lambda self: 1)
 
-    GameType = TagProperty('GameType', TAG_Int, lambda self: 0)  #0 for survival, 1 for creative
+    GameType = TagProperty('GameType', TAG_Int, lambda self: 0)  # 0 for survival, 1 for creative
     GAMETYPE_SURVIVAL = 0
     GAMETYPE_CREATIVE = 1
 
@@ -2345,7 +2345,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
         if filename == None:
             raise ValueError("Can't create an Infinite level without a filename!")
-        #create a new level
+        # create a new level
         root_tag = TAG_Compound()
         root_tag[Data] = TAG_Compound()
         root_tag[Data][SpawnX] = TAG_Int(0)
@@ -2411,7 +2411,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
         self.Length = 0
         self.Width = 0
-        self.Height = 128  #subject to change?
+        self.Height = 128  # subject to change?
         self.playerTagCache = {}
         self.players = []
         if not os.path.exists(filename):
@@ -2435,19 +2435,19 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         if not os.path.exists(self.regionDir):
             os.mkdir(self.regionDir)
 
-        #maps (cx,cz) pairs to InfdevChunks
+        # maps (cx,cz) pairs to InfdevChunks
         self._loadedChunks = {}
         self._allChunks = None
         self.dimensions = {}
         self.regionFiles = {}
 
-        #used to limit memory usage
+        # used to limit memory usage
         self.loadedChunkQueue = dequeset()
         self.decompressedChunkQueue = dequeset()
 
         self.loadLevelDat(create, random_seed, last_played)
 
-        #attempt to support yMod
+        # attempt to support yMod
         try:
             self.Height = self.root_tag["Data"]["YLimit"].value
         except:
@@ -2466,7 +2466,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             self.players.append("Player")
 
         self.preloadDimensions()
-        #self.preloadChunkPositions()
+        # self.preloadChunkPositions()
 
     def loadLevelDat(self, create=False, random_seed=None, last_played=None):
 
@@ -2605,10 +2605,10 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
                 for subdirname in subdirs:
                     if subdirname in self.dirhashes:
                         filenames = os.listdir(os.path.join(self.worldDir, dirname, subdirname))
-                        #def fullname(filename):
-                            #return os.path.join(self.worldDir, dirname, subdirname, filename)
+                        # def fullname(filename):
+                            # return os.path.join(self.worldDir, dirname, subdirname, filename)
 
-                        #fullpaths = map(fullname, filenames)
+                        # fullpaths = map(fullname, filenames)
                         bits = map(lambda x: x.split('.'), filenames)
 
                         chunkfilenames = filter(lambda x: (len(x) == 4 and x[0].lower() == 'c' and x[3].lower() == 'dat'), bits)
@@ -2635,7 +2635,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     def compressChunk(self, cx, cz):
         if not (cx, cz) in self._loadedChunks:
-            return  #not an error
+            return  # not an error
         self._loadedChunks[cx, cz].compress()
 
     decompressedChunkLimit = 2048  # about 320 megabytes
@@ -2649,7 +2649,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             self.decompressedChunkQueue.append(chunk)
             if self.decompressedChunkLimit and (len(self.decompressedChunkQueue) > self.decompressedChunkLimit):
                 oldestChunk = self.decompressedChunkQueue[0]
-                oldestChunk.compress()  #calls chunkDidCompress
+                oldestChunk.compress()  # calls chunkDidCompress
 
     def chunkDidUnload(self, chunk):
         self.loadedChunkQueue.discard(chunk)
@@ -2659,7 +2659,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             self.loadedChunkQueue.append(chunk)
             if self.loadedChunkLimit and (len(self.loadedChunkQueue) > self.loadedChunkLimit):
                 oldestChunk = self.loadedChunkQueue[0]
-                oldestChunk.unload()  #calls chunkDidUnload
+                oldestChunk.unload()  # calls chunkDidUnload
 
     @property
     @decompress_first
@@ -2788,7 +2788,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         heightMap = ch.HeightMap
 
         return heightMap[zInChunk, xInChunk]
-        #the heightmap is ordered differently because in minecraft it is a flat array
+        # the heightmap is ordered differently because in minecraft it is a flat array
 
     @property
     def loadedChunks(self):
@@ -3060,13 +3060,13 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
     def getPlayerTag(self, player="Player"):
         if player == "Player":
             if player in self.root_tag["Data"]:
-                #single-player world
+                # single-player world
                 return self.root_tag["Data"]["Player"]
             raise PlayerNotFound(player)
         else:
             playerFilePath = self.getPlayerPath(player)
             if os.path.exists(playerFilePath):
-                #multiplayer world, found this player
+                # multiplayer world, found this player
                 playerTag = self.playerTagCache.get(playerFilePath)
                 if playerTag is None:
                     playerTag = nbt.load(playerFilePath)
@@ -3075,7 +3075,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
             else:
                 raise PlayerNotFound("{0}".format(player))
-                #return None
+                # return None
 
     def getPlayerDimension(self, player="Player"):
         playerTag = self.getPlayerTag(player)
@@ -3294,7 +3294,7 @@ class ZipSchematic (MCInfdevOldLevel):
                 except Exception, e:
                     info('Skipped file {0} ({1})'.format('.'.join(c), e))
                     continue
-                #self._loadedChunks[ (cx, cz) ] = InfdevChunk(self, (cx, cz))
+                # self._loadedChunks[ (cx, cz) ] = InfdevChunk(self, (cx, cz))
                 self._allChunks.add((cx, cz))
 
         info(u"Found {0} chunks.".format(len(self._allChunks)))

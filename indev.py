@@ -186,7 +186,7 @@ class MCIndevLevel(EntityLevel):
                 root_tag[Entities] = TAG_List()
             self.Entities = root_tag[Entities]
 
-            #xxx fixup Motion and Pos to match infdev format
+            # xxx fixup Motion and Pos to match infdev format
             def numbersToDoubles(ent):
                 for attr in "Motion", "Pos":
                     if attr in ent:
@@ -197,7 +197,7 @@ class MCIndevLevel(EntityLevel):
             if not TileEntities in root_tag:
                 root_tag[TileEntities] = TAG_List()
             self.TileEntities = root_tag[TileEntities]
-            #xxx fixup TileEntities positions to match infdev format
+            # xxx fixup TileEntities positions to match infdev format
             for te in self.TileEntities:
                 pos = te["Pos"].value
 
@@ -205,14 +205,14 @@ class MCIndevLevel(EntityLevel):
 
                 TileEntity.setpos(te, (x, y, z))
 
-            if len(filter(lambda x: x['id'].value == 'LocalPlayer', root_tag[Entities])) == 0:  #omen doesn't make a player entity
+            if len(filter(lambda x: x['id'].value == 'LocalPlayer', root_tag[Entities])) == 0:  # omen doesn't make a player entity
                 p = TAG_Compound()
                 p['id'] = TAG_String('LocalPlayer')
                 p['Pos'] = TAG_List([TAG_Float(0.), TAG_Float(64.), TAG_Float(0.)])
                 p['Rotation'] = TAG_List([TAG_Float(0.), TAG_Float(45.)])
 
                 root_tag[Entities].append(p)
-                #self.saveInPlace()
+                # self.saveInPlace()
 
         else:
             info(u"Creating new Indev levels is not yet implemented.!")
@@ -236,7 +236,7 @@ class MCIndevLevel(EntityLevel):
     def rotateLeft(self):
         MCLevel.rotateLeft(self)
 
-        self.Data = swapaxes(self.Data, 1, 0)[:, ::-1, :]  #x=y; y=-x
+        self.Data = swapaxes(self.Data, 1, 0)[:, ::-1, :]  # x=y; y=-x
 
         torchRotation = array([0, 4, 3, 1, 2, 5,
                                6, 7,
@@ -261,7 +261,7 @@ class MCIndevLevel(EntityLevel):
             filename = self.filename
         if filename == None:
             warn(u"Attempted to save an unnamed file in place")
-            return  #you fool!
+            return  # you fool!
 
         self.Data <<= 4
         self.Data |= (self.BlockLight & 0xf)
@@ -284,7 +284,7 @@ class MCIndevLevel(EntityLevel):
         self.root_tag[Map] = mapTag
         self.root_tag[Map]
 
-        #fix up Entities imported from Alpha worlds
+        # fix up Entities imported from Alpha worlds
         def numbersToFloats(ent):
             for attr in "Motion", "Pos":
                 if attr in ent:
@@ -292,11 +292,11 @@ class MCIndevLevel(EntityLevel):
         for ent in self.Entities:
             numbersToFloats(ent)
 
-        #fix up TileEntities imported from Alpha worlds.
+        # fix up TileEntities imported from Alpha worlds.
         for ent in self.TileEntities:
             if "Pos" not in ent and all(c in ent for c in 'xyz'):
                 ent["Pos"] = TAG_Int(self.encodePos(ent['x'].value, ent['y'].value, ent['z'].value))
-        #output_file = gzip.open(self.filename, "wb", compresslevel=1)
+        # output_file = gzip.open(self.filename, "wb", compresslevel=1)
         try:
             os.rename(filename, filename + ".old")
         except Exception, e:

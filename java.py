@@ -50,7 +50,7 @@ class MCJavaLevel(MCLevel):
             Width = 256
             Length = 256
             Height = 64
-        if data.shape[0] > (256 * 256 * 64) * 2:  #could also be 256*256*256
+        if data.shape[0] > (256 * 256 * 64) * 2:  # could also be 256*256*256
             Width = 512
             Length = 512
             Height = 64
@@ -73,7 +73,7 @@ class MCJavaLevel(MCLevel):
             data = fromstring(data, dtype='uint8')
         self.filedata = data
 
-        #try to take x,z,y from the filename
+        # try to take x,z,y from the filename
         r = re.findall("\d+", os.path.basename(filename))
         if r and len(r) >= 3:
             (w, l, h) = map(int, r[-3:])
@@ -92,11 +92,11 @@ class MCJavaLevel(MCLevel):
         blockOffset = data.shape[0] - blockCount
         blocks = data[blockOffset:blockOffset + blockCount]
 
-        maxBlockType = 64  #maximum allowed in classic
+        maxBlockType = 64  # maximum allowed in classic
         while max(blocks[-4096:]) > maxBlockType:
-            #guess the block array by starting at the end of the file
-            #and sliding the blockCount-sized window back until it
-            #looks like every block has a valid blockNumber
+            # guess the block array by starting at the end of the file
+            # and sliding the blockCount-sized window back until it
+            # looks like every block has a valid blockNumber
             blockOffset -= 1
             blocks = data[blockOffset:blockOffset + blockCount]
 

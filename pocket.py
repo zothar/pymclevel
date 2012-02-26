@@ -2,11 +2,11 @@ from mclevelbase import *
 from level import FakeChunk
 import struct
 
-#values are usually little-endian, unlike Minecraft PC
+# values are usually little-endian, unlike Minecraft PC
 
 
 class PocketChunksFile(object):
-    holdFileOpen = False  #if False, reopens and recloses the file on each access
+    holdFileOpen = False  # if False, reopens and recloses the file on each access
     SECTOR_BYTES = 4096
     CHUNK_HEADER_SIZE = 4
 
@@ -58,7 +58,7 @@ class PocketChunksFile(object):
 
             for i in xrange(sector, sector + count):
                 if i >= len(self.freeSectors):
-                    #raise RegionMalformed("Region file offset table points to sector {0} (past the end of the file)".format(i))
+                    # raise RegionMalformed("Region file offset table points to sector {0} (past the end of the file)".format(i))
                     print  "Region file offset table points to sector {0} (past the end of the file)".format(i)
                     needsRepair = True
                     break
@@ -162,7 +162,7 @@ class PocketChunksFile(object):
 #                xPos = lev["xPos"].value
 #                zPos = lev["zPos"].value
 #                gzdata = InfdevChunk.compressTagGzip(chunkTag)
-#                #print chunkTag.pretty_string()
+#                # print chunkTag.pretty_string()
 #
 #                with file(os.path.join(folder, "c.{0}.{1}.dat".format(base36(xPos), base36(zPos))), "wb") as f:
 #                    f.write(gzdata)
@@ -278,7 +278,7 @@ class PocketChunksFile(object):
             f.seek(sectorNumber * self.SECTOR_BYTES)
             f.write(struct.pack("<I", len(data) + self.CHUNK_HEADER_SIZE))  # // chunk length
             f.write(data)  # // chunk data
-            #f.flush()
+            # f.flush()
 
     def containsChunk(self, cx,cz):
         return self.getOffset(cx,cz) != 0
@@ -403,8 +403,8 @@ class PocketChunk(LightedChunk):
             dataArray = getattr(self, key)
             dataArray.shape = (16, 16, 64)
             s = dataArray.shape
-            #assert s[2] == self.world.Height / 2
-            #unpackedData = insert(dataArray[...,newaxis], 0, 0, 3)
+            # assert s[2] == self.world.Height / 2
+            # unpackedData = insert(dataArray[...,newaxis], 0, 0, 3)
 
             unpackedData = zeros((s[0], s[1], s[2] * 2), dtype='uint8')
 
@@ -432,9 +432,9 @@ class PocketChunk(LightedChunk):
             return array(data[:, :, :, 1])
 
         if self.dirty:
-            #elements of DirtyColumns are bitfields. Each bit corresponds to a
-            #16-block segment of the column. We set all of the bits because
-            #we only track modifications at the chunk level.
+            # elements of DirtyColumns are bitfields. Each bit corresponds to a
+            # 16-block segment of the column. We set all of the bits because
+            # we only track modifications at the chunk level.
             self.DirtyColumns[:] = 255
 
         return "".join([self.Blocks.tostring(),

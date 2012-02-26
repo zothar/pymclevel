@@ -3,10 +3,10 @@ Created on Jul 23, 2011
 
 @author: Rio
 '''
-#from mclevel import fromFile, loadWorldNumber, BoundingBox
-#from infiniteworld import MCInfdevOldLevel
-#from schematic import MCSchematic
-#import errorreporting  # annotate tracebacks with call arguments
+# from mclevel import fromFile, loadWorldNumber, BoundingBox
+# from infiniteworld import MCInfdevOldLevel
+# from schematic import MCSchematic
+# import errorreporting  # annotate tracebacks with call arguments
 try:
     from pymclevel import *
 except ImportError:
@@ -29,8 +29,8 @@ from infiniteworld import MCServerChunkGenerator
 log = logging.getLogger(__name__)
 warn, error, info, debug = log.warn, log.error, log.info, log.debug
 
-#logging.basicConfig(format=u'%(levelname)s:%(message)s')
-#logging.getLogger().level = logging.INFO
+# logging.basicConfig(format=u'%(levelname)s:%(message)s')
+# logging.getLogger().level = logging.INFO
 
 
 def mktemp(suffix):
@@ -116,7 +116,7 @@ class TestNBT(unittest.TestCase):
         "Byte arrays are stored as numpy.uint8 arrays. "
 
         mapTag["Blocks"] = TAG_Byte_Array()
-        mapTag["Blocks"].value = zeros(l * w * h, dtype=uint8)  #create lots of air!
+        mapTag["Blocks"].value = zeros(l * w * h, dtype=uint8)  # create lots of air!
 
         "The blocks array is indexed (y,z,x) for indev levels, so reshape the blocks"
         mapTag["Blocks"].value.shape = (h, l, w)
@@ -193,7 +193,7 @@ class TestNBT(unittest.TestCase):
             for f in files[:40]:
                 n = nbt.load(f)
         print "Duration: ", time.time() - startTime
-        #print "NBT: ", n
+        # print "NBT: ", n
 
 
 class TestIndevLevel(unittest.TestCase):
@@ -210,7 +210,7 @@ class TestIndevLevel(unittest.TestCase):
         schem = level.extractSchematic(level.bounds)
         level.copyBlocksFrom(schem, schem.bounds, (0, 0, 0))
 
-        #raise Failure
+        # raise Failure
 
     def testCopy(self):
         info("Indev level")
@@ -238,7 +238,7 @@ class TestJavaLevel(unittest.TestCase):
         assert(numpy.array((indevlevel.Blocks[0:64, 0:64, 0:64]) == (creativelevel.Blocks[0:64, 0:64, 0:64])).all())
 
         creativelevel.saveInPlace()
-        #xxx old survival levels
+        # xxx old survival levels
 
 
 class TestAlphaLevelCreate(unittest.TestCase):
@@ -361,12 +361,12 @@ class TestAlphaLevel(unittest.TestCase):
 
 class TestSchematics(unittest.TestCase):
     def setUp(self):
-        #self.alphaLevel = TempLevel("Dojo_64_64_128.dat")
+        # self.alphaLevel = TempLevel("Dojo_64_64_128.dat")
         self.indevlevel = TempLevel("hell.mclevel")
         self.alphalevel = TempLevel("PyTestWorld")
 
     def testCreate(self):
-        #info("Schematic from indev")
+        # info("Schematic from indev")
 
         size = (64, 64, 64)
         temp = mktemp("testcreate.schematic")
@@ -425,12 +425,12 @@ class TestSchematics(unittest.TestCase):
         info("Data: %s", invFile.Data)
         info("Entities: %s", invFile.Entities)
         info("TileEntities: %s", invFile.TileEntities)
-        #raise SystemExit
+        # raise SystemExit
 
 
 class TestPocket(unittest.TestCase):
     def setUp(self):
-        #self.alphaLevel = TempLevel("Dojo_64_64_128.dat")
+        # self.alphaLevel = TempLevel("Dojo_64_64_128.dat")
         self.level = TempLevel("PocketWorld")
         self.alphalevel = TempLevel("PyTestWorld")
 
@@ -444,7 +444,7 @@ class TestPocket(unittest.TestCase):
         assert (a == chunk.SkyLight).all()
 
 #        level.copyBlocksFrom(alphalevel, BoundingBox((0, 0, 0), (64, 64, 64,)), (0, 0, 0))
-        #assert((level.Blocks[0:64, 0:64, 0:64] == alphalevel.Blocks[0:64, 0:64, 0:64]).all())
+        # assert((level.Blocks[0:64, 0:64, 0:64] == alphalevel.Blocks[0:64, 0:64, 0:64]).all())
 
 
 class TestAnvil(TestAlphaLevel):
@@ -473,7 +473,7 @@ class TestAnvil(TestAlphaLevel):
 
 class TestServerGen(unittest.TestCase):
     def setUp(self):
-        #self.alphaLevel = TempLevel("Dojo_64_64_128.dat")
+        # self.alphaLevel = TempLevel("Dojo_64_64_128.dat")
         self.alphalevel = TempLevel("PyTestWorld")
 
     def testCreate(self):
@@ -495,5 +495,5 @@ class TestServerGen(unittest.TestCase):
         gen.generateChunksInLevel(level, [(120, 50), (121, 50), (122, 50), (123, 50), (244, 244), (244, 245), (244, 246)])
 
 if __name__ == "__main__":
-    #import sys;sys.argv = ['', 'Test.testName']
+    # import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
