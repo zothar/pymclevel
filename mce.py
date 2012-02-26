@@ -619,7 +619,7 @@ class mce(object):
                 if tileEntity["id"].value == "Sign":
                     signCount += 1
 
-                    outFile.write(str(map(lambda x:tileEntity[x].value, "xyz")) + "\n")
+                    outFile.write(str(map(lambda x: tileEntity[x].value, "xyz")) + "\n")
                     for i in range(4):
                         outFile.write(tileEntity["Text{0}".format(i + 1)].value + u"\n")
 
@@ -780,7 +780,7 @@ class mce(object):
                 if tileEntity["id"].value == "Chest":
                     chestCount += 1
 
-                    outFile.write(str(map(lambda x:tileEntity[x].value, "xyz")) + "\n")
+                    outFile.write(str(map(lambda x: tileEntity[x].value, "xyz")) + "\n")
                     itemsTag = tileEntity["Items"]
                     if len(itemsTag):
                         for itemTag in itemsTag:
@@ -842,7 +842,7 @@ class mce(object):
                 def match(entityID):
                     return entityID.lower() in matchWords
 
-            matchWords = map(lambda x:x.lower(), command)
+            matchWords = map(lambda x: x.lower(), command)
 
         else:
             print "Removing all entities except Painting..."
@@ -1041,7 +1041,7 @@ class mce(object):
 
             print "It is {0}:{1:02} {2} on Day {3}".format(clockHours % 12 or 12, minutes, ampm, days)
         else:
-            times = { "morning":6, "noon":12, "evening":18, "midnight":24 }
+            times = { "morning": 6, "noon": 12, "evening": 18, "midnight": 24 }
             word = command[0]
             minutes = 0
 
@@ -1451,7 +1451,7 @@ class mce(object):
 
         keyword = commandWords.pop(0).lower()
         if not keyword in self.commands:
-            matches = filter(lambda x:x.startswith(keyword), self.commands)
+            matches = filter(lambda x: x.startswith(keyword), self.commands)
             if len(matches) == 1:
                 keyword = matches[0]
             elif len(matches):

@@ -33,7 +33,7 @@ class Block(object):
     def __cmp__(self, other):
         if not isinstance(other, Block):
             return -1
-        key = lambda a:a and (a.ID, a.blockData)
+        key = lambda a: a and (a.ID, a.blockData)
         return cmp( key(self), key(other))
 
     hasVariants = False #True if blockData defines additional blocktypes
@@ -193,19 +193,19 @@ class MCMaterials(object):
          #'type'
          ]
 
-        for val, data in kw.get('data', {0:{}}).items():
+        for val, data in kw.get('data', {0: {}}).items():
             datakw = dict(kw)
             datakw.update(data)
             idStr = datakw.get('idStr', "")
             tex = [t*16 for t in datakw.get('tex', self.defaultTex)]
             texture = [tex] * 6
             texDirs = {
-                "FORWARD":5,
-                "BACKWARD":4,
-                "LEFT":1,
-                "RIGHT":0,
-                "TOP":2,
-                "BOTTOM":3,
+                "FORWARD": 5,
+                "BACKWARD": 4,
+                "LEFT": 1,
+                "RIGHT": 0,
+                "TOP": 2,
+                "BOTTOM": 3,
             }
             for dirname, dirtex in datakw.get('tex_direction', {}).items():
                 if dirname == "SIDES":
@@ -303,7 +303,7 @@ Stem = (0xD0, 0x80)
 
 
 def defineShroomFaces(Shroom, id, name):
-    for way, data in sorted(HugeMushroomTypes.items(), key=lambda a:a[1]):
+    for way, data in sorted(HugeMushroomTypes.items(), key=lambda a: a[1]):
         loway = way.lower()
         if way is "Stem":
             tex = [Stem, Stem, Pore, Pore, Stem, Stem]

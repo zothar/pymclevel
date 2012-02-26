@@ -128,12 +128,12 @@ class BoundingBox (object):
     length = property(getLength, setLength, None, "The dimension along the Z axis")
 
     def getMaximum(self):
-        return map(lambda a, b:a + b, self._origin, self._size)
+        return map(lambda a, b: a + b, self._origin, self._size)
 
     maximum = property(getMaximum, None, None, "The endpoint of the box; origin plus size.")
 
     def getVolume(self):
-        return reduce(lambda a, b:a * b, self.size)
+        return reduce(lambda a, b: a * b, self.size)
 
     volume = property(getVolume, None, None, "The volume of the box in blocks")
 

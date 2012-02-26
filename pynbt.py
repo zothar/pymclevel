@@ -354,7 +354,7 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
     "collection functions"
 
     def __getitem__(self, k):
-        #hits=filter(lambda x:x.name==k, self.value)
+        #hits=filter(lambda x: x.name==k, self.value)
         #if(len(hits)): return hits[0]
         for key in self.value:
                 if key.name == k:
@@ -362,10 +362,10 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
         raise KeyError("Key {0} not found in tag {1}".format(k, self))
 
     def __iter__(self):
-        return itertools.imap(lambda x:x.name, self.value)
+        return itertools.imap(lambda x: x.name, self.value)
 
     def __contains__(self, k):
-        return k in map(lambda x:x.name, self.value)
+        return k in map(lambda x: x.name, self.value)
 
     def __len__(self):
         return self.value.__len__()
@@ -381,7 +381,7 @@ class TAG_Compound(TAG_Value, collections.MutableMapping):
         if not (v.__class__ in tag_classes.values()):
             raise TypeError("Invalid type %s for TAG_Compound" % v.__class__)
         """remove any items already named "k".    """
-        olditems = filter(lambda x:x.name == k, self.value)
+        olditems = filter(lambda x: x.name == k, self.value)
         for i in olditems:
             self.value.remove(i)
         self.value.append(v)
@@ -453,7 +453,7 @@ class TAG_List(TAG_Value, collections.MutableSequence):
 
         if len(value):
             self.list_type = value[0].tag
-            value = filter(lambda x:x.__class__ == value[0].__class__, value)
+            value = filter(lambda x: x.__class__ == value[0].__class__, value)
 
         self.value = value
 

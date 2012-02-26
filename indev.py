@@ -110,7 +110,7 @@ class MCIndevLevel(EntityLevel):
     def getPlayerPosition(self, player="Ignored"):
         for x in self.root_tag["Entities"]:
             if x["id"].value == "LocalPlayer":
-                return array(map(lambda x:x.value, x["Pos"]))
+                return array(map(lambda x: x.value, x["Pos"]))
 
     def setPlayerOrientation(self, yp, player="Ignored"):
         for x in self.root_tag["Entities"]:
@@ -121,7 +121,7 @@ class MCIndevLevel(EntityLevel):
         """ returns (yaw, pitch) """
         for x in self.root_tag["Entities"]:
             if x["id"].value == "LocalPlayer":
-                return array(map(lambda x:x.value, x["Rotation"]))
+                return array(map(lambda x: x.value, x["Rotation"]))
 
     def setBlockDataAt(self, x, y, z, newdata):
         if x < 0 or y < 0 or z < 0:
@@ -205,7 +205,7 @@ class MCIndevLevel(EntityLevel):
 
                 TileEntity.setpos(te, (x, y, z))
 
-            if len(filter(lambda x:x['id'].value == 'LocalPlayer', root_tag[Entities])) == 0: #omen doesn't make a player entity
+            if len(filter(lambda x: x['id'].value == 'LocalPlayer', root_tag[Entities])) == 0: #omen doesn't make a player entity
                 p = TAG_Compound()
                 p['id'] = TAG_String('LocalPlayer')
                 p['Pos'] = TAG_List([TAG_Float(0.), TAG_Float(64.), TAG_Float(0.)])

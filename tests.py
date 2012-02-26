@@ -373,7 +373,7 @@ class TestSchematics(unittest.TestCase):
         schematic = MCSchematic(shape=size, filename=temp, mats='Classic')
         level = self.indevlevel.level
 
-        self.failUnlessRaises(ValueError, lambda:(
+        self.failUnlessRaises(ValueError, lambda: (
             schematic.copyBlocksFrom(level, BoundingBox((-32, -32, -32), (64, 64, 64,)), (0, 0, 0))
         ))
 

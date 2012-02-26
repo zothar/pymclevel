@@ -12,7 +12,7 @@ class PocketChunksFile(object):
 
     @property
     def file(self):
-        openfile = lambda:file(self.path, "rb+")
+        openfile = lambda: file(self.path, "rb+")
         if PocketChunksFile.holdFileOpen:
             if self._file is None:
                 self._file = openfile()

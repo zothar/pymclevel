@@ -1158,7 +1158,7 @@ class MCRegionFile(object):
 
     @property
     def file(self):
-        openfile = lambda:file(self.path, "rb+")
+        openfile = lambda: file(self.path, "rb+")
         if MCRegionFile.holdFileOpen:
             if self._file is None:
                 self._file = openfile()
@@ -1873,7 +1873,7 @@ class ChunkedLevelMixin(object):
 
                 def include(tileEntity):
                     p = TileEntity.pos(tileEntity)
-                    x, y, z = map(lambda a, b, c:(a - b) - c, p, point, box.origin)
+                    x, y, z = map(lambda a, b, c: (a - b) - c, p, point, box.origin)
                     return not ((p in box) and mask[x, z, y])
 
                 chunk.TileEntities.value[:] = filter(include, chunk.TileEntities)
@@ -1907,7 +1907,7 @@ class ChunkedLevelMixin(object):
         else:
             dirtyChunks = (self._getChunkUnloaded(*c) for c in dirtyChunks if self.containsChunk(*c))
 
-        dirtyChunks = sorted(dirtyChunks, key=lambda x:x.chunkPosition)
+        dirtyChunks = sorted(dirtyChunks, key=lambda x: x.chunkPosition)
 
         #at 150k per loaded chunk,
         maxLightingChunks = 4000
@@ -1954,7 +1954,7 @@ class ChunkedLevelMixin(object):
         for i, dc in enumerate(chunkLists):
             info(u"Batch {0}/{1}".format(i, len(chunkLists)))
 
-            dc = sorted(dc, key=lambda x:x.chunkPosition)
+            dc = sorted(dc, key=lambda x: x.chunkPosition)
             workTotal = sum(estimatedTotals)
             t = 0
             for c,t,p in self._generateLightsIter(dc):
@@ -2008,7 +2008,7 @@ class ChunkedLevelMixin(object):
                     continue
                 dirtyChunks.add(ch)
 
-        dirtyChunks = sorted(dirtyChunks, key=lambda x:x.chunkPosition)
+        dirtyChunks = sorted(dirtyChunks, key=lambda x: x.chunkPosition)
         workTotal += len(dirtyChunks) * 28
 
         for i, chunk in enumerate(dirtyChunks):
@@ -2069,7 +2069,7 @@ class ChunkedLevelMixin(object):
                 newDirtyChunks = set(newDirtyChunks)
                 newDirtyChunks.discard(zeroChunk)
 
-                dirtyChunks = sorted(newDirtyChunks, key=lambda x:x.chunkPosition)
+                dirtyChunks = sorted(newDirtyChunks, key=lambda x: x.chunkPosition)
 
                 newDirtyChunks = list()
 
@@ -2293,7 +2293,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
     def __str__(self):
         return "MCInfdevOldLevel(\"" + os.path.split(self.worldDir)[1] + "\")"
 
-    def TagProperty(tagName, tagType, defaultValueFunc=lambda self:None):
+    def TagProperty(tagName, tagType, defaultValueFunc=lambda self: None):
         def getter(self):
             if tagName not in self.root_tag[Data]:
                 self.root_tag[Data][tagName] = tagType(defaultValueFunc(self))
@@ -2307,13 +2307,13 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
     SizeOnDisk = TagProperty('SizeOnDisk', TAG_Long)
     RandomSeed = TagProperty('RandomSeed', TAG_Long)
     Time = TagProperty('Time', TAG_Long)  # Age of the world in ticks. 20 ticks per second; 24000 ticks per day.
-    LastPlayed = TagProperty('LastPlayed', TAG_Long, lambda self:long(time.time() * 1000))
+    LastPlayed = TagProperty('LastPlayed', TAG_Long, lambda self: long(time.time() * 1000))
 
-    LevelName = TagProperty('LevelName', TAG_String, lambda self:self.displayName)
+    LevelName = TagProperty('LevelName', TAG_String, lambda self: self.displayName)
 
-    MapFeatures = TagProperty('MapFeatures', TAG_Byte, lambda self:1)
+    MapFeatures = TagProperty('MapFeatures', TAG_Byte, lambda self: 1)
 
-    GameType = TagProperty('GameType', TAG_Int, lambda self:0) #0 for survival, 1 for creative
+    GameType = TagProperty('GameType', TAG_Int, lambda self: 0) #0 for survival, 1 for creative
     GAMETYPE_SURVIVAL = 0
     GAMETYPE_CREATIVE = 1
 
@@ -2609,9 +2609,9 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
                             #return os.path.join(self.worldDir, dirname, subdirname, filename)
 
                         #fullpaths = map(fullname, filenames)
-                        bits = map(lambda x:x.split('.'), filenames)
+                        bits = map(lambda x: x.split('.'), filenames)
 
-                        chunkfilenames = filter(lambda x:(len(x) == 4 and x[0].lower() == 'c' and x[3].lower() == 'dat'), bits)
+                        chunkfilenames = filter(lambda x: (len(x) == 4 and x[0].lower() == 'c' and x[3].lower() == 'dat'), bits)
 
                         for c in chunkfilenames:
                             try:
@@ -2883,7 +2883,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     def addEntity(self, entityTag):
         assert isinstance(entityTag, TAG_Compound)
-        x, y, z = map(lambda x:int(floor(x)), Entity.pos(entityTag))
+        x, y, z = map(lambda x: int(floor(x)), Entity.pos(entityTag))
 
         try:
             chunk = self.getChunk(x >> 4, z >> 4)
@@ -3099,7 +3099,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
         playerTag = self.getPlayerTag(player)
         posList = playerTag["Pos"]
 
-        pos = map(lambda x:x.value, posList)
+        pos = map(lambda x: x.value, posList)
         return pos
 
     def setPlayerOrientation(self, yp, player="Player"):
@@ -3107,7 +3107,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
 
     def getPlayerOrientation(self, player="Player"):
         """ returns (yaw, pitch) """
-        yp = map(lambda x:x.value, self.getPlayerTag(player)["Rotation"])
+        yp = map(lambda x: x.value, self.getPlayerTag(player)["Rotation"])
         y, p = yp
         if p == 0:
             p = 0.000000001

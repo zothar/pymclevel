@@ -459,7 +459,7 @@ class MCLevel(object):
     def copyBlocksFromFiniteToFinite(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy):
         # assume destinationPoint is entirely within this level, and the size of sourceBox fits entirely within it.
         sourcex, sourcey, sourcez = map(slice, sourceBox.origin, sourceBox.maximum)
-        destCorner2 = map(lambda a, b:a + b, sourceBox.size, destinationPoint)
+        destCorner2 = map(lambda a, b: a + b, sourceBox.size, destinationPoint)
         destx, desty, destz = map(slice, destinationPoint, destCorner2)
 
         sourceData = None
@@ -490,7 +490,7 @@ class MCLevel(object):
             typemask[blocksToCopy] = True
 
         for i, (chunk, slices, point) in enumerate(sourceLevel.getChunkSlices(sourceBox)):
-            point = map(lambda a, b:a + b, point, destinationPoint)
+            point = map(lambda a, b: a + b, point, destinationPoint)
             point = point[0], point[2], point[1]
             mask = slice(None, None)
 
@@ -562,7 +562,7 @@ class MCLevel(object):
     def copyBlocksFromIter(self, sourceLevel, sourceBox, destinationPoint, blocksToCopy=None, entities=True, create=False):
         if (not sourceLevel.isInfinite) and not(
                sourceLevel.containsPoint(*sourceBox.origin) and
-               sourceLevel.containsPoint(*map(lambda x:x - 1, sourceBox.maximum))):
+               sourceLevel.containsPoint(*map(lambda x: x - 1, sourceBox.maximum))):
             raise ValueError("{0} cannot provide blocks between {1}".format(sourceLevel, sourceBox))
 
         sourceBox, destinationPoint = self.adjustCopyParameters(sourceLevel, sourceBox, destinationPoint)
@@ -627,7 +627,7 @@ class EntityLevel(MCLevel):
     def copyEntitiesFromInfiniteIter(self, sourceLevel, sourceBox, destinationPoint, entities):
         chunkCount = sourceBox.chunkCount
         i = 0
-        copyOffset = map(lambda x, y:x - y, destinationPoint, sourceBox.origin)
+        copyOffset = map(lambda x, y: x - y, destinationPoint, sourceBox.origin)
         e = t = 0
 
         for (chunk, slices, point) in sourceLevel.getChunkSlices(sourceBox):
@@ -670,7 +670,7 @@ class EntityLevel(MCLevel):
         else:
             entsCopied = 0
             tileEntsCopied = 0
-            copyOffset = map(lambda x, y:x - y, destinationPoint, sourcePoint0)
+            copyOffset = map(lambda x, y: x - y, destinationPoint, sourcePoint0)
             if entities:
                 for entity in sourceLevel.getEntitiesInBox(sourceBox):
                     eTag = Entity.copyWithOffset(entity, copyOffset)
@@ -781,7 +781,7 @@ class EntityLevel(MCLevel):
             for i, e in enumerate((self.Entities, self.TileEntities)):
                 for ent in e:
                     x, y, z = [Entity, TileEntity][i].pos(ent)
-                    ecx, ecz = map(lambda x:(int(floor(x)) >> 4), (x, z))
+                    ecx, ecz = map(lambda x: (int(floor(x)) >> 4), (x, z))
 
                     self._fakeEntities[ecx, ecz][i].append(ent)
 
