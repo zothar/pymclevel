@@ -166,7 +166,6 @@ class TAG_Float(TAG_Value):
     dataType = float
 
 
-
 class TAG_Double(TAG_Value):
     tag = 6
     fmt = ">d"

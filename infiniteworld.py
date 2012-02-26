@@ -2239,7 +2239,6 @@ class ChunkedLevelMixin(object):
             ch.needsLighting = False
 
 
-
 class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
     materials = alphaMaterials
     isInfinite = True
