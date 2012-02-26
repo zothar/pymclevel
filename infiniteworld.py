@@ -194,7 +194,7 @@ this way.
     def latestVersion(self):
         if len(self.versions) == 0:
             return None
-        return max( (v for v in self.versions if v not in self.broken_versions), key=alphanum_key)
+        return max((v for v in self.versions if v not in self.broken_versions), key=alphanum_key)
 
     def getJarfile(self, version=None):
         if len(self.versions) == 0:

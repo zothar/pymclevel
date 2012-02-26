@@ -35,7 +35,7 @@ class Block(object):
         if not isinstance(other, Block):
             return -1
         key = lambda a: a and (a.ID, a.blockData)
-        return cmp( key(self), key(other))
+        return cmp(key(self), key(other))
 
     hasVariants = False  # True if blockData defines additional blocktypes
 
@@ -702,7 +702,7 @@ pocketMaterials.OrangeWool = pocketMaterials[115, 0]
 #                      b.ID, b.blockData)
 #                  for b in sorted(mats.pocketMaterials.allBlocks)])
 
-_indices = rollaxis(indices( (256, 16) ), 0, 3)
+_indices = rollaxis(indices((256, 16) ), 0, 3)
 
 
 def _filterTable(filters, unavailable, default = (0, 0) ):
@@ -773,7 +773,7 @@ def guessFilterTable(matsFrom, matsTo):
 
         if block:
             if block != fromBlock:
-                filters.append( ( (fromBlock.ID, fromBlock.blockData), (block.ID, block.blockData) ) )
+                filters.append(((fromBlock.ID, fromBlock.blockData), (block.ID, block.blockData)))
         else:
             unavailable.append((fromBlock.ID, fromBlock.blockData) )
 

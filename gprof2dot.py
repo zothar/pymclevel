@@ -2053,7 +2053,7 @@ class PstatsParser:
         try:
             self.stats = pstats.Stats(*filename)
         except ValueError, e:
-            sys.stderr.write( "ERROR: {0}".format(e) )
+            sys.stderr.write("ERROR: {0}".format(e))
             import hotshot.stats
             self.stats = hotshot.stats.load(filename[0])
         self.profile = Profile()
