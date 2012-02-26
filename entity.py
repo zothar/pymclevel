@@ -107,28 +107,28 @@ class TileEntity(object):
 
 
 class Entity(object):
-    monsters = [ "Creeper",
-                 "Skeleton",
-                 "Spider",
-                 "CaveSpider",
-                 "Giant",
-                 "Zombie",
-                 "Slime",
-                 "PigZombie",
-                 "Ghast",
-                 "Pig",
-                 "Sheep",
-                 "Cow",
-                 "Chicken",
-                 "Squid",
-                 "Wolf",
-                 "Monster",
-                 "Enderman",
-                 "Silverfish",
-                 "Blaze",
-                 "Villager",
-                 "LavaSlime",
-                 ]
+    monsters = ["Creeper",
+                "Skeleton",
+                "Spider",
+                "CaveSpider",
+                "Giant",
+                "Zombie",
+                "Slime",
+                "PigZombie",
+                "Ghast",
+                "Pig",
+                "Sheep",
+                "Cow",
+                "Chicken",
+                "Squid",
+                "Wolf",
+                "Monster",
+                "Enderman",
+                "Silverfish",
+                "Blaze",
+                "Villager",
+                "LavaSlime",
+                ]
     projectiles = ["Arrow",
                    "Snowball",
                    "Egg",
@@ -137,12 +137,12 @@ class Entity(object):
                    "ThrownEnderpearl",
                    ]
 
-    items = [ "Item",
-              "XPOrb",
-              "Painting",
-              "EnderCrystal",
-              ]
-    vehicles = [ "Minecart", "Boat" ]
+    items = ["Item",
+             "XPOrb",
+             "Painting",
+             "EnderCrystal",
+             ]
+    vehicles = ["Minecart", "Boat"]
     tiles = ["PrimedTnt", "FallingSand"]
 
     @classmethod

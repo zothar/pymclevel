@@ -498,7 +498,7 @@ class MCLevel(object):
 
             destSlices = [slice(p, p + s.stop - s.start) for p, s in zip(point, slices) ]
 
-            blocks = self.Blocks[ destSlices ]
+            blocks = self.Blocks[destSlices]
 
             if blocksToCopy is not None:
                 mask = typemask[convertedSourceBlocks]
@@ -506,7 +506,7 @@ class MCLevel(object):
             blocks[mask] = convertedSourceBlocks[mask]
 
             if hasattr(self, 'Data'):
-                data = self.Data[ destSlices ]
+                data = self.Data[destSlices]
                 data[mask] = convertedSourceData[mask]
 
             yield i

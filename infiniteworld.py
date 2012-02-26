@@ -51,7 +51,7 @@ __all__ = ["ZeroChunk", "InfdevChunk", "ChunkedLevelMixin", "MCInfdevOldLevel", 
 import re
 
 convert = lambda text: int(text) if text.isdigit() else text
-alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
+alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
 
 
 def sort_nicely(l):
