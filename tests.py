@@ -306,7 +306,7 @@ class TestAlphaLevel(unittest.TestCase):
         level = self.alphalevel.level
         cx, cz = level.allChunks.next()
         box = BoundingBox((cx * 16, 0, cz * 16), (38, level.Height, 25))
-        level.fillBlocks(box , level.materials.WoodPlanks)
+        level.fillBlocks(box, level.materials.WoodPlanks)
         c = level.getChunk(cx, cz)
 
         assert (c.Blocks == 5).all()
@@ -314,7 +314,7 @@ class TestAlphaLevel(unittest.TestCase):
     def testReplace(self):
         level = self.alphalevel.level
 
-        level.fillBlocks(BoundingBox((-11, 0, -7), (38, level.Height, 25)) , level.materials.WoodPlanks, [level.materials.Dirt, level.materials.Grass])
+        level.fillBlocks(BoundingBox((-11, 0, -7), (38, level.Height, 25)), level.materials.WoodPlanks, [level.materials.Dirt, level.materials.Grass])
 
     def testSaveRelight(self):
         indevlevel = self.indevlevel.level

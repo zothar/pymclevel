@@ -777,7 +777,7 @@ def guessFilterTable(matsFrom, matsTo):
         else:
             unavailable.append((fromBlock.ID, fromBlock.blockData) )
 
-    return filters , unavailable
+    return filters, unavailable
 
 allMaterials = (alphaMaterials, classicMaterials, pocketMaterials, indevMaterials)
 

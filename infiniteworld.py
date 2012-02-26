@@ -3001,7 +3001,7 @@ class MCInfdevOldLevel(ChunkedLevelMixin, EntityLevel):
             r = cx >> 5, cz >> 5
             rf = self.getRegionFile(*r)
             if rf:
-                rf.setOffset(cx & 0x1f , cz & 0x1f, 0)
+                rf.setOffset(cx & 0x1f, cz & 0x1f, 0)
                 if (rf.offsets == 0).all():
                     rf.close()
                     os.unlink(rf.path)
